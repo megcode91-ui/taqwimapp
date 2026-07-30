@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق تقويم Taqwim V1 - فضاء الأستاذ محمد الغمري</title>
+    <!-- خط القاهرة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDKs (v9 Compat Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+
+    <style>
+        :root {
+            --massar-blue: #003366;
+            --massar-light-blue: #0056b3;
+            --massar-bg: #f4f7f9;
+            --massar-card-bg: #ffffff;
+            --massar-border: #e2e8f0;
+            --massar-text: #2d3748;
+            --massar-accent: #10b981;
+            --massar-warning: #f59e0b;
+            --massar-danger: #ef4444;
+            --massar-gold: #d97706;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--massar-bg); color: var(--massar-text); min-height: 100vh; display: flex; flex-direction: column; }
+
+        header {
+            background: linear-gradient(135deg, var(--massar-blue), var(--massar-light-blue));
+            color: white; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .brand-container { display: flex; align-items: center; gap: 15px; }
+        .brand-logo { width: 45px; height: 45px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--massar-blue); font-size: 22px; font-weight: bold; }
+        .brand-titles h1 { font-size: 20px; font-weight: 800; }
+        .brand-titles p { font-size: 12px; opacity: 0.85; }
+
+        .user-badge { background: rgba(255, 255, 255, 0.15); padding: 6px 14px; border-radius: 20px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+
+        nav { background-color: white; border-bottom: 1px solid var(--massar-border); display: flex; padding: 0 20px; gap: 5px; overflow-x: auto; }
+        .nav-tab { padding: 14px 18px; border: none; background: none; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+        .nav-tab:hover { color: var(--massar-light-blue); }
+        .nav-tab.active { color: var(--massar-blue); border-bottom-color: var(--massar-blue); }
+
+        main { flex: 1; padding: 24px; max-width: 1300px; margin: 0 auto; width: 100%; }
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .card { background: white; border: 1px solid var(--massar-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid var(--massar-bg); }
+        .card-title { font-size: 16px; font-weight: 700; color: var(--massar-blue); display: flex; align-items: center; gap: 8px; }
+
+        .data-table { width: 100%; border-collapse: collapse; text-align: right; font-size: 14px; }
+        .data-table th { background-color: #f8fafc; color: #475569; padding: 12px; border-bottom: 2px solid var(--massar-border); font-weight: 700; }
+        .data-table td { padding: 12px; border-bottom: 1px solid var(--massar-border); }
+        .data-table tbody tr:hover { background-color: #f1f5f9; }
+
+        /* --- تنسيقات التنافسية الخفيفة للعشرة الأوائل --- */
+        .row-rank-1 { background-color: #f0f9ff !important; box-shadow: inset 4px 0 0 #0284c7; }
+        .row-rank-2 { background-color: #fffbeb !important; box-shadow: inset 4px 0 0 #f59e0b; }
+        .row-rank-3 { background-color: #f8fafc !important; box-shadow: inset 4px 0 0 #94a3b8; }
+        .row-rank-bronze { background-color: #fff7ed !important; box-shadow: inset 4px 0 0 #f97316; }
+
+        /* أيقونة الباب لقضاء التلميذ */
+        .door-btn {
+            color: var(--massar-light-blue);
+            cursor: pointer;
+            margin-left: 8px;
+            font-size: 15px;
+            transition: transform 0.2s, color 0.2s;
+            display: inline-block;
+        }
+        .door-btn:hover {
+            transform: scale(1.25);
+            color: var(--massar-blue);
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid var(--massar-border); border-radius: 6px; font-size: 14px; outline: none; }
+        .form-control:focus { border-color: var(--massar-light-blue); }
+
+        .btn { padding: 9px 18px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { background-color: var(--massar-blue); color: white; }
+        .btn-success { background-color: var(--massar-accent); color: white; }
+        .btn-warning { background-color: var(--massar-warning); color: white; }
+
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+        .badge-level { background: #e0f2fe; color: #0369a1; }
+        .badge-male { background: #f0fdf4; color: #15803d; }
+        .badge-female { background: #fdf2f8; color: #be185d; }
+
+        .score-badge { font-weight: 800; font-size: 15px; color: var(--massar-blue); background: #eff6ff; padding: 4px 12px; border-radius: 6px; border: 1px solid #bfdbfe; display: inline-block; }
+        .auth-container { max-width: 500px; margin: 40px auto; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); border: 1px solid var(--massar-border); }
+
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid var(--massar-bg); }
+        .auth-tab-btn { flex: 1; padding: 10px; text-align: center; background: none; border: none; font-weight: 700; color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; }
+        .auth-tab-btn.active { color: var(--massar-blue); border-bottom-color: var(--massar-blue); }
+
+        .alert-box { padding: 12px 16px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
+        .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        .alert-info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+        .btn-act { padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; margin-left: 4px; transition: transform 0.1s, background-color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-act:active { transform: scale(0.92); }
+        .btn-extra { background: #e0e7ff; color: #3730a3; }
+        .btn-extra:hover { background: #c7d2fe; }
+        .btn-dist { background: #fef3c7; color: #92400e; }
+        .btn-dist:hover { background: #fde68a; }
+        .btn-penalty { background: #fee2e2; color: #991b1b; }
+        .btn-penalty:hover { background: #fca5a5; }
+
+        .count-pill { background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 10px; font-size: 10px; }
+
+        .top-students-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+
+        /* --- النافذة المنبثقة: فضاء التلميذ --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center;
+            z-index: 9999; backdrop-filter: blur(4px);
+        }
+        .modal-card {
+            background: white; border-radius: 12px; width: 90%; max-width: 800px;
+            max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+            position: relative; animation: modalFade 0.25s ease-out;
+        }
+        @keyframes modalFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--massar-bg); padding-bottom: 12px; margin-bottom: 20px; }
+        .close-modal-btn { background: none; border: none; font-size: 22px; color: #64748b; cursor: pointer; }
+        .close-modal-btn:hover { color: var(--massar-danger); }
+
+        .profile-summary { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--massar-border); }
+        .profile-stat-item { flex: 1; min-width: 140px; }
+        .profile-stat-label { font-size: 12px; color: #64748b; font-weight: 600; }
+        .profile-stat-val { font-size: 16px; font-weight: 800; color: var(--massar-blue); margin-top: 4px; }
+
+        body.visitor-mode .admin-only { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-container">
+            <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="brand-titles">
+                <h1>منظومة تقويم Taqwim V1</h1>
+                <p>تتبع تقييمات التعلمات - فضاء الأستاذ محمد الغمري</p>
+            </div>
+        </div>
+        <div id="user-header-info" class="user-badge" style="display: none;">
+            <i class="fa-solid fa-user-circle"></i>
+            <span id="user-display-name">الأستاذ محمد الغمري</span>
+            <button onclick="logout()" style="background:none; border:none; color:white; cursor:pointer; margin-right:8px;" title="خروج"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+    </header>
+
+    <nav id="main-nav" style="display: none;">
+        <button class="nav-tab active" onclick="switchPage('students-page', this)"><i class="fa-solid fa-users"></i> قائمة التلاميذ والنتائج</button>
+        <button class="nav-tab" onclick="switchPage('visitor-ca-page', this)"><i class="fa-solid fa-clipboard-list"></i> نقط المراقبة المستمرة</button>
+        <button class="nav-tab" onclick="switchPage('top-students-page', this)"><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> أفضل تلاميذ الشهر</button>
+        <button class="nav-tab" onclick="switchPage('subjects-page', this)"><i class="fa-solid fa-book"></i> ركن المواد والأرشيف</button>
+        <button class="nav-tab admin-only" onclick="switchPage('weekly-tests-page', this)"><i class="fa-solid fa-file-pen"></i> الاختبارات الأسبوعية</button>
+        <button class="nav-tab admin-only" onclick="switchPage('continuous-eval-page', this)"><i class="fa-solid fa-calculator"></i> إدارة المراقبة المستمرة</button>
+        <button class="nav-tab" onclick="switchPage('distinguished-page', this)"><i class="fa-solid fa-star"></i> الأعمال التمييزية والواجبات</button>
+        <button class="nav-tab admin-only" onclick="switchPage('visitors-page', this)"><i class="fa-solid fa-user-clock"></i> سجل الزوار</button>
+        <button class="nav-tab admin-only" onclick="switchPage('alerts-page', this)"><i class="fa-solid fa-bell"></i> التنبيهات</button>
+    </nav>
+
+    <main>
+        <!-- 0. تسجيل الدخول -->
+        <div id="auth-page" class="page active">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="tab-student-btn" onclick="toggleAuthTab('student')"><i class="fa-solid fa-user"></i> فضاء التلميذ وولي الأمر</button>
+                    <button class="auth-tab-btn" id="tab-teacher-btn" onclick="toggleAuthTab('teacher')"><i class="fa-solid fa-user-tie"></i> فضاء الأستاذ (الإدارة)</button>
+                </div>
+
+                <div id="auth-alert"></div>
+
+                <div id="student-auth-form">
+                    <div class="alert-box alert-info">
+                        <i class="fa-solid fa-info-circle"></i> يمكن للتلاميذ وأولياء الأمور الاطلاع على النتائج مباشرة بإدخال الاسم.
+                    </div>
+                    <div class="form-group">
+                        <label>الاسم الكامل والتلميذ/الزائر</label>
+                        <input type="text" id="visitor-name" class="form-control" placeholder="أدخل اسمك الكريم هنا...">
+                    </div>
+                    <button class="btn btn-primary" style="width:100%; justify-content:center; padding:12px;" onclick="handleVisitorLogin()">
+                        <i class="fa-solid fa-right-to-bracket"></i> الدخول إلى المنصة
+                    </button>
+                </div>
+
+                <div id="teacher-auth-form" style="display: none;">
+                    <div class="alert-box alert-danger">
+                        <i class="fa-solid fa-lock"></i> هذا الفضاء خاص بالأستاذ
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني للأستاذ</label>
+                        <input type="email" id="auth-email" class="form-control" placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة المرور</label>
+                        <input type="password" id="auth-password" class="form-control" placeholder="******">
+                    </div>
+                    <button class="btn btn-primary" style="width:100%; justify-content:center; padding:12px;" onclick="handleTeacherLogin()">
+                        <i class="fa-solid fa-key"></i> تسجيل دخول الأستاذ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. قائمة التلاميذ (مفصولة المستويات) -->
+        <div id="students-page" class="page">
+            <div class="card admin-only" id="add-student-card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-user-plus"></i> إضافة تلميذ جديد</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; align-items: flex-end;">
+                    <div class="form-group" style="margin:0;">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="new-student-name" class="form-control" placeholder="أدخل الاسم">
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>الجنس</label>
+                        <select id="new-student-gender" class="form-control">
+                            <option value="ذكر">ذكر</option>
+                            <option value="أنثى">أنثى</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>المستوى الدراسي</label>
+                        <select id="new-student-level" class="form-control">
+                            <option value="الخامس ابتدائي">الخامس ابتدائي</option>
+                            <option value="السادس ابتدائي">السادس ابتدائي</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="addStudentToServer()"><i class="fa-solid fa-plus"></i> حفظ التلميذ</button>
+                </div>
+            </div>
+
+            <!-- جدول الخامس ابتدائي مستقل -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-layer-group" style="color: #0369a1;"></i> ترتيب نتائج المستوى: الخامس ابتدائي</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>الترتيب</th>
+                            <th>الاسم الكامل</th>
+                            <th>الجنس</th>
+                            <th>المعدل التراكمي</th>
+                            <th class="admin-only">تنقيط مباشر وسريع</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-5th-table-body"></tbody>
+                </table>
+            </div>
+
+            <!-- جدول السادس ابتدائي مستقل -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-layer-group" style="color: #b45309;"></i> ترتيب نتائج المستوى: السادس ابتدائي</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>الترتيب</th>
+                            <th>الاسم الكامل</th>
+                            <th>الجنس</th>
+                            <th>المعدل التراكمي</th>
+                            <th class="admin-only">تنقيط مباشر وسريع</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-6th-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. ركن نقط المراقبة المستمرة -->
+        <div id="visitor-ca-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-clipboard-check"></i> نتائج المراقبة المستمرة حسب المراحل</div>
+                </div>
+                <div class="alert-box alert-info">
+                    <i class="fa-solid fa-hand-pointer"></i> حدد المرحلة والمستوى الدراسي للاطلاع على النقط:
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label>المرحلة الدراسية</label>
+                        <select id="vca-stage" class="form-control" onchange="renderVisitorCAGrid()">
+                            <option value="المرحلة 1">المرحلة 1</option>
+                            <option value="المرحلة 2">المرحلة 2</option>
+                            <option value="المرحلة 3">المرحلة 3</option>
+                            <option value="المرحلة 4">المرحلة 4</option>
+                            <option value="المرحلة 5">المرحلة 5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المستوى الدراسي</label>
+                        <select id="vca-level" class="form-control" onchange="renderVisitorCAGrid()">
+                            <option value="الخامس ابتدائي">الخامس ابتدائي</option>
+                            <option value="السادس ابتدائي">السادس ابتدائي</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="visitor-ca-container"></div>
+            </div>
+        </div>
+
+        <!-- 3. أفضل تلاميذ الشهر -->
+        <div id="top-students-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title" id="top-5th-title"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> لوحة شرف أفضل تلاميذ الشهر - الخامس ابتدائي</div>
+                </div>
+                <div id="top-5th-grid" class="top-students-grid"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title" id="top-6th-title"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> لوحة شرف أفضل تلاميذ الشهر - السادس ابتدائي</div>
+                </div>
+                <div id="top-6th-grid" class="top-students-grid"></div>
+            </div>
+        </div>
+
+        <!-- 4. أرشيف المواد -->
+        <div id="subjects-page" class="page">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-book-open"></i> مواد الدعم والتقويم</div></div>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="loadSubjectArchive('اللغة الفرنسية')">اللغة الفرنسية</button>
+                    <button class="btn btn-primary" onclick="loadSubjectArchive('الرياضيات')">الرياضيات</button>
+                    <button class="btn btn-primary" onclick="loadSubjectArchive('النشاط العلمي')">النشاط العلمي</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><div class="card-title" id="archive-title"><i class="fa-solid fa-box-archive"></i> أرشيف اختبارات المادة</div></div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>المادة</th>
+                            <th>المستوى</th>
+                            <th>موضوع الاختبار</th>
+                            <th>عدد المشاركين</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archive-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5. الاختبارات الأسبوعية -->
+        <div id="weekly-tests-page" class="page admin-only">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-folder-plus"></i> إنشاء اختبار أسبوعي جديد</div></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 2fr 1fr; gap: 15px; align-items: flex-end;">
+                    <div class="form-group" style="margin:0;">
+                        <label>المادة</label>
+                        <select id="test-subject" class="form-control">
+                            <option value="اللغة الفرنسية">اللغة الفرنسية</option>
+                            <option value="الرياضيات">الرياضيات</option>
+                            <option value="النشاط العلمي">النشاط العلمي</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>المستوى</label>
+                        <select id="test-level" class="form-control">
+                            <option value="الخامس ابتدائي">الخامس ابتدائي</option>
+                            <option value="السادس ابتدائي">السادس ابتدائي</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>موضوع الاختبار</label>
+                        <input type="text" id="test-topic" class="form-control" placeholder="مثال: الاختبار الأسبوعي 1">
+                    </div>
+                    <button class="btn btn-success" onclick="prepareTestGradesEntry()"><i class="fa-solid fa-check"></i> بدء التنقيط</button>
+                </div>
+            </div>
+
+            <div id="test-entry-card" class="card" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title" id="test-entry-title">مسك نقط الاختبار</div>
+                    <button class="btn btn-primary" onclick="saveTestGradesToServer()"><i class="fa-solid fa-floppy-disk"></i> حفظ النقاط</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>الاسم الكامل</th><th>النقطة</th></tr>
+                    </thead>
+                    <tbody id="test-students-entry-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 6. مسك نقط المراقبة المستمرة -->
+        <div id="continuous-eval-page" class="page admin-only">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-calculator"></i> إدارة ومسك نقط المراقبة المستمرة</div></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label>اختر المرحلة الدراسية</label>
+                        <select id="ca-stage" class="form-control" onchange="renderCAGrid()">
+                            <option value="المرحلة 1">المرحلة 1</option>
+                            <option value="المرحلة 2">المرحلة 2</option>
+                            <option value="المرحلة 3">المرحلة 3</option>
+                            <option value="المرحلة 4">المرحلة 4</option>
+                            <option value="المرحلة 5">المرحلة 5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>اختر المستوى</label>
+                        <select id="ca-level" class="form-control" onchange="renderCAGrid()">
+                            <option value="الخامس ابتدائي">الخامس ابتدائي</option>
+                            <option value="السادس ابتدائي">السادس ابتدائي</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>اختر المادة</label>
+                        <select id="ca-subject" class="form-control" onchange="renderCAGrid()">
+                            <option value="اللغة الفرنسية">اللغة الفرنسية</option>
+                            <option value="الرياضيات">الرياضيات</option>
+                            <option value="النشاط العلمي">النشاط العلمي</option>
+                        </select>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead><tr><th>الاسم الكامل</th><th>نقطة المراقبة المستمرة</th></tr></thead>
+                    <tbody id="ca-table-body"></tbody>
+                </table>
+                <div style="margin-top: 15px; text-align: left;">
+                    <button class="btn btn-success" onclick="saveCAValuesToServer()"><i class="fa-solid fa-floppy-disk"></i> مصادقة وحفظ النقط</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. الأعمال التمييزية والواجبات -->
+        <div id="distinguished-page" class="page">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-trophy" style="color: var(--massar-gold);"></i> ترتيب المبادرات، التميز والواجبات</div></div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>الرتبة</th>
+                            <th>الاسم الكامل</th>
+                            <th>المستوى</th>
+                            <th>أنشطة إضافية (+0.01)</th>
+                            <th>أنشطة تميزية (+0.03)</th>
+                            <th>عدم إنجاز الواجبات (-0.03)</th>
+                            <th>إجمالي الفارق النقطي</th>
+                        </tr>
+                    </thead>
+                    <tbody id="distinguished-leaderboard-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 8. سجل الزوار -->
+        <div id="visitors-page" class="page admin-only">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-user-clock"></i> سجل زيارات المنصة (خاص بالإدارة)</div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>اسم الزائر / التلميذ</th>
+                            <th>تاريخ وتوقيت الزيارة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitors-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 9. التنبيهات -->
+        <div id="alerts-page" class="page admin-only">
+            <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--massar-danger);"></i> التنبيهات الآلية (تراجع النقط)</div></div>
+                <div id="alerts-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- النافذة المنبثقة: فضاء التلميذ الشامل -->
+    <div id="student-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-student-title" style="color: var(--massar-blue); font-weight: 800;"><i class="fa-solid fa-door-open"></i> فضاء التلميذ الشخصي</h3>
+                <button class="close-modal-btn" onclick="closeStudentModal()">&times;</button>
+            </div>
+            <div id="modal-student-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const ALLOWED_ADMIN_EMAILS = [
+            'meg.code91@gmail.com',
+            'meg.taalim@gmail.com'
+        ];
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDINWHZW3yo9a7Ch1fDFgGlePnD4dvovzs",
+            authDomain: "taqwim-d363e.firebaseapp.com",
+            projectId: "taqwim-d363e",
+            storageBucket: "taqwim-d363e.firebasestorage.app",
+            messagingSenderId: "996744665537",
+            appId: "1:996744665537:web:018aee25726259f8507740",
+            measurementId: "G-Q248VTXCG0"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let appState = {
+            currentUser: null,
+            isAdmin: false,
+            isVisitor: false,
+            visitorName: '',
+            students: [],
+            tests: [],
+            caGrades: {},
+            visitors: []
+        };
+
+        function toggleAuthTab(type) {
+            document.getElementById('auth-alert').innerHTML = '';
+            if(type === 'student') {
+                document.getElementById('tab-student-btn').classList.add('active');
+                document.getElementById('tab-teacher-btn').classList.remove('active');
+                document.getElementById('student-auth-form').style.display = 'block';
+                document.getElementById('teacher-auth-form').style.display = 'none';
+            } else {
+                document.getElementById('tab-teacher-btn').classList.add('active');
+                document.getElementById('tab-student-btn').classList.remove('active');
+                document.getElementById('teacher-auth-form').style.display = 'block';
+                document.getElementById('student-auth-form').style.display = 'none';
+            }
+        }
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const email = (user.email || '').toLowerCase().trim();
+                if (ALLOWED_ADMIN_EMAILS.includes(email)) {
+                    appState.currentUser = user;
+                    appState.isAdmin = true;
+                    appState.isVisitor = false;
+
+                    document.body.classList.remove('visitor-mode');
+                    document.getElementById('user-header-info').style.display = 'flex';
+                    document.getElementById('main-nav').style.display = 'flex';
+                    document.getElementById('user-display-name').textContent = 'الأستاذ (إدارة المنظومة)';
+                    
+                    switchPage('students-page');
+                    listenToFirestoreData();
+                } else {
+                    auth.signOut();
+                    showAuthAlert('عذراً! بيانات الدخول غير صحيحة.', 'danger');
+                }
+            } else if (!appState.isVisitor) {
+                switchPage('auth-page');
+            }
+        });
+
+        function handleTeacherLogin() {
+            const email = document.getElementById('auth-email').value.toLowerCase().trim();
+            const pass = document.getElementById('auth-password').value;
+
+            if(!email || !pass) return showAuthAlert('يرجى كتابة البريد وكلمة المرور', 'danger');
+            if(!ALLOWED_ADMIN_EMAILS.includes(email)) {
+                return showAuthAlert('عذراً! بيانات الدخول غير صحيحة.', 'danger');
+            }
+
+            auth.signInWithEmailAndPassword(email, pass).catch(err => {
+                showAuthAlert('عذراً! بيانات الدخول غير صحيحة.', 'danger');
+            });
+        }
+
+        function handleVisitorLogin() {
+            const name = document.getElementById('visitor-name').value.trim();
+            if(!name) return showAuthAlert('يرجى كتابة الاسم للولوج إلى المنصة', 'danger');
+
+            appState.isVisitor = true;
+            appState.isAdmin = false;
+            appState.visitorName = name;
+
+            const now = new Date();
+            const dateFormatted = now.toLocaleDateString('ar-MA') + ' - ' + now.toLocaleTimeString('ar-MA');
+            db.collection('visitorLogs').add({
+                name: name,
+                dateStr: dateFormatted,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            document.body.classList.add('visitor-mode');
+            document.getElementById('user-header-info').style.display = 'flex';
+            document.getElementById('main-nav').style.display = 'flex';
+            document.getElementById('user-display-name').textContent = `الزائر: ${name}`;
+
+            switchPage('students-page');
+            listenToFirestoreData();
+        }
+
+        function logout() { 
+            if(appState.isAdmin) auth.signOut(); 
+            location.reload(); 
+        }
+
+        function showAuthAlert(msg, type) { 
+            document.getElementById('auth-alert').innerHTML = `<div class="alert-box alert-${type}">${msg}</div>`; 
+        }
+
+        function listenToFirestoreData() {
+            db.collection('students').onSnapshot(snapshot => {
+                appState.students = [];
+                snapshot.forEach(doc => {
+                    appState.students.push({ id: doc.id, ...doc.data() });
+                });
+                renderStudents();
+                renderLeaderboard();
+                renderTopStudents();
+                renderVisitorCAGrid();
+            });
+
+            db.collection('tests').onSnapshot(snapshot => {
+                appState.tests = [];
+                snapshot.forEach(doc => {
+                    appState.tests.push({ id: doc.id, ...doc.data() });
+                });
+                renderStudents();
+                renderTopStudents();
+            });
+
+            db.collection('caGrades').doc('global').onSnapshot(doc => {
+                if (doc.exists) {
+                    appState.caGrades = doc.data();
+                    renderStudents();
+                    renderTopStudents();
+                    renderVisitorCAGrid();
+                }
+            });
+
+            if(appState.isAdmin) {
+                db.collection('visitorLogs').orderBy('timestamp', 'desc').limit(50).onSnapshot(snapshot => {
+                    appState.visitors = [];
+                    snapshot.forEach(doc => {
+                        appState.visitors.push({ id: doc.id, ...doc.data() });
+                    });
+                    renderVisitorsList();
+                });
+            }
+        }
+
+        function renderVisitorsList() {
+            const tbody = document.getElementById('visitors-table-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            if(appState.visitors.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">لا توجد زيارات مسجلة بعد</td></tr>';
+                return;
+            }
+
+            appState.visitors.forEach((v, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${index + 1}</strong></td>
+                        <td><strong>${v.name}</strong></td>
+                        <td><span class="badge badge-level">${v.dateStr || 'غير محدد'}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addActivityQuick(studentId, type) {
+            if(!appState.isAdmin) return;
+            const studentRef = db.collection('students').doc(studentId);
+            if (type === 'إضافي') {
+                studentRef.update({ extraCount: firebase.firestore.FieldValue.increment(1) });
+            } else if (type === 'تميزي') {
+                studentRef.update({ distCount: firebase.firestore.FieldValue.increment(1) });
+            } else if (type === 'واجب') {
+                studentRef.update({ hwPenaltyCount: firebase.firestore.FieldValue.increment(1) });
+            }
+        }
+
+        function addStudentToServer() {
+            if(!appState.isAdmin) return;
+            const name = document.getElementById('new-student-name').value;
+            const gender = document.getElementById('new-student-gender').value;
+            const level = document.getElementById('new-student-level').value;
+
+            if(!name) { alert('أدخل اسم التلميذ'); return; }
+
+            db.collection('students').add({
+                name: name,
+                gender: gender,
+                level: level,
+                extraCount: 0,
+                distCount: 0,
+                hwPenaltyCount: 0
+            }).then(() => {
+                document.getElementById('new-student-name').value = '';
+            });
+        }
+
+        // --- حساب المعدل التراكمي الحقيقي ---
+        function calculateStudentAverages(student) {
+            const subjects = ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'];
+            const stages = ['المرحلة 1', 'المرحلة 2', 'المرحلة 3', 'المرحلة 4', 'المرحلة 5'];
+            let subjectAverages = [];
+
+            subjects.forEach(subj => {
+                let total = 0, count = 0;
+                appState.tests.filter(t => t.subject === subj && t.level === student.level).forEach(t => {
+                    if(t.grades && t.grades[student.id] !== undefined) {
+                        total += parseFloat(t.grades[student.id]);
+                        count++;
+                    }
+                });
+                if(count > 0) subjectAverages.push(total / count);
+            });
+
+            let meanOfSubjects = subjectAverages.length > 0 ? (subjectAverages.reduce((a,b) => a+b, 0) / subjectAverages.length) : null;
+
+            let caScores = [];
+            subjects.forEach(subj => {
+                stages.forEach(st => {
+                    let key = `${st}_${student.id}_${subj}`;
+                    if(appState.caGrades[key] !== undefined) caScores.push(parseFloat(appState.caGrades[key]));
+                });
+            });
+            let meanCA = caScores.length > 0 ? (caScores.reduce((a,b) => a+b, 0) / caScores.length) : null;
+
+            let avg = 0;
+            if(meanOfSubjects !== null && meanCA !== null) avg = (meanOfSubjects + meanCA) / 2;
+            else if(meanOfSubjects !== null) avg = meanOfSubjects;
+            else if(meanCA !== null) avg = meanCA;
+
+            // الزيادات والخصومات
+            avg += (student.extraCount || 0) * 0.01 + (student.distCount || 0) * 0.03 - (student.hwPenaltyCount || 0) * 0.03;
+            return avg;
+        }
+
+        // --- عرض قائمة التلاميذ بشكل مستقل لكل مستوى مضاف إليها أيقونة الباب ---
+        function renderStudents() {
+            const tbody5 = document.getElementById('students-5th-table-body');
+            const tbody6 = document.getElementById('students-6th-table-body');
+            if(!tbody5 || !tbody6) return;
+
+            tbody5.innerHTML = '';
+            tbody6.innerHTML = '';
+
+            // 1. معالجة وتسهيل الخامس ابتدائي
+            let list5 = appState.students.filter(s => s.level === 'الخامس ابتدائي');
+            list5.forEach(s => { s.currentAvg = calculateStudentAverages(s); });
+            list5.sort((a, b) => b.currentAvg - a.currentAvg);
+
+            list5.forEach((s, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'row-rank-1';
+                else if (rank === 2) rankClass = 'row-rank-2';
+                else if (rank === 3) rankClass = 'row-rank-3';
+                else if (rank >= 4 && rank <= 10) rankClass = 'row-rank-bronze';
+
+                let genderBadge = s.gender === 'ذكر' ? `<span class="badge badge-male">ذكر</span>` : `<span class="badge badge-female">أنثى</span>`;
+
+                let adminActions = appState.isAdmin ? `
+                    <td class="admin-only">
+                        <button class="btn-act btn-extra" onclick="addActivityQuick('${s.id}', 'إضافي')"><i class="fa-solid fa-plus"></i> (+0.01) <span class="count-pill">${s.extraCount || 0}</span></button>
+                        <button class="btn-act btn-dist" onclick="addActivityQuick('${s.id}', 'تميزي')"><i class="fa-solid fa-star"></i> (+0.03) <span class="count-pill">${s.distCount || 0}</span></button>
+                        <button class="btn-act btn-penalty" onclick="addActivityQuick('${s.id}', 'واجب')"><i class="fa-solid fa-circle-minus"></i> (-0.03) <span class="count-pill">${s.hwPenaltyCount || 0}</span></button>
+                    </td>
+                ` : `<td class="admin-only">-</td>`;
+
+                tbody5.innerHTML += `
+                    <tr class="${rankClass}">
+                        <td><strong>${rank}</strong></td>
+                        <td>
+                            <i class="fa-solid fa-door-open door-btn" onclick="openStudentModal('${s.id}')" title="الدخول إلى فضاء التلميذ"></i>
+                            <strong>${s.name}</strong>
+                        </td>
+                        <td>${genderBadge}</td>
+                        <td><span class="score-badge">${s.currentAvg.toFixed(2)}</span></td>
+                        ${adminActions}
+                    </tr>
+                `;
+            });
+
+            if(list5.length === 0) {
+                tbody5.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا يوجد تلاميذ مسجلون في الخامس ابتدائي</td></tr>';
+            }
+
+            // 2. معالجة وتسهيل السادس ابتدائي
+            let list6 = appState.students.filter(s => s.level === 'السادس ابتدائي');
+            list6.forEach(s => { s.currentAvg = calculateStudentAverages(s); });
+            list6.sort((a, b) => b.currentAvg - a.currentAvg);
+
+            list6.forEach((s, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'row-rank-1';
+                else if (rank === 2) rankClass = 'row-rank-2';
+                else if (rank === 3) rankClass = 'row-rank-3';
+                else if (rank >= 4 && rank <= 10) rankClass = 'row-rank-bronze';
+
+                let genderBadge = s.gender === 'ذكر' ? `<span class="badge badge-male">ذكر</span>` : `<span class="badge badge-female">أنثى</span>`;
+
+                let adminActions = appState.isAdmin ? `
+                    <td class="admin-only">
+                        <button class="btn-act btn-extra" onclick="addActivityQuick('${s.id}', 'إضافي')"><i class="fa-solid fa-plus"></i> (+0.01) <span class="count-pill">${s.extraCount || 0}</span></button>
+                        <button class="btn-act btn-dist" onclick="addActivityQuick('${s.id}', 'تميزي')"><i class="fa-solid fa-star"></i> (+0.03) <span class="count-pill">${s.distCount || 0}</span></button>
+                        <button class="btn-act btn-penalty" onclick="addActivityQuick('${s.id}', 'واجب')"><i class="fa-solid fa-circle-minus"></i> (-0.03) <span class="count-pill">${s.hwPenaltyCount || 0}</span></button>
+                    </td>
+                ` : `<td class="admin-only">-</td>`;
+
+                tbody6.innerHTML += `
+                    <tr class="${rankClass}">
+                        <td><strong>${rank}</strong></td>
+                        <td>
+                            <i class="fa-solid fa-door-open door-btn" onclick="openStudentModal('${s.id}')" title="الدخول إلى فضاء التلميذ"></i>
+                            <strong>${s.name}</strong>
+                        </td>
+                        <td>${genderBadge}</td>
+                        <td><span class="score-badge">${s.currentAvg.toFixed(2)}</span></td>
+                        ${adminActions}
+                    </tr>
+                `;
+            });
+
+            if(list6.length === 0) {
+                tbody6.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا يوجد تلاميذ مسجلون في السادس ابتدائي</td></tr>';
+            }
+        }
+
+        // --- فتح نافذة "فضاء التلميذ" وعرض جميع بياناته التقويمية الشاملة ---
+        function openStudentModal(studentId) {
+            const student = appState.students.find(s => s.id === studentId);
+            if(!student) return;
+
+            const modal = document.getElementById('student-modal');
+            const content = document.getElementById('modal-student-content');
+            const title = document.getElementById('modal-student-title');
+
+            const avg = calculateStudentAverages(student);
+            title.innerHTML = `<i class="fa-solid fa-door-open" style="color:var(--massar-light-blue);"></i> فضاء التلميذ(ة): ${student.name}`;
+
+            const subjects = ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'];
+            const stages = ['المرحلة 1', 'المرحلة 2', 'المرحلة 3', 'المرحلة 4', 'المرحلة 5'];
+
+            // بناء جدول المراقبة المستمرة للتلميذ
+            let caTableHTML = `
+                <h4 style="margin: 15px 0 10px 0; color: var(--massar-blue);"><i class="fa-solid fa-clipboard-check"></i> نقاط المراقبة المستمرة حسب المراحل</h4>
+                <table class="data-table" style="margin-bottom: 20px;">
+                    <thead>
+                        <tr>
+                            <th>المرحلة</th>
+                            <th>اللغة الفرنسية</th>
+                            <th>الرياضيات</th>
+                            <th>النشاط العلمي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            stages.forEach(st => {
+                let fr = appState.caGrades[`${st}_${student.id}_اللغة الفرنسية`];
+                let ma = appState.caGrades[`${st}_${student.id}_الرياضيات`];
+                let sc = appState.caGrades[`${st}_${student.id}_النشاط العلمي`];
+
+                caTableHTML += `
+                    <tr>
+                        <td><strong>${st}</strong></td>
+                        <td>${fr !== undefined && fr !== '' ? `<span class="score-badge">${parseFloat(fr).toFixed(2)}</span>` : '-'}</td>
+                        <td>${ma !== undefined && ma !== '' ? `<span class="score-badge">${parseFloat(ma).toFixed(2)}</span>` : '-'}</td>
+                        <td>${sc !== undefined && sc !== '' ? `<span class="score-badge">${parseFloat(sc).toFixed(2)}</span>` : '-'}</td>
+                    </tr>
+                `;
+            });
+            caTableHTML += `</tbody></table>`;
+
+            // بناء سجل الاختبارات الأسبوعية للتلميذ
+            let studentTests = [];
+            appState.tests.forEach(t => {
+                if(t.grades && t.grades[student.id] !== undefined) {
+                    studentTests.push({
+                        date: t.date || '-',
+                        subject: t.subject,
+                        topic: t.topic,
+                        grade: parseFloat(t.grades[student.id])
+                    });
+                }
+            });
+
+            let testsTableHTML = `
+                <h4 style="margin: 15px 0 10px 0; color: var(--massar-blue);"><i class="fa-solid fa-file-pen"></i> سجل الاختبارات الأسبوعية المحصلة</h4>
+            `;
+
+            if(studentTests.length === 0) {
+                testsTableHTML += `<p style="color:#64748b; font-size:13px; margin-bottom:15px;">لا توجد اختبارات أسبوعية مسجلة بعد لهذا التلميذ.</p>`;
+            } else {
+                testsTableHTML += `
+                    <table class="data-table" style="margin-bottom: 20px;">
+                        <thead>
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>المادة</th>
+                                <th>موضوع الاختبار</th>
+                                <th>النقطة المحصلة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                studentTests.forEach(st => {
+                    testsTableHTML += `
+                        <tr>
+                            <td>${st.date}</td>
+                            <td><span class="badge badge-level">${st.subject}</span></td>
+                            <td>${st.topic}</td>
+                            <td><span class="score-badge">${st.grade.toFixed(2)}</span></td>
+                        </tr>
+                    `;
+                });
+                testsTableHTML += `</tbody></table>`;
+            }
+
+            let bonusTotal = ((student.extraCount || 0) * 0.01) + ((student.distCount || 0) * 0.03) - ((student.hwPenaltyCount || 0) * 0.03);
+            let bonusBadgeClass = bonusTotal >= 0 ? 'color:#16a34a;' : 'color:#dc2626;';
+
+            content.innerHTML = `
+                <div class="profile-summary">
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-label">المستوى الدراسي</div>
+                        <div class="profile-stat-val"><span class="badge badge-level">${student.level}</span></div>
+                    </div>
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-label">المعدل التراكمي العام</div>
+                        <div class="profile-stat-val" style="font-size:20px; color:var(--massar-blue);">${avg.toFixed(2)} / 10</div>
+                    </div>
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-label">السلوك والمبادرات (الفارق)</div>
+                        <div class="profile-stat-val" style="${bonusBadgeClass}">${bonusTotal >= 0 ? '+' : ''}${bonusTotal.toFixed(2)} ن</div>
+                    </div>
+                </div>
+                ${caTableHTML}
+                ${testsTableHTML}
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        function closeStudentModal() {
+            document.getElementById('student-modal').style.display = 'none';
+        }
+
+        function renderVisitorCAGrid() {
+            const stage = document.getElementById('vca-stage').value;
+            const level = document.getElementById('vca-level').value;
+            const container = document.getElementById('visitor-ca-container');
+            if(!container) return;
+
+            let filteredStudents = appState.students.filter(s => s.level === level);
+
+            let hasGrades = false;
+            filteredStudents.forEach(s => {
+                ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'].forEach(subj => {
+                    let key = `${stage}_${s.id}_${subj}`;
+                    if(appState.caGrades[key] !== undefined && appState.caGrades[key] !== '') {
+                        hasGrades = true;
+                    }
+                });
+            });
+
+            if (!hasGrades || filteredStudents.length === 0) {
+                container.innerHTML = `
+                    <div class="alert-box alert-info" style="text-align: center; justify-content: center; font-size: 16px; padding: 30px; font-weight: 700;">
+                        <i class="fa-solid fa-hourglass-half" style="font-size:22px; color:var(--massar-warning);"></i> لم تجر الاختبارات بعد
+                    </div>
+                `;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>التلميذ</th>
+                            <th>اللغة الفرنسية</th>
+                            <th>الرياضيات</th>
+                            <th>النشاط العلمي</th>
+                            <th>معدل الفروض</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            filteredStudents.forEach(s => {
+                let french = appState.caGrades[`${stage}_${s.id}_اللغة الفرنسية`];
+                let math = appState.caGrades[`${stage}_${s.id}_الرياضيات`];
+                let science = appState.caGrades[`${stage}_${s.id}_النشاط العلمي`];
+
+                let scores = [];
+                if(french !== undefined && french !== '') scores.push(parseFloat(french));
+                if(math !== undefined && math !== '') scores.push(parseFloat(math));
+                if(science !== undefined && science !== '') scores.push(parseFloat(science));
+
+                let avgStr = scores.length > 0 ? (scores.reduce((a,b) => a+b, 0) / scores.length).toFixed(2) : '-';
+
+                tableHTML += `
+                    <tr>
+                        <td>
+                            <i class="fa-solid fa-door-open door-btn" onclick="openStudentModal('${s.id}')" title="الدخول إلى فضاء التلميذ"></i>
+                            <strong>${s.name}</strong>
+                        </td>
+                        <td>${french !== undefined && french !== '' ? `<span class="score-badge">${parseFloat(french).toFixed(2)}</span>` : '-'}</td>
+                        <td>${math !== undefined && math !== '' ? `<span class="score-badge">${parseFloat(math).toFixed(2)}</span>` : '-'}</td>
+                        <td>${science !== undefined && science !== '' ? `<span class="score-badge">${parseFloat(science).toFixed(2)}</span>` : '-'}</td>
+                        <td><strong><span class="badge" style="background:#e0e7ff; color:#3730a3; font-size:14px;">${avgStr}</span></strong></td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+        }
+
+        // --- عرض تلميح عدم الإتاحة في ركن أفضل تلاميذ الشهر ---
+        function renderTopStudents() {
+            const grid5 = document.getElementById('top-5th-grid');
+            const grid6 = document.getElementById('top-6th-grid');
+            if(!grid5 || !grid6) return;
+
+            const noticeMessage = `
+                <div class="alert-box alert-info" style="text-align: center; justify-content: center; font-size: 16px; padding: 25px; font-weight: 700; width: 100%;">
+                    ⚠️ غير متاح حاليا إلى غاية 30 شتنبر
+                </div>
+            `;
+
+            grid5.innerHTML = noticeMessage;
+            grid6.innerHTML = noticeMessage;
+        }
+
+        let currentActiveTest = null;
+        function prepareTestGradesEntry() {
+            if(!appState.isAdmin) return;
+            const subject = document.getElementById('test-subject').value;
+            const level = document.getElementById('test-level').value;
+            const topic = document.getElementById('test-topic').value;
+            if(!topic) return alert('أدخل موضوع الاختبار');
+
+            currentActiveTest = {
+                subject: subject, level: level, topic: topic,
+                date: new Date().toLocaleDateString('ar-MA'),
+                createdAt: new Date().toISOString(),
+                grades: {}
+            };
+
+            const tbody = document.getElementById('test-students-entry-body');
+            tbody.innerHTML = '';
+            appState.students.filter(s => s.level === level).forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${s.name}</strong></td>
+                        <td><input type="number" step="0.25" class="form-control grade-input" data-student-id="${s.id}" placeholder="النقطة" style="width: 120px;"></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('test-entry-card').style.display = 'block';
+        }
+
+        function saveTestGradesToServer() {
+            if(!appState.isAdmin) return;
+            document.querySelectorAll('.grade-input').forEach(inp => {
+                if(inp.value !== "") currentActiveTest.grades[inp.getAttribute('data-student-id')] = parseFloat(inp.value);
+            });
+
+            db.collection('tests').add(currentActiveTest).then(() => {
+                alert('تم حفظ الاختبار وتحديث النتائج بنجاح!');
+                document.getElementById('test-entry-card').style.display = 'none';
+                document.getElementById('test-topic').value = '';
+            });
+        }
+
+        function renderCAGrid() {
+            if(!appState.isAdmin) return;
+            const stage = document.getElementById('ca-stage').value;
+            const level = document.getElementById('ca-level').value;
+            const subject = document.getElementById('ca-subject').value;
+            const tbody = document.getElementById('ca-table-body');
+            tbody.innerHTML = '';
+
+            appState.students.filter(s => s.level === level).forEach(s => {
+                let key = `${stage}_${s.id}_${subject}`;
+                let currentVal = appState.caGrades[key] !== undefined ? appState.caGrades[key] : '';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${s.name}</strong></td>
+                        <td><input type="number" step="0.25" class="form-control ca-input" data-key="${key}" value="${currentVal}" style="width: 140px;"></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function saveCAValuesToServer() {
+            if(!appState.isAdmin) return;
+            let updatedMap = { ...appState.caGrades };
+            document.querySelectorAll('.ca-input').forEach(inp => {
+                if(inp.value !== "") updatedMap[inp.getAttribute('data-key')] = parseFloat(inp.value);
+            });
+
+            db.collection('caGrades').doc('global').set(updatedMap).then(() => {
+                alert('تم حفظ نقاط المراقبة المستمرة بنجاح!');
+            });
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('distinguished-leaderboard-body');
+            tbody.innerHTML = '';
+            let list = appState.students.map(s => {
+                let e = s.extraCount || 0, d = s.distCount || 0, h = s.hwPenaltyCount || 0;
+                let totalScore = (e * 0.01) + (d * 0.03) - (h * 0.03);
+                return { name: s.name, level: s.level, extra: e, dist: d, hw: h, score: totalScore };
+            }).sort((a,b) => b.score - a.score);
+
+            list.forEach((item, idx) => {
+                let scoreBadgeClass = item.score >= 0 ? 'background:#fef3c7; color:#b45309;' : 'background:#fee2e2; color:#991b1b;';
+                let scoreSign = item.score > 0 ? `+${item.score.toFixed(2)}` : `${item.score.toFixed(2)}`;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${idx + 1}</strong></td>
+                        <td><strong>${item.name}</strong></td>
+                        <td><span class="badge badge-level">${item.level}</span></td>
+                        <td>${item.extra} (+${(item.extra * 0.01).toFixed(2)})</td>
+                        <td>${item.dist} (+${(item.dist * 0.03).toFixed(2)})</td>
+                        <td>${item.hw} (-${(item.hw * 0.03).toFixed(2)})</td>
+                        <td><span class="badge" style="${scoreBadgeClass}">${scoreSign}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function loadSubjectArchive(subj) {
+            document.getElementById('archive-title').innerHTML = `<i class="fa-solid fa-box-archive"></i> أرشيف مادة: ${subj}`;
+            const tbody = document.getElementById('archive-table-body');
+            tbody.innerHTML = '';
+            appState.tests.filter(t => t.subject === subj).forEach(t => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${t.date}</td>
+                        <td><strong>${t.subject}</strong></td>
+                        <td><span class="badge badge-level">${t.level}</span></td>
+                        <td>${t.topic}</td>
+                        <td>${Object.keys(t.grades || {}).length} تلميذ</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function switchPage(pageId, btnElement) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            if(btnElement) {
+                document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+            if(pageId === 'subjects-page') loadSubjectArchive('اللغة الفرنسية');
+            if(pageId === 'continuous-eval-page' && appState.isAdmin) renderCAGrid();
+            if(pageId === 'top-students-page') renderTopStudents();
+            if(pageId === 'visitor-ca-page') renderVisitorCAGrid();
+        }
+    </script>
+</body>
+</html>
