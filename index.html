@@ -466,11 +466,16 @@
             </div>
         </div>
 
-        <!-- 8. سجل الزوار -->
+        <!-- 8. سجل الزوار المحدث بعداد إجمالي الزيارات -->
         <div id="visitors-page" class="page admin-only">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title"><i class="fa-solid fa-user-clock"></i> سجل زيارات المنصة (خاص بالإدارة)</div>
+                    <div class="card-title">
+                        <i class="fa-solid fa-user-clock"></i> سجل زيارات المنصة (خاص بالإدارة)
+                    </div>
+                    <span class="badge" style="background: var(--massar-blue); color: white; font-size: 13px; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-eye"></i> إجمالي الزيارات: <strong id="visitor-count" style="font-size: 15px; color: #f59e0b;">0</strong>
+                    </span>
                 </div>
                 <table class="data-table">
                     <thead>
@@ -589,6 +594,7 @@
             });
         }
 
+        // تسجيل دخول الزائر مع ضمان الحفظ وإصلاح سجل الزوار
         function handleVisitorLogin() {
             const name = document.getElementById('visitor-name').value.trim();
             if(!name) return showAuthAlert('يرجى كتابة الاسم للولوج إلى المنصة', 'danger');
@@ -599,10 +605,15 @@
 
             const now = new Date();
             const dateFormatted = now.toLocaleDateString('ar-MA') + ' - ' + now.toLocaleTimeString('ar-MA');
+
             db.collection('visitorLogs').add({
                 name: name,
                 dateStr: dateFormatted,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                console.log("تم تسجيل الزيارة بنجاح في السجل");
+            }).catch(error => {
+                console.error("خطأ في تسجيل الزيارة: ", error);
             });
 
             document.body.classList.add('visitor-mode');
@@ -654,7 +665,7 @@
             });
 
             if(appState.isAdmin) {
-                db.collection('visitorLogs').orderBy('timestamp', 'desc').limit(50).onSnapshot(snapshot => {
+                db.collection('visitorLogs').orderBy('timestamp', 'desc').limit(100).onSnapshot(snapshot => {
                     appState.visitors = [];
                     snapshot.forEach(doc => {
                         appState.visitors.push({ id: doc.id, ...doc.data() });
@@ -664,13 +675,22 @@
             }
         }
 
+        // عرض سجل الزوار وتحديث إجمالي العداد لحظياً
         function renderVisitorsList() {
             const tbody = document.getElementById('visitors-table-body');
+            const countEl = document.getElementById('visitor-count');
+            
+            const totalVisits = appState.visitors ? appState.visitors.length : 0;
+            
+            if (countEl) {
+                countEl.textContent = totalVisits;
+            }
+
             if(!tbody) return;
             tbody.innerHTML = '';
 
-            if(appState.visitors.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">لا توجد زيارات مسجلة بعد</td></tr>';
+            if(totalVisits === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#64748b;">لا توجد زيارات مسجلة بعد</td></tr>';
                 return;
             }
 
@@ -678,8 +698,8 @@
                 tbody.innerHTML += `
                     <tr>
                         <td><strong>${index + 1}</strong></td>
-                        <td><strong>${v.name}</strong></td>
-                        <td><span class="badge badge-level">${v.dateStr || 'غير محدد'}</span></td>
+                        <td><strong>${v.name || 'زائر بدون اسم'}</strong></td>
+                        <td><span class="badge badge-level">${v.dateStr || 'تاريخ غير محدد'}</span></td>
                     </tr>
                 `;
             });
@@ -717,7 +737,7 @@
             });
         }
 
-        // --- حساب المعدل التراكمي الحقيقي ---
+        // حساب المعدل التراكمي الحقيقي
         function calculateStudentAverages(student) {
             const subjects = ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'];
             const stages = ['المرحلة 1', 'المرحلة 2', 'المرحلة 3', 'المرحلة 4', 'المرحلة 5'];
@@ -755,7 +775,7 @@
             return avg;
         }
 
-        // --- عرض قائمة التلاميذ بشكل مستقل لكل مستوى مضاف إليها أيقونة الباب ---
+        // عرض قائمة التلاميذ
         function renderStudents() {
             const tbody5 = document.getElementById('students-5th-table-body');
             const tbody6 = document.getElementById('students-6th-table-body');
@@ -764,7 +784,7 @@
             tbody5.innerHTML = '';
             tbody6.innerHTML = '';
 
-            // 1. معالجة وتسهيل الخامس ابتدائي
+            // 1. الخامس ابتدائي
             let list5 = appState.students.filter(s => s.level === 'الخامس ابتدائي');
             list5.forEach(s => { s.currentAvg = calculateStudentAverages(s); });
             list5.sort((a, b) => b.currentAvg - a.currentAvg);
@@ -805,7 +825,7 @@
                 tbody5.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا يوجد تلاميذ مسجلون في الخامس ابتدائي</td></tr>';
             }
 
-            // 2. معالجة وتسهيل السادس ابتدائي
+            // 2. السادس ابتدائي
             let list6 = appState.students.filter(s => s.level === 'السادس ابتدائي');
             list6.forEach(s => { s.currentAvg = calculateStudentAverages(s); });
             list6.sort((a, b) => b.currentAvg - a.currentAvg);
@@ -847,7 +867,7 @@
             }
         }
 
-        // --- فتح نافذة "فضاء التلميذ" وعرض جميع بياناته التقويمية الشاملة ---
+        // نافذة "فضاء التلميذ"
         function openStudentModal(studentId) {
             const student = appState.students.find(s => s.id === studentId);
             if(!student) return;
@@ -859,10 +879,8 @@
             const avg = calculateStudentAverages(student);
             title.innerHTML = `<i class="fa-solid fa-door-open" style="color:var(--massar-light-blue);"></i> فضاء التلميذ(ة): ${student.name}`;
 
-            const subjects = ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'];
             const stages = ['المرحلة 1', 'المرحلة 2', 'المرحلة 3', 'المرحلة 4', 'المرحلة 5'];
 
-            // بناء جدول المراقبة المستمرة للتلميذ
             let caTableHTML = `
                 <h4 style="margin: 15px 0 10px 0; color: var(--massar-blue);"><i class="fa-solid fa-clipboard-check"></i> نقاط المراقبة المستمرة حسب المراحل</h4>
                 <table class="data-table" style="margin-bottom: 20px;">
@@ -893,7 +911,6 @@
             });
             caTableHTML += `</tbody></table>`;
 
-            // بناء سجل الاختبارات الأسبوعية للتلميذ
             let studentTests = [];
             appState.tests.forEach(t => {
                 if(t.grades && t.grades[student.id] !== undefined) {
@@ -1038,7 +1055,7 @@
             container.innerHTML = tableHTML;
         }
 
-        // --- عرض تلميح عدم الإتاحة في ركن أفضل تلاميذ الشهر ---
+        // عرض رسالة التنبيه في ركن أفضل تلاميذ الشهر
         function renderTopStudents() {
             const grid5 = document.getElementById('top-5th-grid');
             const grid6 = document.getElementById('top-6th-grid');
