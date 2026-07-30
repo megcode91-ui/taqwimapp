@@ -117,7 +117,6 @@
         .btn-penalty { background: #fee2e2; color: #991b1b; }
         .btn-penalty:hover { background: #fca5a5; }
         
-        /* زر الحذف الجديد */
         .btn-delete { background: #fee2e2; color: #dc2626; margin-right: 8px; }
         .btn-delete:hover { background: #fecaca; }
 
@@ -221,7 +220,7 @@
             </div>
         </div>
 
-        <!-- 1. قائمة التلاميذ (مفصولة المستويات) -->
+        <!-- 1. قائمة التلاميذ -->
         <div id="students-page" class="page">
             <div class="card admin-only" id="add-student-card">
                 <div class="card-header">
@@ -250,7 +249,7 @@
                 </div>
             </div>
 
-            <!-- جدول الخامس ابتدائي مستقل -->
+            <!-- جدول الخامس ابتدائي -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-title"><i class="fa-solid fa-layer-group" style="color: #0369a1;"></i> ترتيب نتائج المستوى: الخامس ابتدائي</div>
@@ -269,7 +268,7 @@
                 </table>
             </div>
 
-            <!-- جدول السادس ابتدائي مستقل -->
+            <!-- جدول السادس ابتدائي -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-title"><i class="fa-solid fa-layer-group" style="color: #b45309;"></i> ترتيب نتائج المستوى: السادس ابتدائي</div>
@@ -545,6 +544,23 @@
             visitors: []
         };
 
+        // دالة فحص العطلة الصيفية (من 1 يوليوز إلى 11 شتنبر)
+        function isVacationPeriod() {
+            const now = new Date();
+            const month = now.getMonth(); // 0 = يناير، 6 = يوليوز، 7 = غشت، 8 = شتنبر
+            const day = now.getDate();
+
+            // شهر يوليوز (6) وشهر غشت (7)
+            if (month === 6 || month === 7) {
+                return true;
+            }
+            // شهر شتنبر (8) حتى يوم 11
+            if (month === 8 && day <= 11) {
+                return true;
+            }
+            return false;
+        }
+
         function toggleAuthTab(type) {
             document.getElementById('auth-alert').innerHTML = '';
             if(type === 'student') {
@@ -552,6 +568,17 @@
                 document.getElementById('tab-teacher-btn').classList.remove('active');
                 document.getElementById('student-auth-form').style.display = 'block';
                 document.getElementById('teacher-auth-form').style.display = 'none';
+                
+                // التنبيه التلقائي في حال العطلة الصيفية
+                if (isVacationPeriod()) {
+                    showAuthAlert(`
+                        <div style="text-align: center; padding: 10px;">
+                            <i class="fa-solid fa-calendar-xmark" style="font-size: 28px; color: #dc2626; margin-bottom: 8px;"></i>
+                            <h3 style="color: #991b1b; font-size: 16px; font-weight: 800;">انتهى الموسم الدراسي</h3>
+                            <p style="color: #4b5563; font-size: 13px; font-weight: 600; margin-top: 4px;">يمكنكم العودة في بداية الموسم المقبل</p>
+                        </div>
+                    `, 'danger');
+                }
             } else {
                 document.getElementById('tab-teacher-btn').classList.add('active');
                 document.getElementById('tab-student-btn').classList.remove('active');
@@ -581,6 +608,10 @@
                 }
             } else if (!appState.isVisitor) {
                 switchPage('auth-page');
+                // فحص العطلة الصيفية عند تحميل الصفحة الأولية
+                if (isVacationPeriod()) {
+                    toggleAuthTab('student');
+                }
             }
         });
 
@@ -599,6 +630,18 @@
         }
 
         function handleVisitorLogin() {
+            // منع الزيارات في فترة العطلة الصيفية
+            if (isVacationPeriod()) {
+                showAuthAlert(`
+                    <div style="text-align: center; padding: 10px;">
+                        <i class="fa-solid fa-calendar-xmark" style="font-size: 28px; color: #dc2626; margin-bottom: 8px;"></i>
+                        <h3 style="color: #991b1b; font-size: 16px; font-weight: 800;">انتهى الموسم الدراسي</h3>
+                        <p style="color: #4b5563; font-size: 13px; font-weight: 600; margin-top: 4px;">يمكنكم العودة في بداية الموسم المقبل</p>
+                    </div>
+                `, 'danger');
+                return;
+            }
+
             const name = document.getElementById('visitor-name').value.trim();
             if(!name) return showAuthAlert('يرجى كتابة الاسم للولوج إلى المنصة', 'danger');
 
@@ -719,7 +762,6 @@
             }
         }
 
-        // دالة حذف تلميذ جديدة مع رسالة تأكيد
         function deleteStudent(studentId, studentName) {
             if (!appState.isAdmin) return;
             
