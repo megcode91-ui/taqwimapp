@@ -116,6 +116,10 @@
         .btn-dist:hover { background: #fde68a; }
         .btn-penalty { background: #fee2e2; color: #991b1b; }
         .btn-penalty:hover { background: #fca5a5; }
+        
+        /* زر الحذف الجديد */
+        .btn-delete { background: #fee2e2; color: #dc2626; margin-right: 8px; }
+        .btn-delete:hover { background: #fecaca; }
 
         .count-pill { background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 10px; font-size: 10px; }
 
@@ -152,7 +156,7 @@
             <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
             <div class="brand-titles">
                 <h1>منظومة تقويم Taqwim V1</h1>
-                <p>تتبع تقييم التعلمات - فضاء الأستاذ محمد الغمري</p>
+                <p>تتبع تقييمات التعلمات - فضاء الأستاذ محمد الغمري</p>
             </div>
         </div>
         <div id="user-header-info" class="user-badge" style="display: none;">
@@ -258,7 +262,7 @@
                             <th>الاسم الكامل</th>
                             <th>الجنس</th>
                             <th>المعدل التراكمي</th>
-                            <th class="admin-only">تنقيط مباشر وسريع</th>
+                            <th class="admin-only">إجراءات وإدارة التنقيط</th>
                         </tr>
                     </thead>
                     <tbody id="students-5th-table-body"></tbody>
@@ -277,7 +281,7 @@
                             <th>الاسم الكامل</th>
                             <th>الجنس</th>
                             <th>المعدل التراكمي</th>
-                            <th class="admin-only">تنقيط مباشر وسريع</th>
+                            <th class="admin-only">إجراءات وإدارة التنقيط</th>
                         </tr>
                     </thead>
                     <tbody id="students-6th-table-body"></tbody>
@@ -466,7 +470,7 @@
             </div>
         </div>
 
-        <!-- 8. سجل الزوار المحدث بعداد إجمالي الزيارات -->
+        <!-- 8. سجل الزوار -->
         <div id="visitors-page" class="page admin-only">
             <div class="card">
                 <div class="card-header">
@@ -594,7 +598,6 @@
             });
         }
 
-        // تسجيل دخول الزائر مع ضمان الحفظ وإصلاح سجل الزوار
         function handleVisitorLogin() {
             const name = document.getElementById('visitor-name').value.trim();
             if(!name) return showAuthAlert('يرجى كتابة الاسم للولوج إلى المنصة', 'danger');
@@ -675,7 +678,6 @@
             }
         }
 
-        // عرض سجل الزوار وتحديث إجمالي العداد لحظياً
         function renderVisitorsList() {
             const tbody = document.getElementById('visitors-table-body');
             const countEl = document.getElementById('visitor-count');
@@ -717,6 +719,22 @@
             }
         }
 
+        // دالة حذف تلميذ جديدة مع رسالة تأكيد
+        function deleteStudent(studentId, studentName) {
+            if (!appState.isAdmin) return;
+            
+            const isConfirmed = confirm(`⚠️ هل أنت متأكد من حذف التلميذ(ة): "${studentName}" بشكل نهائي؟\n\n(لا يمكن التراجع عن هذا الإجراء وسيتم مسح اسمه من القوائم)`);
+            
+            if (isConfirmed) {
+                db.collection('students').doc(studentId).delete().then(() => {
+                    console.log("تم الحذف بنجاح");
+                }).catch(error => {
+                    console.error("خطأ أثناء الحذف: ", error);
+                    alert("حدث خطأ أثناء محاولة الحذف.");
+                });
+            }
+        }
+
         function addStudentToServer() {
             if(!appState.isAdmin) return;
             const name = document.getElementById('new-student-name').value;
@@ -737,7 +755,6 @@
             });
         }
 
-        // حساب المعدل التراكمي الحقيقي
         function calculateStudentAverages(student) {
             const subjects = ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'];
             const stages = ['المرحلة 1', 'المرحلة 2', 'المرحلة 3', 'المرحلة 4', 'المرحلة 5'];
@@ -770,12 +787,10 @@
             else if(meanOfSubjects !== null) avg = meanOfSubjects;
             else if(meanCA !== null) avg = meanCA;
 
-            // الزيادات والخصومات
             avg += (student.extraCount || 0) * 0.01 + (student.distCount || 0) * 0.03 - (student.hwPenaltyCount || 0) * 0.03;
             return avg;
         }
 
-        // عرض قائمة التلاميذ
         function renderStudents() {
             const tbody5 = document.getElementById('students-5th-table-body');
             const tbody6 = document.getElementById('students-6th-table-body');
@@ -799,11 +814,13 @@
 
                 let genderBadge = s.gender === 'ذكر' ? `<span class="badge badge-male">ذكر</span>` : `<span class="badge badge-female">أنثى</span>`;
 
+                let safeName = s.name.replace(/'/g, "\\'");
                 let adminActions = appState.isAdmin ? `
                     <td class="admin-only">
                         <button class="btn-act btn-extra" onclick="addActivityQuick('${s.id}', 'إضافي')"><i class="fa-solid fa-plus"></i> (+0.01) <span class="count-pill">${s.extraCount || 0}</span></button>
                         <button class="btn-act btn-dist" onclick="addActivityQuick('${s.id}', 'تميزي')"><i class="fa-solid fa-star"></i> (+0.03) <span class="count-pill">${s.distCount || 0}</span></button>
                         <button class="btn-act btn-penalty" onclick="addActivityQuick('${s.id}', 'واجب')"><i class="fa-solid fa-circle-minus"></i> (-0.03) <span class="count-pill">${s.hwPenaltyCount || 0}</span></button>
+                        <button class="btn-act btn-delete" onclick="deleteStudent('${s.id}', '${safeName}')" title="حذف التلميذ نهائياً"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 ` : `<td class="admin-only">-</td>`;
 
@@ -840,11 +857,13 @@
 
                 let genderBadge = s.gender === 'ذكر' ? `<span class="badge badge-male">ذكر</span>` : `<span class="badge badge-female">أنثى</span>`;
 
+                let safeName = s.name.replace(/'/g, "\\'");
                 let adminActions = appState.isAdmin ? `
                     <td class="admin-only">
                         <button class="btn-act btn-extra" onclick="addActivityQuick('${s.id}', 'إضافي')"><i class="fa-solid fa-plus"></i> (+0.01) <span class="count-pill">${s.extraCount || 0}</span></button>
                         <button class="btn-act btn-dist" onclick="addActivityQuick('${s.id}', 'تميزي')"><i class="fa-solid fa-star"></i> (+0.03) <span class="count-pill">${s.distCount || 0}</span></button>
                         <button class="btn-act btn-penalty" onclick="addActivityQuick('${s.id}', 'واجب')"><i class="fa-solid fa-circle-minus"></i> (-0.03) <span class="count-pill">${s.hwPenaltyCount || 0}</span></button>
+                        <button class="btn-act btn-delete" onclick="deleteStudent('${s.id}', '${safeName}')" title="حذف التلميذ نهائياً"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 ` : `<td class="admin-only">-</td>`;
 
@@ -867,7 +886,6 @@
             }
         }
 
-        // نافذة "فضاء التلميذ"
         function openStudentModal(studentId) {
             const student = appState.students.find(s => s.id === studentId);
             if(!student) return;
@@ -1055,7 +1073,6 @@
             container.innerHTML = tableHTML;
         }
 
-        // عرض رسالة التنبيه في ركن أفضل تلاميذ الشهر
         function renderTopStudents() {
             const grid5 = document.getElementById('top-5th-grid');
             const grid6 = document.getElementById('top-6th-grid');
