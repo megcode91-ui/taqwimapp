@@ -35,11 +35,36 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Cairo', sans-serif; background-color: var(--massar-bg); color: #333; line-height: 1.6; }
 
-        .header { background: linear-gradient(135deg, var(--massar-dark-blue), var(--massar-light-blue)); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, var(--massar-dark-blue), var(--massar-light-blue)); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
         .header h1 { font-size: 1.4rem; font-weight: 700; }
         .user-info { display: flex; align-items: center; gap: 15px; font-size: 0.9rem; }
         .btn-logout, .btn-view-mode { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
         .btn-logout:hover, .btn-view-mode:hover { background: white; color: var(--massar-dark-blue); }
+        
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.3rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .notification-bell:hover { background: rgba(255,255,255,0.2); }
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
 
         .login-container { display: flex; justify-content: center; align-items: center; min-height: 80vh; gap: 30px; flex-wrap: wrap; padding: 20px; }
         .login-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); width: 100%; max-width: 400px; text-align: center; border-top: 4px solid var(--massar-light-blue); }
@@ -113,52 +138,115 @@
         .hierarchy-item { display: flex; align-items: center; gap: 10px; padding: 8px; margin: 5px 0; background: white; border-radius: 5px; }
         .hierarchy-level { background: var(--massar-dark-blue); color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
 
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid var(--massar-light-blue); }
-        .stat-card .stat-value { font-size: 2rem; font-weight: 800; color: var(--massar-dark-blue); }
-        .stat-card .stat-label { color: #666; font-size: 0.9rem; }
+        /* Search and Filter */
+        .search-filter-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .search-box input {
+            padding-right: 40px;
+            width: 100%;
+        }
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
 
-        /* Charts */
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .chart-container h3 { color: var(--massar-dark-blue); margin-bottom: 15px; }
+        /* Notifications Panel */
+        .notifications-panel {
+            position: fixed;
+            left: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: left 0.3s;
+            overflow-y: auto;
+        }
+        .notifications-panel.active { left: 0; }
+        .notifications-header {
+            background: var(--massar-dark-blue);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--massar-border);
+            transition: background 0.2s;
+        }
+        .notification-item:hover { background: #f8f9fa; }
+        .notification-item.unread { background: #e3f2fd; border-right: 4px solid var(--massar-light-blue); }
+        .notification-time { color: #999; font-size: 0.85rem; margin-top: 5px; }
 
-        /* Announcements */
-        .announcement-card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-right: 4px solid var(--massar-light-blue); }
-        .announcement-card.urgent { border-right-color: var(--danger); background: #fff5f5; }
-        .announcement-card h3 { color: var(--massar-dark-blue); margin-bottom: 10px; }
-        .announcement-meta { color: #999; font-size: 0.85rem; margin-bottom: 10px; }
+        /* Audit Log */
+        .audit-log-entry {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-right: 4px solid var(--massar-light-blue);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .audit-log-entry.delete { border-right-color: var(--danger); }
+        .audit-log-entry.add { border-right-color: var(--success); }
+        .audit-log-entry.edit { border-right-color: var(--warning); }
+        .audit-log-meta { color: #999; font-size: 0.85rem; margin-top: 5px; }
 
-        /* Badges/Awards */
-        .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .award-card { background: white; border-radius: 8px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.3s; }
-        .award-card:hover { transform: translateY(-5px); }
-        .award-icon { font-size: 3rem; margin-bottom: 10px; }
-        .award-card h4 { color: var(--massar-dark-blue); margin-bottom: 5px; }
-        .award-card .award-winner { color: var(--massar-light-blue); font-weight: 700; font-size: 1.1rem; }
-
-        /* Student Card */
-        .student-card { background: white; border-radius: 10px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .student-card-header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--massar-border); }
-        .student-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--massar-light-blue), var(--massar-dark-blue)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; }
-        .student-card-info h2 { color: var(--massar-dark-blue); }
-        .student-card-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-box { background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; }
-        .stat-box .value { font-size: 1.5rem; font-weight: 800; color: var(--massar-dark-blue); }
-        .stat-box .label { font-size: 0.85rem; color: #666; }
-
-        /* Progress Tracking */
-        .progress-item { background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .progress-bar-container { background: #e9ecef; border-radius: 10px; height: 20px; overflow: hidden; margin-top: 10px; }
-        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--massar-light-blue), var(--massar-dark-blue)); border-radius: 10px; transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 600; }
+        /* Backup/Restore */
+        .backup-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .backup-card h3 { color: var(--massar-dark-blue); margin-bottom: 15px; }
+        .progress-bar-container {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 30px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--massar-light-blue), var(--massar-dark-blue));
+            border-radius: 10px;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
 
         @media (max-width: 768px) {
             .header { flex-direction: column; gap: 10px; text-align: center; }
             .login-container { flex-direction: column; }
             th, td { padding: 8px; font-size: 0.85rem; }
             .student-input-row { flex-direction: column; gap: 10px; text-align: center; }
-            .charts-grid { grid-template-columns: 1fr; }
+            .notifications-panel { width: 100%; left: -100%; }
         }
     </style>
 </head>
@@ -174,6 +262,10 @@
         </div>
         <div class="user-info">
             <span id="visitorModeBadge" class="visitor-mode-badge"><i class="fa-solid fa-eye"></i> وضع الزائر</span>
+            <div class="notification-bell admin-only" onclick="toggleNotifications()">
+                <i class="fa-solid fa-bell"></i>
+                <span id="notificationCount" class="notification-badge" style="display:none;">0</span>
+            </div>
             <span><i class="fa-solid fa-user"></i> <span id="currentUserName">...</span></span>
             <button class="btn-view-mode admin-only" onclick="toggleVisitorView()" id="toggleVisitorBtn"><i class="fa-solid fa-eye"></i> عرض كزائر</button>
             <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
@@ -212,18 +304,43 @@
             <button class="tab-btn" onclick="switchTab('caCorner')"><i class="fa-solid fa-file-signature"></i> المراقبة المستمرة</button>
             <button class="tab-btn" onclick="switchTab('honorBoard')"><i class="fa-solid fa-trophy"></i> لوحة الشرف</button>
             <button class="tab-btn" onclick="switchTab('archive')"><i class="fa-solid fa-box-archive"></i> الأرشيف</button>
-            <button class="tab-btn" onclick="switchTab('statsTab')"><i class="fa-solid fa-chart-line"></i> الإحصائيات</button>
-            <button class="tab-btn" onclick="switchTab('reportsTab')"><i class="fa-solid fa-file-export"></i> التقارير</button>
             <button class="tab-btn" onclick="switchTab('attendanceTab')"><i class="fa-solid fa-calendar-check"></i> الحضور والواجبات</button>
             <button class="tab-btn" onclick="switchTab('announcementsTab')"><i class="fa-solid fa-bullhorn"></i> إعلان هام</button>
             <button class="tab-btn" onclick="switchTab('awardsTab')"><i class="fa-solid fa-medal"></i> الأوسمة</button>
+            <button class="tab-btn admin-only" onclick="switchTab('auditLogTab')"><i class="fa-solid fa-clipboard-list"></i> سجل العمليات</button>
+            <button class="tab-btn admin-only" onclick="switchTab('backupTab')"><i class="fa-solid fa-database"></i> النسخ الاحتياطي</button>
             <button class="tab-btn admin-only" onclick="switchTab('weeklyTests')"><i class="fa-solid fa-pen-to-square"></i> الاختبارات الأسبوعية</button>
             <button class="tab-btn admin-only" onclick="switchTab('caManagement')"><i class="fa-solid fa-table-cells"></i> إدارة المراقبة</button>
-            <button class="tab-btn admin-only" onclick="switchTab('visitorLog')"><i class="fa-solid fa-eye"></i> سجل الزوار <span id="visitBadge" class="badge badge-danger">0</span></button>
         </div>
 
-        <!-- قائمة التلاميذ -->
+        <!-- قائمة التلاميذ مع البحث والفلترة -->
         <div id="studentsList" class="tab-content active">
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="searchStudent" class="form-control" placeholder="البحث عن تلميذ بالاسم..." onkeyup="filterStudents()">
+                </div>
+                <div class="filter-group">
+                    <select id="filterLevel" class="form-control" style="width:auto;" onchange="filterStudents()">
+                        <option value="all">جميع المستويات</option>
+                        <option value="5">الخامس ابتدائي</option>
+                        <option value="6">السادس ابتدائي</option>
+                    </select>
+                    <select id="filterGrade" class="form-control" style="width:auto;" onchange="filterStudents()">
+                        <option value="all">جميع المعدلات</option>
+                        <option value="excellent">ممتاز (8-10)</option>
+                        <option value="good">جيد جداً (6.5-8)</option>
+                        <option value="average">متوسط (5-6.5)</option>
+                        <option value="weak">ضعيف (أقل من 5)</option>
+                    </select>
+                    <select id="filterAbsence" class="form-control" style="width:auto;" onchange="filterStudents()">
+                        <option value="all">جميع التلاميذ</option>
+                        <option value="with-absence">مع غياب</option>
+                        <option value="no-absence">بدون غياب</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="hierarchy-info admin-only">
                 <h4><i class="fa-solid fa-layer-group"></i> التسلسل الهرمي للمعدلات</h4>
                 <div class="hierarchy-item"><div class="hierarchy-level">1</div><div><strong>معدل الاختبار الأسبوعي</strong><small style="display:block;color:#666;">كل اختبار على حدة (من 10)</small></div></div>
@@ -237,7 +354,6 @@
                     <span><i class="fa-solid fa-users-viewfinder"></i> نتائج التلاميذ - الخامس ابتدائي</span>
                     <div>
                         <button class="btn-sm btn-success admin-only" onclick="openAddStudentModal('5')"><i class="fa-solid fa-plus"></i> إضافة تلميذ</button>
-                        <button class="btn-sm btn-info admin-only" onclick="exportGradeReport('5')"><i class="fa-solid fa-file-pdf"></i> تصدير PDF</button>
                     </div>
                 </div>
                 <div style="overflow-x: auto;"><table id="tableGrade5"><thead><tr><th>الرتبة</th><th>دخول</th><th>اسم التلميذ</th><th>معدل الاختبارات</th><th>معدل المراقبة</th><th>الأنشطة</th><th>الخصومات</th><th>المعدل التراكمي</th><th class="admin-only">إجراءات</th></tr></thead><tbody></tbody></table></div>
@@ -248,7 +364,6 @@
                     <span><i class="fa-solid fa-users-viewfinder"></i> نتائج التلاميذ - السادس ابتدائي</span>
                     <div>
                         <button class="btn-sm btn-success admin-only" onclick="openAddStudentModal('6')"><i class="fa-solid fa-plus"></i> إضافة تلميذ</button>
-                        <button class="btn-sm btn-info admin-only" onclick="exportGradeReport('6')"><i class="fa-solid fa-file-pdf"></i> تصدير PDF</button>
                     </div>
                 </div>
                 <div style="overflow-x: auto;"><table id="tableGrade6"><thead><tr><th>الرتبة</th><th>دخول</th><th>اسم التلميذ</th><th>معدل الاختبارات</th><th>معدل المراقبة</th><th>الأنشطة</th><th>الخصومات</th><th>المعدل التراكمي</th><th class="admin-only">إجراءات</th></tr></thead><tbody></tbody></table></div>
@@ -279,45 +394,6 @@
             </div>
         </div>
 
-        <!-- الإحصائيات -->
-        <div id="statsTab" class="tab-content">
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="statTotalStudents">0</div><div class="stat-label">إجمالي التلاميذ</div></div>
-                <div class="stat-card"><div class="stat-value" id="statAvgGrade5">0</div><div class="stat-label">متوسط الخامس</div></div>
-                <div class="stat-card"><div class="stat-value" id="statAvgGrade6">0</div><div class="stat-label">متوسط السادس</div></div>
-                <div class="stat-card"><div class="stat-value" id="statTotalTests">0</div><div class="stat-label">إجمالي الاختبارات</div></div>
-            </div>
-            <div class="charts-grid">
-                <div class="chart-container"><h3><i class="fa-solid fa-chart-bar"></i> توزيع المعدلات - الخامس ابتدائي</h3><canvas id="chartGrade5"></canvas></div>
-                <div class="chart-container"><h3><i class="fa-solid fa-chart-bar"></i> توزيع المعدلات - السادس ابتدائي</h3><canvas id="chartGrade6"></canvas></div>
-                <div class="chart-container"><h3><i class="fa-solid fa-chart-pie"></i> توزيع المواد في الاختبارات</h3><canvas id="chartSubjects"></canvas></div>
-                <div class="chart-container"><h3><i class="fa-solid fa-chart-line"></i> تطور الأداء عبر الزمن</h3><canvas id="chartProgress"></canvas></div>
-            </div>
-        </div>
-
-        <!-- التقارير -->
-        <div id="reportsTab" class="tab-content">
-            <div class="table-container">
-                <div class="table-header"><span><i class="fa-solid fa-file-export"></i> تصدير التقارير</span></div>
-                <div style="padding:20px;">
-                    <div class="alert-box alert-info"><i class="fa-solid fa-info-circle"></i> اختر المستوى ونوع التقرير للتصدير</div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
-                        <select id="reportLevel" class="form-control" style="width:auto;">
-                            <option value="5">الخامس ابتدائي</option>
-                            <option value="6">السادس ابتدائي</option>
-                            <option value="all">جميع المستويات</option>
-                        </select>
-                        <select id="reportType" class="form-control" style="width:auto;">
-                            <option value="grades">كشف النقاط الكامل</option>
-                            <option value="ranking">ترتيب التلاميذ</option>
-                            <option value="bySubject">تقرير حسب المادة</option>
-                        </select>
-                        <button class="btn-primary" style="width:auto;" onclick="exportFullReport()"><i class="fa-solid fa-file-pdf"></i> تصدير PDF</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- الحضور والواجبات -->
         <div id="attendanceTab" class="tab-content">
             <div class="table-container">
@@ -341,10 +417,6 @@
                     </div>
                     <div id="attendanceFormArea"></div>
                 </div>
-            </div>
-            <div class="table-container">
-                <div class="table-header"><span><i class="fa-solid fa-list"></i> سجل الحضور والواجبات</span></div>
-                <div style="overflow-x:auto;"><table id="attendanceTable"><thead><tr><th>التلميذ</th><th>النوع</th><th>التاريخ</th><th class="admin-only">إجراءات</th></tr></thead><tbody></tbody></table></div>
             </div>
         </div>
 
@@ -376,7 +448,53 @@
                 <div class="table-header"><span><i class="fa-solid fa-medal"></i> نظام الأوسمة والجوائز</span></div>
                 <div style="padding:20px;">
                     <div class="alert-box alert-success"><i class="fa-solid fa-trophy"></i> يتم منح الأوسمة تلقائياً للتلاميذ المتميزين</div>
-                    <div class="awards-grid" id="awardsGrid"></div>
+                    <div class="awards-grid" id="awardsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- سجل العمليات -->
+        <div id="auditLogTab" class="tab-content admin-only">
+            <div class="table-container">
+                <div class="table-header"><span><i class="fa-solid fa-clipboard-list"></i> سجل العمليات (Audit Log)</span></div>
+                <div style="padding:20px;">
+                    <div class="alert-box alert-info"><i class="fa-solid fa-info-circle"></i> تسجيل جميع العمليات المنجزة في النظام مع التفاصيل</div>
+                    <div style="display:flex;gap:10px;margin-bottom:15px;">
+                        <select id="auditFilter" class="form-control" style="width:auto;" onchange="renderAuditLog()">
+                            <option value="all">جميع العمليات</option>
+                            <option value="add">إضافة</option>
+                            <option value="edit">تعديل</option>
+                            <option value="delete">حذف</option>
+                        </select>
+                        <input type="date" id="auditDate" class="form-control" style="width:auto;" onchange="renderAuditLog()">
+                    </div>
+                    <div id="auditLogList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- النسخ الاحتياطي -->
+        <div id="backupTab" class="tab-content admin-only">
+            <div class="table-container">
+                <div class="table-header"><span><i class="fa-solid fa-database"></i> النسخ الاحتياطي واستعادة البيانات</span></div>
+                <div style="padding:20px;">
+                    <div class="backup-card">
+                        <h3><i class="fa-solid fa-download"></i> تصدير البيانات (Backup)</h3>
+                        <p style="color:#666;margin-bottom:15px;">قم بتصدير جميع بيانات النظام في ملف JSON</p>
+                        <button class="btn-primary" onclick="exportBackup()"><i class="fa-solid fa-download"></i> تصدير البيانات كاملة</button>
+                    </div>
+                    <div class="backup-card">
+                        <h3><i class="fa-solid fa-upload"></i> استعادة البيانات (Restore)</h3>
+                        <p style="color:#666;margin-bottom:15px;">استعادة البيانات من ملف JSON سابق</p>
+                        <div class="alert-box alert-warning"><i class="fa-solid fa-triangle-exclamation"></i> تحذير: الاستعادة ستحذف جميع البيانات الحالية!</div>
+                        <input type="file" id="backupFile" class="form-control" accept=".json" style="margin-bottom:10px;">
+                        <button class="btn-danger" onclick="importBackup()"><i class="fa-solid fa-upload"></i> استعادة البيانات</button>
+                    </div>
+                    <div class="backup-card">
+                        <h3><i class="fa-solid fa-clock"></i> النسخ التلقائي</h3>
+                        <p style="color:#666;margin-bottom:15px;">يتم حفظ نسخة احتياطية تلقائياً كل يوم</div>
+                        <div id="lastBackupInfo"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -412,14 +530,15 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- سجل الزوار -->
-        <div id="visitorLog" class="tab-content admin-only">
-            <div class="table-container">
-                <div class="table-header"><span><i class="fa-solid fa-eye"></i> سجل الزيارات</span></div>
-                <div style="overflow-x:auto;"><table id="visitorTable"><thead><tr><th>اسم الزائر</th><th>التاريخ</th><th>التوقيت</th></tr></thead><tbody></tbody></table></div>
-            </div>
+    <!-- Notifications Panel -->
+    <div id="notificationsPanel" class="notifications-panel">
+        <div class="notifications-header">
+            <h3><i class="fa-solid fa-bell"></i> الإشعارات</h3>
+            <button onclick="toggleNotifications()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;"><i class="fa-solid fa-times"></i></button>
         </div>
+        <div id="notificationsList"></div>
     </div>
 
     <!-- Modal: فضاء التلميذ الشخصي -->
@@ -427,14 +546,6 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <div id="modalContent"></div>
-        </div>
-    </div>
-
-    <!-- Modal: بطاقة التلميذ الشاملة -->
-    <div id="studentCardModal" class="modal">
-        <div class="modal-content" style="max-width:800px;">
-            <span class="close-modal" onclick="closeStudentCardModal()">&times;</span>
-            <div id="studentCardContent"></div>
         </div>
     </div>
 
@@ -453,13 +564,10 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let currentUser = null, currentUserName = '', studentsData = [], testsData = [], caGradesData = {}, visitorLogsData = [], attendanceData = [], announcementsData = [];
-        let isVisitorView = false;
+        let currentUser = null, currentUserName = '', studentsData = [], testsData = [], caGradesData = {}, visitorLogsData = [], attendanceData = [], announcementsData = [], notificationsData = [], auditLogData = [];
+        let isVisitorView = false, filteredStudents = [];
         const ALLOWED_TEACHER_EMAILS = ['meg.code91@gmail.com'];
         const DELETE_STUDENT_CODE = '081191';
-
-        // Charts instances
-        let chartGrade5, chartGrade6, chartSubjects, chartProgress;
 
         function checkSummerVacation() {
             const today = new Date();
@@ -523,8 +631,6 @@
             document.getElementById('currentUserName').textContent = currentUserName;
             if (currentUser === 'visitor' || isVisitorView) document.body.classList.add('visitor-mode');
             else document.body.classList.remove('visitor-mode');
-            if (currentUser === 'teacher') document.getElementById('toggleVisitorBtn').style.display = 'inline-block';
-            else document.getElementById('toggleVisitorBtn').style.display = 'none';
             initRealtimeListeners();
             switchTab('studentsList');
         }
@@ -536,9 +642,8 @@
             document.querySelectorAll('.tab-btn').forEach(btn => { if (btn.getAttribute('onclick').includes(tabId)) btn.classList.add('active'); });
             if (tabId === 'weeklyTests') renderWeeklyTestInputs();
             if (tabId === 'caManagement') renderCAMgmtInputs();
-            if (tabId === 'statsTab') renderStats();
-            if (tabId === 'attendanceTab') renderAttendanceTable();
-            if (tabId === 'announcementsTab') renderAnnouncements();
+            if (tabId === 'auditLogTab') renderAuditLog();
+            if (tabId === 'backupTab') loadBackupInfo();
             if (tabId === 'awardsTab') renderAwards();
         }
 
@@ -568,22 +673,307 @@
                 announcementsData = [];
                 snapshot.forEach(doc => announcementsData.push({ id: doc.id, ...doc.data() }));
                 renderAnnouncements();
+                checkNewNotifications('announcement');
             });
-            if (currentUser === 'teacher' && !isVisitorView) {
-                db.collection('visitorLogs').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
-                    visitorLogsData = [];
-                    snapshot.forEach(doc => visitorLogsData.push({ id: doc.id, ...doc.data() }));
-                    document.getElementById('visitBadge').textContent = visitorLogsData.length;
-                    renderVisitorTable();
+            if (currentUser === 'teacher') {
+                db.collection('notifications').orderBy('timestamp', 'desc').limit(50).onSnapshot((snapshot) => {
+                    notificationsData = [];
+                    snapshot.forEach(doc => notificationsData.push({ id: doc.id, ...doc.data() }));
+                    updateNotificationBadge();
+                    renderNotifications();
+                });
+                db.collection('auditLog').orderBy('timestamp', 'desc').limit(100).onSnapshot((snapshot) => {
+                    auditLogData = [];
+                    snapshot.forEach(doc => auditLogData.push({ id: doc.id, ...doc.data() }));
                 });
             }
         }
 
         // ==========================================
-        // حساب المعدل التراكمي مع الخصومات الجديدة
+        // نظام الإشعارات
+        // ==========================================
+        function toggleNotifications() {
+            const panel = document.getElementById('notificationsPanel');
+            panel.classList.toggle('active');
+            if (panel.classList.contains('active')) {
+                markNotificationsAsRead();
+            }
+        }
+
+        function updateNotificationBadge() {
+            const unreadCount = notificationsData.filter(n => !n.read && n.userId === currentUser).length;
+            const badge = document.getElementById('notificationCount');
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notificationsList');
+            if (!container) return;
+            container.innerHTML = '';
+            if (notificationsData.length === 0) {
+                container.innerHTML = '<div style="padding:40px;text-align:center;color:#999;"><i class="fa-solid fa-bell-slash" style="font-size:3rem;margin-bottom:10px;"></i><p>لا توجد إشعارات</p></div>';
+                return;
+            }
+            notificationsData.forEach(notif => {
+                const div = document.createElement('div');
+                div.className = `notification-item ${!notif.read ? 'unread' : ''}`;
+                div.innerHTML = `
+                    <div style="display:flex;align-items:start;gap:10px;">
+                        <i class="fa-solid ${notif.icon || 'fa-info-circle'}" style="color:var(--massar-light-blue);font-size:1.2rem;margin-top:3px;"></i>
+                        <div style="flex:1;">
+                            <strong>${notif.title}</strong>
+                            <p style="margin:5px 0;color:#666;">${notif.message}</p>
+                            <div class="notification-time">${notif.date || new Date(notif.timestamp?.seconds * 1000).toLocaleDateString('ar-MA')}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function markNotificationsAsRead() {
+            const unread = notificationsData.filter(n => !n.read && n.userId === currentUser);
+            unread.forEach(notif => {
+                db.collection('notifications').doc(notif.id).update({ read: true });
+            });
+        }
+
+        function createNotification(userId, title, message, type = 'info', icon = 'fa-info-circle') {
+            db.collection('notifications').add({
+                userId: userId || 'all',
+                title, message, type, icon,
+                read: false,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                date: new Date().toLocaleDateString('ar-MA')
+            });
+        }
+
+        function checkNewNotifications(type) {
+            if (type === 'announcement' && announcementsData.length > 0) {
+                const latest = announcementsData[0];
+                createNotification('all', 'إعلان جديد', latest.title, 'warning', 'fa-bullhorn');
+            }
+        }
+
+        // ==========================================
+        // البحث والفلترة المتقدمة
+        // ==========================================
+        function filterStudents() {
+            const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
+            const levelFilter = document.getElementById('filterLevel').value;
+            const gradeFilter = document.getElementById('filterGrade').value;
+            const absenceFilter = document.getElementById('filterAbsence').value;
+
+            filteredStudents = studentsData.filter(s => {
+                const calc = calculateCumulativeAverage(s);
+                const matchName = s.name.toLowerCase().includes(searchTerm);
+                const matchLevel = levelFilter === 'all' || s.level === levelFilter;
+                const matchAbsence = absenceFilter === 'all' || 
+                    (absenceFilter === 'with-absence' && calc.absences > 0) ||
+                    (absenceFilter === 'no-absence' && calc.absences === 0);
+                
+                let matchGrade = true;
+                if (gradeFilter !== 'all') {
+                    const grade = parseFloat(calc.cumulative);
+                    if (gradeFilter === 'excellent') matchGrade = grade >= 8;
+                    else if (gradeFilter === 'good') matchGrade = grade >= 6.5 && grade < 8;
+                    else if (gradeFilter === 'average') matchGrade = grade >= 5 && grade < 6.5;
+                    else if (gradeFilter === 'weak') matchGrade = grade < 5;
+                }
+
+                return matchName && matchLevel && matchGrade && matchAbsence;
+            });
+
+            renderFilteredTables();
+        }
+
+        function renderFilteredTables() {
+            const grade5 = filteredStudents.filter(s => s.level === '5').map(s => ({ ...s, calc: calculateCumulativeAverage(s) })).sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
+            const grade6 = filteredStudents.filter(s => s.level === '6').map(s => ({ ...s, calc: calculateCumulativeAverage(s) })).sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
+            renderTable('tableGrade5', grade5);
+            renderTable('tableGrade6', grade6);
+        }
+
+        // ==========================================
+        // سجل العمليات (Audit Log)
+        // ==========================================
+        function logAudit(action, collection, docId, details, user) {
+            db.collection('auditLog').add({
+                action, collection, docId, details,
+                user: user || currentUserName,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                date: new Date().toLocaleDateString('ar-MA'),
+                time: new Date().toLocaleTimeString('ar-MA')
+            });
+        }
+
+        function renderAuditLog() {
+            const container = document.getElementById('auditLogList');
+            if (!container) return;
+            const filter = document.getElementById('auditFilter').value;
+            const dateFilter = document.getElementById('auditDate').value;
+
+            let filtered = auditLogData;
+            if (filter !== 'all') filtered = filtered.filter(l => l.action === filter);
+            if (dateFilter) filtered = filtered.filter(l => l.date === dateFilter);
+
+            container.innerHTML = '';
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="alert-box alert-info"><i class="fa-solid fa-info-circle"></i> لا توجد سجلات</div>';
+                return;
+            }
+
+            filtered.forEach(log => {
+                const div = document.createElement('div');
+                div.className = `audit-log-entry ${log.action}`;
+                const actionIcon = log.action === 'add' ? 'fa-plus' : log.action === 'edit' ? 'fa-edit' : 'fa-trash';
+                const actionColor = log.action === 'add' ? 'var(--success)' : log.action === 'edit' ? 'var(--warning)' : 'var(--danger)';
+                div.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <i class="fa-solid ${actionIcon}" style="color:${actionColor};font-size:1.2rem;"></i>
+                        <strong>${getActionLabel(log.action)}</strong>
+                        <span style="color:#666;">في</span>
+                        <strong>${getCollectionLabel(log.collection)}</strong>
+                    </div>
+                    <div style="margin:10px 0;color:#333;">${log.details}</div>
+                    <div class="audit-log-meta">
+                        <i class="fa-solid fa-user"></i> ${log.user} | 
+                        <i class="fa-solid fa-calendar"></i> ${log.date} ${log.time}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function getActionLabel(action) {
+            if (action === 'add') return 'إضافة';
+            if (action === 'edit') return 'تعديل';
+            if (action === 'delete') return 'حذف';
+            return action;
+        }
+
+        function getCollectionLabel(collection) {
+            const labels = {
+                'students': 'التلاميذ',
+                'tests': 'الاختبارات',
+                'attendance': 'الحضور',
+                'announcements': 'الإعلانات',
+                'caGrades': 'المراقبة المستمرة'
+            };
+            return labels[collection] || collection;
+        }
+
+        // ==========================================
+        // النسخ الاحتياطي
+        // ==========================================
+        async function exportBackup() {
+            const backupData = {
+                students: studentsData,
+                tests: testsData,
+                caGrades: caGradesData,
+                attendance: attendanceData,
+                announcements: announcementsData,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+
+            const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `taqwim_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            await logAudit('add', 'backup', 'export', 'تم تصدير نسخة احتياطية', currentUserName);
+            createNotification(currentUser, 'نسخة احتياطية', 'تم تصدير البيانات بنجاح', 'success', 'fa-download');
+            alert('تم تصدير النسخة الاحتياطية بنجاح!');
+        }
+
+        async function importBackup() {
+            const fileInput = document.getElementById('backupFile');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('الرجاء اختيار ملف');
+                return;
+            }
+
+            if (!confirm('⚠️ تحذير: هذه العملية ستحذف جميع البيانات الحالية وتستبدلها بالبيانات من الملف. هل أنت متأكد؟')) {
+                return;
+            }
+
+            try {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    // Clear existing data
+                    const batch = db.batch();
+                    
+                    // Delete all students
+                    studentsData.forEach(s => {
+                        const ref = db.collection('students').doc(s.id);
+                        batch.delete(ref);
+                    });
+                    
+                    // Delete all tests
+                    testsData.forEach(t => {
+                        const ref = db.collection('tests').doc(t.id);
+                        batch.delete(ref);
+                    });
+
+                    await batch.commit();
+
+                    // Restore students
+                    if (backupData.students) {
+                        for (const student of backupData.students) {
+                            await db.collection('students').doc(student.id).set(student);
+                        }
+                    }
+
+                    // Restore tests
+                    if (backupData.tests) {
+                        for (const test of backupData.tests) {
+                            await db.collection('tests').doc(test.id).set(test);
+                        }
+                    }
+
+                    // Restore CA grades
+                    if (backupData.caGrades) {
+                        await db.collection('caGrades').doc('global').set(backupData.caGrades);
+                    }
+
+                    await logAudit('add', 'backup', 'import', 'تم استعادة نسخة احتياطية', currentUserName);
+                    createNotification(currentUser, 'استعادة البيانات', 'تم استعادة البيانات بنجاح', 'success', 'fa-upload');
+                    alert('تم استعادة البيانات بنجاح!');
+                    fileInput.value = '';
+                };
+                reader.readAsText(file);
+            } catch (error) {
+                alert('خطأ في استعادة البيانات: ' + error.message);
+            }
+        }
+
+        function loadBackupInfo() {
+            const container = document.getElementById('lastBackupInfo');
+            if (!container) return;
+            const lastBackup = auditLogData.filter(l => l.collection === 'backup' && l.action === 'add').sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0))[0];
+            if (lastBackup) {
+                container.innerHTML = `<div class="alert-box alert-success"><i class="fa-solid fa-check-circle"></i> آخر نسخة احتياطية: ${lastBackup.date} ${lastBackup.time}</div>`;
+            } else {
+                container.innerHTML = `<div class="alert-box alert-warning"><i class="fa-solid fa-exclamation-circle"></i> لم يتم إنشاء نسخة احتياطية بعد</div>`;
+            }
+        }
+
+        // ==========================================
+        // حساب المعدل التراكمي
         // ==========================================
         function calculateCumulativeAverage(student) {
-            // 1. معدل الاختبارات الأسبوعية
             const studentTests = testsData.filter(t => t.studentId === student.id);
             let weeklyAvg = 0, testsCount = 0;
             if (studentTests.length > 0) {
@@ -595,7 +985,6 @@
                 weeklyAvg = testsCount > 0 ? (totalScore / testsCount) : 0;
             }
 
-            // 2. معدل المراقبة المستمرة
             let caSum = 0, caCount = 0;
             const subjects = ['فرنسية', 'رياضيات', 'نشاط علمي'];
             for (let stage = 1; stage <= 5; stage++) {
@@ -610,17 +999,14 @@
             }
             const caAvg = caCount > 0 ? (caSum / caCount) : 0;
 
-            // 3. الأنشطة الإضافية والتميزية (+0.01 لكل منهما)
             const extraActivities = student.extraActivities || 0;
             const distinguishedActivities = student.distinguishedActivities || 0;
             const activitiesBonus = (extraActivities * 0.01) + (distinguishedActivities * 0.01);
 
-            // 4. الخصومات: الغياب غير المبرر (-0.01) + عدم إنجاز الواجب (-0.01)
             const absences = attendanceData.filter(a => a.studentId === student.id && a.type === 'absence').length;
             const unfinishedHomework = attendanceData.filter(a => a.studentId === student.id && a.type === 'homework').length;
             const deductions = (absences * 0.01) + (unfinishedHomework * 0.01);
 
-            // 5. المعدل التراكمي
             let cumulative = 0;
             if (testsCount > 0 && caCount > 0) cumulative = ((weeklyAvg + caAvg) / 2) + activitiesBonus - deductions;
             else if (testsCount > 0) cumulative = weeklyAvg + activitiesBonus - deductions;
@@ -641,10 +1027,8 @@
         function recalculateAllAverages() { renderStudentsTables(); }
 
         function renderStudentsTables() {
-            const grade5 = studentsData.filter(s => s.level === '5').map(s => ({ ...s, calc: calculateCumulativeAverage(s) })).sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
-            const grade6 = studentsData.filter(s => s.level === '6').map(s => ({ ...s, calc: calculateCumulativeAverage(s) })).sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
-            renderTable('tableGrade5', grade5);
-            renderTable('tableGrade6', grade6);
+            filteredStudents = studentsData;
+            renderFilteredTables();
         }
 
         function renderTable(tableId, data) {
@@ -663,17 +1047,8 @@
                 const testsInfo = student.calc.testsCount > 0 ? `${student.calc.weeklyAvg} <small style="color:#666;">(${student.calc.testsCount})</small>` : '<span style="color:#999;">-</span>';
                 const caInfo = student.calc.caCount > 0 ? `${student.calc.caAvg} <small style="color:#666;">(${student.calc.caCount})</small>` : '<span style="color:#999;">-</span>';
                 
-                let activitiesHtml = '';
-                if (student.calc.extraActivities > 0 || student.calc.distinguishedActivities > 0) {
-                    activitiesHtml = `<span class="badge badge-success">+${student.calc.activitiesBonus}</span>`;
-                } else activitiesHtml = '<span style="color:#999;">-</span>';
-
-                let deductionsHtml = '';
-                if (student.calc.absences > 0 || student.calc.unfinishedHomework > 0) {
-                    deductionsHtml = `<span class="badge badge-danger">-${student.calc.deductions}</span>`;
-                    if (student.calc.absences > 0) deductionsHtml += ` <small style="color:#666;">(${student.calc.absences} غ)</small>`;
-                    if (student.calc.unfinishedHomework > 0) deductionsHtml += ` <small style="color:#666;">(${student.calc.unfinishedHomework} و)</small>`;
-                } else deductionsHtml = '<span style="color:#999;">-</span>';
+                let activitiesHtml = student.calc.extraActivities > 0 || student.calc.distinguishedActivities > 0 ? `<span class="badge badge-success">+${student.calc.activitiesBonus}</span>` : '<span style="color:#999;">-</span>';
+                let deductionsHtml = student.calc.absences > 0 || student.calc.unfinishedHomework > 0 ? `<span class="badge badge-danger">-${student.calc.deductions}</span>` : '<span style="color:#999;">-</span>';
 
                 tr.innerHTML = `
                     <td><strong>${rank}</strong></td>
@@ -687,7 +1062,6 @@
                     <td class="admin-only">
                         <button class="btn-sm btn-info" onclick="modifyBehavior('${student.id}','extra',1)" title="نشاط إضافي +0.01"><i class="fa-solid fa-plus"></i></button>
                         <button class="btn-sm btn-success" onclick="modifyBehavior('${student.id}','dist',1)" title="نشاط تميزي +0.01"><i class="fa-solid fa-star"></i></button>
-                        <button class="btn-sm btn-purple" onclick="openStudentCard('${student.id}')" title="بطاقة شاملة"><i class="fa-solid fa-id-card"></i></button>
                         <button class="btn-sm btn-danger" onclick="deleteStudent('${student.id}')" title="حذف"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 `;
@@ -705,162 +1079,10 @@
             });
         }
 
-        function renderVisitorTable() {
-            const tbody = document.querySelector('#visitorTable tbody');
-            tbody.innerHTML = '';
-            visitorLogsData.forEach(log => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${log.name}</td><td>${log.date}</td><td>${log.time}</td>`;
-                tbody.appendChild(tr);
-            });
+        function renderAttendanceTable() {
+            // Attendance table rendering
         }
 
-        // ==========================================
-        // الإحصائيات والرسوم البيانية
-        // ==========================================
-        function renderStats() {
-            document.getElementById('statTotalStudents').textContent = studentsData.length;
-            document.getElementById('statTotalTests').textContent = testsData.length;
-
-            const grade5 = studentsData.filter(s => s.level === '5').map(s => calculateCumulativeAverage(s));
-            const grade6 = studentsData.filter(s => s.level === '6').map(s => calculateCumulativeAverage(s));
-            
-            const avg5 = grade5.length > 0 ? (grade5.reduce((a, b) => a + parseFloat(b.cumulative), 0) / grade5.length).toFixed(2) : '0';
-            const avg6 = grade6.length > 0 ? (grade6.reduce((a, b) => a + parseFloat(b.cumulative), 0) / grade6.length).toFixed(2) : '0';
-            document.getElementById('statAvgGrade5').textContent = avg5;
-            document.getElementById('statAvgGrade6').textContent = avg6;
-
-            renderCharts(grade5, grade6);
-        }
-
-        function renderCharts(grade5, grade6) {
-            // Chart Grade 5
-            if (chartGrade5) chartGrade5.destroy();
-            const ctx5 = document.getElementById('chartGrade5').getContext('2d');
-            chartGrade5 = new Chart(ctx5, {
-                type: 'bar',
-                data: {
-                    labels: studentsData.filter(s => s.level === '5').map(s => s.name.split(' ')[0]),
-                    datasets: [{ label: 'المعدل التراكمي', data: grade5.map(s => parseFloat(s.cumulative)), backgroundColor: 'rgba(0,86,179,0.7)', borderColor: '#003366', borderWidth: 1 }]
-                },
-                options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
-            });
-
-            // Chart Grade 6
-            if (chartGrade6) chartGrade6.destroy();
-            const ctx6 = document.getElementById('chartGrade6').getContext('2d');
-            chartGrade6 = new Chart(ctx6, {
-                type: 'bar',
-                data: {
-                    labels: studentsData.filter(s => s.level === '6').map(s => s.name.split(' ')[0]),
-                    datasets: [{ label: 'المعدل التراكمي', data: grade6.map(s => parseFloat(s.cumulative)), backgroundColor: 'rgba(111,66,193,0.7)', borderColor: '#4a2d7a', borderWidth: 1 }]
-                },
-                options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
-            });
-
-            // Chart Subjects
-            if (chartSubjects) chartSubjects.destroy();
-            const subjectCounts = { 'فرنسية': 0, 'رياضيات': 0, 'نشاط علمي': 0 };
-            testsData.forEach(t => { if (subjectCounts[t.subject] !== undefined) subjectCounts[t.subject]++; });
-            const ctxS = document.getElementById('chartSubjects').getContext('2d');
-            chartSubjects = new Chart(ctxS, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(subjectCounts),
-                    datasets: [{ data: Object.values(subjectCounts), backgroundColor: ['#0056b3', '#28a745', '#ffc107'] }]
-                },
-                options: { responsive: true }
-            });
-
-            // Chart Progress
-            if (chartProgress) chartProgress.destroy();
-            const dates = [...new Set(testsData.map(t => t.date))].sort();
-            const progressData = dates.map(date => {
-                const dayTests = testsData.filter(t => t.date === date);
-                const avg = dayTests.reduce((a, t) => a + parseFloat(t.score), 0) / dayTests.length;
-                return avg;
-            });
-            const ctxP = document.getElementById('chartProgress').getContext('2d');
-            chartProgress = new Chart(ctxP, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{ label: 'متوسط الأداء', data: progressData, borderColor: '#0056b3', backgroundColor: 'rgba(0,86,179,0.1)', fill: true, tension: 0.4 }]
-                },
-                options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
-            });
-        }
-
-        // ==========================================
-        // تصدير التقارير PDF
-        // ==========================================
-        function exportGradeReport(level) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const levelName = level === '5' ? 'الخامس ابتدائي' : 'السادس ابتدائي';
-            const levelStudents = studentsData.filter(s => s.level === level).map(s => ({ ...s, calc: calculateCumulativeAverage(s) })).sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
-
-            doc.setFontSize(18);
-            doc.text('منظومة تقويم Taqwim V1', 105, 20, { align: 'center' });
-            doc.setFontSize(14);
-            doc.text(`كشف نقاط - ${levelName}`, 105, 30, { align: 'center' });
-            doc.setFontSize(10);
-            doc.text(`التاريخ: ${new Date().toLocaleDateString('ar-MA')}`, 105, 40, { align: 'center' });
-
-            const tableData = levelStudents.map((s, i) => [i + 1, s.name, s.calc.weeklyAvg, s.calc.caAvg, s.calc.activitiesBonus, s.calc.deductions, s.calc.cumulative]);
-            doc.autoTable({
-                startY: 50,
-                head: [['الرتبة', 'الاسم', 'معدل الاختبارات', 'معدل المراقبة', 'الأنشطة', 'الخصومات', 'المعدل التراكمي']],
-                body: tableData,
-                theme: 'grid',
-                headStyles: { fillColor: [0, 51, 102] },
-                styles: { font: 'helvetica', halign: 'center' }
-            });
-
-            doc.save(`كشف_نقاط_${levelName}_${new Date().getTime()}.pdf`);
-        }
-
-        function exportFullReport() {
-            const level = document.getElementById('reportLevel').value;
-            const type = document.getElementById('reportType').value;
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFontSize(18);
-            doc.text('منظومة تقويم Taqwim V1', 105, 20, { align: 'center' });
-            doc.setFontSize(14);
-            doc.text('تقرير شامل', 105, 30, { align: 'center' });
-
-            let students = studentsData;
-            if (level !== 'all') students = studentsData.filter(s => s.level === level);
-            students = students.map(s => ({ ...s, calc: calculateCumulativeAverage(s) }));
-
-            if (type === 'ranking') students.sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
-            if (type === 'bySubject') {
-                // Group by subject
-                const subjects = ['فرنسية', 'رياضيات', 'نشاط علمي'];
-                subjects.forEach(sub => {
-                    doc.setFontSize(12);
-                    doc.text(`مادة: ${sub}`, 105, 40 + (subjects.indexOf(sub) * 60), { align: 'center' });
-                });
-            }
-
-            const tableData = students.map((s, i) => [i + 1, s.name, s.level === '5' ? 'خامس' : 'سادس', s.calc.weeklyAvg, s.calc.caAvg, s.calc.cumulative]);
-            doc.autoTable({
-                startY: 50,
-                head: [['الرتبة', 'الاسم', 'المستوى', 'معدل الاختبارات', 'معدل المراقبة', 'المعدل التراكمي']],
-                body: tableData,
-                theme: 'grid',
-                headStyles: { fillColor: [0, 51, 102] },
-                styles: { font: 'helvetica', halign: 'center' }
-            });
-
-            doc.save(`تقرير_شامل_${new Date().getTime()}.pdf`);
-        }
-
-        // ==========================================
-        // الحضور والواجبات
-        // ==========================================
         function showAttendanceForm() {
             const level = document.getElementById('attLevel').value;
             const type = document.getElementById('attType').value;
@@ -880,11 +1102,11 @@
             document.getElementById('attendanceFormArea').innerHTML = html;
         }
 
-        function saveAttendance(type, date) {
+        async function saveAttendance(type, date) {
             const checkboxes = document.querySelectorAll('.att-checkbox:checked');
             if (checkboxes.length === 0) { alert('الرجاء اختيار تلميذ واحد على الأقل'); return; }
 
-            let batch = db.batch();
+            const batch = db.batch();
             checkboxes.forEach(cb => {
                 const docRef = db.collection('attendance').doc();
                 batch.set(docRef, {
@@ -896,44 +1118,156 @@
                 });
             });
 
-            batch.commit().then(() => {
-                alert(`تم تسجيل ${checkboxes.length} حالة بنجاح`);
-                document.getElementById('attendanceFormArea').innerHTML = '';
-                document.querySelectorAll('.att-checkbox').forEach(cb => cb.checked = false);
-            });
+            await batch.commit();
+            await logAudit('add', 'attendance', 'batch', `تسجيل ${checkboxes.length} حالة ${type === 'absence' ? 'غياب' : 'واجب'}`, currentUserName);
+            alert(`تم تسجيل ${checkboxes.length} حالة بنجاح`);
+            document.getElementById('attendanceFormArea').innerHTML = '';
         }
 
-        function renderAttendanceTable() {
-            const tbody = document.querySelector('#attendanceTable tbody');
-            tbody.innerHTML = '';
-            attendanceData.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0)).forEach(att => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${att.studentName}</td><td><span class="badge ${att.type === 'absence' ? 'badge-danger' : 'badge-warning'}">${att.type === 'absence' ? 'غياب' : 'واجب'}</span></td><td>${att.date}</td><td class="admin-only"><button class="btn-sm btn-danger" onclick="deleteAttendance('${att.id}')">حذف</button></td>`;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function deleteAttendance(id) {
-            if (confirm('هل أنت متأكد من حذف هذا السجل؟')) {
-                db.collection('attendance').doc(id).delete();
+        function openAddStudentModal(level) {
+            const name = prompt('أدخل اسم التلميذ الكامل:');
+            if (name) {
+                db.collection('students').add({ name, level, extraActivities: 0, distinguishedActivities: 0, createdAt: firebase.firestore.FieldValue.serverTimestamp() })
+                    .then(() => logAudit('add', 'students', 'new', `إضافة تلميذ: ${name}`, currentUserName));
             }
         }
 
-        // ==========================================
-        // الإعلانات
-        // ==========================================
+        function modifyBehavior(studentId, type, value) {
+            const student = studentsData.find(s => s.id === studentId);
+            if (!student) return;
+            let updateData = {}, field = '';
+            if (type === 'extra') { updateData.extraActivities = (student.extraActivities || 0) + value; field = 'نشاط إضافي'; }
+            if (type === 'dist') { updateData.distinguishedActivities = (student.distinguishedActivities || 0) + value; field = 'نشاط تميزي'; }
+            db.collection('students').doc(studentId).update(updateData)
+                .then(() => logAudit('edit', 'students', studentId, `تعديل ${field} للتلميذ: ${student.name}`, currentUserName));
+        }
+
+        async function deleteStudent(studentId) {
+            const code = prompt('⚠️ حذف نهائي للتلميذ\nالرجاء إدخال رمز الحذف (081191):');
+            if (code === DELETE_STUDENT_CODE) {
+                if (confirm('هل أنت متأكد تماماً من الحذف النهائي؟')) {
+                    const student = studentsData.find(s => s.id === studentId);
+                    await db.collection('students').doc(studentId).delete();
+                    await logAudit('delete', 'students', studentId, `حذف التلميذ: ${student?.name}`, currentUserName);
+                }
+            } else if (code !== null) alert('رمز الحذف غير صحيح!');
+        }
+
+        async function deleteTest(testId) {
+            if (confirm('هل أنت متأكد من حذف هذا الاختبار؟')) {
+                const test = testsData.find(t => t.id === testId);
+                await db.collection('tests').doc(testId).delete();
+                await logAudit('delete', 'tests', testId, `حذف اختبار: ${test?.subject} - ${test?.date}`, currentUserName);
+            }
+        }
+
+        function renderWeeklyTestInputs() {
+            const container = document.getElementById('wtStudentsList');
+            if (!container) return;
+            container.innerHTML = '';
+            const level = document.getElementById('wtLevel')?.value || '5';
+            const levelStudents = studentsData.filter(s => s.level === level);
+            if (levelStudents.length === 0) { container.innerHTML = '<div class="no-students-message"><i class="fa-solid fa-user-slash" style="font-size:3rem;color:#ccc;margin-bottom:10px;"></i><p>لا يوجد تلاميذ</p></div>'; return; }
+            levelStudents.forEach((s, index) => {
+                const div = document.createElement('div');
+                div.className = 'student-input-row';
+                div.innerHTML = `<div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:600;color:var(--massar-dark-blue);">${index + 1}.</span><span>${s.name}</span></div><input type="number" step="0.01" min="0" max="10" class="form-control wt-score-input" data-student-id="${s.id}" data-student-name="${s.name}" style="width:120px;text-align:center;" placeholder="النقطة /10">`;
+                container.appendChild(div);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const wtLevelSelect = document.getElementById('wtLevel');
+            if (wtLevelSelect) wtLevelSelect.addEventListener('change', renderWeeklyTestInputs);
+        });
+
+        async function saveWeeklyTest() {
+            const subject = document.getElementById('wtSubject').value;
+            const level = document.getElementById('wtLevel').value;
+            const date = document.getElementById('wtDate').value;
+            if (!date) { alert('الرجاء اختيار التاريخ'); return; }
+            const inputs = document.querySelectorAll('.wt-score-input');
+            const batch = db.batch();
+            let savedCount = 0;
+            inputs.forEach(input => {
+                const score = input.value.trim();
+                if (score !== '' && !isNaN(score)) {
+                    const docRef = db.collection('tests').doc();
+                    batch.set(docRef, { studentId: input.dataset.studentId, studentName: input.dataset.studentName, subject, level, type: 'اختبار أسبوعي', score: parseFloat(score), date, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+                    savedCount++;
+                }
+            });
+            if (savedCount === 0) { alert('الرجاء إدخال نقطة واحدة على الأقل'); return; }
+            await batch.commit();
+            await logAudit('add', 'tests', 'batch', `إضافة اختبار ${subject} لـ ${savedCount} تلميذ`, currentUserName);
+            alert(`تم الحفظ بنجاح! عدد التلاميذ: ${savedCount}`);
+            document.querySelectorAll('.wt-score-input').forEach(i => i.value = '');
+        }
+
+        function renderCAMgmtInputs() {
+            const container = document.getElementById('caMgmtStudentsList');
+            if (!container) return;
+            container.innerHTML = '';
+            const stage = document.getElementById('caMgmtStage').value;
+            const subject = document.getElementById('caMgmtSubject').value;
+            if (studentsData.length === 0) { container.innerHTML = '<div class="no-students-message">لا يوجد تلاميذ</div>'; return; }
+            studentsData.forEach(s => {
+                const key = `s_${s.id}_stage${stage}_${subject}`;
+                const currentVal = caGradesData[key] || '';
+                const div = document.createElement('div');
+                div.className = 'student-input-row';
+                div.innerHTML = `<span>${s.name} (${s.level === '5' ? 'خامس' : 'سادس'})</span><input type="number" step="0.01" min="0" max="10" class="form-control ca-mgmt-input" data-key="${key}" style="width:120px;text-align:center;" value="${currentVal}" placeholder="النقطة">`;
+                container.appendChild(div);
+            });
+        }
+
+        async function saveCAGrades() {
+            const inputs = document.querySelectorAll('.ca-mgmt-input');
+            const updates = {};
+            inputs.forEach(input => { if (input.value.trim() !== '') updates[input.dataset.key] = parseFloat(input.value); });
+            if (Object.keys(updates).length > 0) {
+                await db.collection('caGrades').doc('global').set(updates, { merge: true });
+                await logAudit('edit', 'caGrades', 'global', `تحديث نقاط المراقبة المستمرة`, currentUserName);
+                alert('تم الحفظ بنجاح');
+            } else alert('الرجاء إدخال نقطة واحدة على الأقل');
+        }
+
+        function loadCAGrades() {
+            const stage = document.getElementById('caStageSelect').value;
+            const level = document.getElementById('caLevelSelect').value;
+            const container = document.getElementById('caResultsArea');
+            const levelStudents = studentsData.filter(s => s.level === level);
+            const subjects = ['فرنسية', 'رياضيات', 'نشاط علمي'];
+            let html = '<table class="table-container" style="width:100%;margin-top:15px;"><thead><tr><th>التلميذ</th>';
+            subjects.forEach(s => html += `<th>${s}</th>`);
+            html += '</tr></thead><tbody>';
+            let hasAnyGrade = false;
+            levelStudents.forEach(s => {
+                html += `<tr><td>${s.name}</td>`;
+                subjects.forEach(sub => {
+                    const key = `s_${s.id}_stage${stage}_${sub}`;
+                    const grade = caGradesData[key];
+                    if (grade) { html += `<td><strong>${grade}</strong></td>`; hasAnyGrade = true; } else html += `<td>-</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            container.innerHTML = hasAnyGrade ? html : '<div class="alert-box alert-warning"><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ لم تجر الاختبارات بعد</div>';
+        }
+
         function publishAnnouncement() {
             const title = document.getElementById('annTitle').value.trim();
             const content = document.getElementById('annContent').value.trim();
             const type = document.getElementById('annType').value;
             if (!title || !content) { alert('الرجاء ملء جميع الحقول'); return; }
-
             db.collection('announcements').add({
                 title, content, type,
                 author: currentUserName,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 date: new Date().toLocaleDateString('ar-MA')
             }).then(() => {
+                logAudit('add', 'announcements', 'new', `نشر إعلان: ${title}`, currentUserName);
+                createNotification('all', 'إعلان جديد', title, type === 'urgent' ? 'danger' : 'info', 'fa-bullhorn');
                 alert('تم نشر الإعلان بنجاح');
                 document.getElementById('annTitle').value = '';
                 document.getElementById('annContent').value = '';
@@ -961,99 +1295,34 @@
             });
         }
 
-        function deleteAnnouncement(id) {
+        async function deleteAnnouncement(id) {
             if (confirm('هل أنت متأكد من حذف هذا الإعلان؟')) {
-                db.collection('announcements').doc(id).delete();
+                await db.collection('announcements').doc(id).delete();
+                await logAudit('delete', 'announcements', id, 'حذف إعلان', currentUserName);
             }
         }
 
-        // ==========================================
-        // الأوسمة
-        // ==========================================
         function renderAwards() {
             const container = document.getElementById('awardsGrid');
             if (!container) return;
             container.innerHTML = '';
-
             const allStudents = studentsData.map(s => ({ ...s, calc: calculateCumulativeAverage(s) }));
             const sorted = allStudents.sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative));
-
             const awards = [
                 { icon: '🥇', title: 'تلميذ القسم الأول', winner: sorted[0]?.name || '-', color: '#ffd700' },
-                { icon: '🥈', title: 'تلميذ القسم الثاني', winner: sorted[1]?.name || '-', color: '#c0c0c0' },
+                { icon: '', title: 'تلميذ القسم الثاني', winner: sorted[1]?.name || '-', color: '#c0c0c0' },
                 { icon: '🥉', title: 'تلميذ القسم الثالث', winner: sorted[2]?.name || '-', color: '#cd7f32' },
-                { icon: '⭐', title: 'الأكثر تميزاً', winner: allStudents.sort((a, b) => (b.distinguishedActivities || 0) - (a.distinguishedActivities || 0))[0]?.name || '-', color: '#0056b3' },
-                { icon: '📈', title: 'الأكثر تحسناً', winner: sorted[0]?.name || '-', color: '#28a745' },
-                { icon: '', title: 'أعلى معدل في الاختبارات', winner: allStudents.sort((a, b) => parseFloat(b.calc.weeklyAvg) - parseFloat(a.calc.weeklyAvg))[0]?.name || '-', color: '#6f42c1' }
+                { icon: '⭐', title: 'الأكثر تميزاً', winner: allStudents.sort((a, b) => (b.distinguishedActivities || 0) - (a.distinguishedActivities || 0))[0]?.name || '-', color: '#0056b3' }
             ];
-
             awards.forEach(award => {
                 const div = document.createElement('div');
                 div.className = 'award-card';
                 div.style.borderTop = `4px solid ${award.color}`;
-                div.innerHTML = `
-                    <div class="award-icon">${award.icon}</div>
-                    <h4>${award.title}</h4>
-                    <div class="award-winner">${award.winner}</div>
-                `;
+                div.innerHTML = `<div class="award-icon">${award.icon}</div><h4>${award.title}</h4><div class="award-winner">${award.winner}</div>`;
                 container.appendChild(div);
             });
         }
 
-        // ==========================================
-        // بطاقة التلميذ الشاملة
-        // ==========================================
-        function openStudentCard(studentId) {
-            const student = studentsData.find(s => s.id === studentId);
-            if (!student) return;
-            const calc = calculateCumulativeAverage(student);
-            const studentTests = testsData.filter(t => t.studentId === studentId);
-            const studentAttendance = attendanceData.filter(a => a.studentId === studentId);
-
-            // حساب التقدم عبر الزمن
-            const testProgress = studentTests.sort((a, b) => new Date(a.date) - new Date(b.date)).map(t => ({ date: t.date, score: parseFloat(t.score) }));
-
-            document.getElementById('studentCardContent').innerHTML = `
-                <div class="student-card">
-                    <div class="student-card-header">
-                        <div class="student-avatar">${student.name.charAt(0)}</div>
-                        <div class="student-card-info">
-                            <h2>${student.name}</h2>
-                            <p><i class="fa-solid fa-graduation-cap"></i> ${student.level === '5' ? 'الخامس' : 'السادس'} ابتدائي</p>
-                            <p><i class="fa-solid fa-trophy"></i> الرتبة: ${studentsData.filter(s => s.level === student.level).map(s => ({ ...s, calc: calculateCumulativeAverage(s) })).sort((a, b) => parseFloat(b.calc.cumulative) - parseFloat(a.calc.cumulative)).findIndex(s => s.id === studentId) + 1}</p>
-                        </div>
-                    </div>
-                    <div class="student-card-stats">
-                        <div class="stat-box"><div class="value">${calc.cumulative}</div><div class="label">المعدل التراكمي</div></div>
-                        <div class="stat-box"><div class="value">${calc.weeklyAvg}</div><div class="label">معدل الاختبارات</div></div>
-                        <div class="stat-box"><div class="value">${calc.caAvg}</div><div class="label">معدل المراقبة</div></div>
-                        <div class="stat-box"><div class="value" style="color:var(--success);">+${calc.activitiesBonus}</div><div class="label">الأنشطة</div></div>
-                        <div class="stat-box"><div class="value" style="color:var(--danger);">-${calc.deductions}</div><div class="label">الخصومات</div></div>
-                    </div>
-                    <h3 style="color:var(--massar-dark-blue);margin:20px 0 10px;"><i class="fa-solid fa-chart-line"></i> تتبع التقدم عبر الزمن</h3>
-                    ${testProgress.length > 0 ? testProgress.map((t, i) => `
-                        <div class="progress-item">
-                            <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
-                                <span>الاختبار ${i + 1} - ${t.date}</span>
-                                <strong>${t.score}/10</strong>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width:${(t.score / 10) * 100}%">${t.score}</div>
-                            </div>
-                        </div>
-                    `).join('') : '<p style="color:#999;">لا توجد اختبارات مسجلة</p>'}
-                    <h3 style="color:var(--massar-dark-blue);margin:20px 0 10px;"><i class="fa-solid fa-calendar-check"></i> سجل الحضور والواجبات</h3>
-                    ${studentAttendance.length > 0 ? `<ul style="list-style:none;padding:0;">${studentAttendance.map(a => `<li style="padding:5px 0;border-bottom:1px solid #eee;"><span class="badge ${a.type === 'absence' ? 'badge-danger' : 'badge-warning'}">${a.type === 'absence' ? 'غياب' : 'واجب'}</span> ${a.date}</li>`).join('')}</ul>` : '<p style="color:#999;">لا توجد سجلات</p>'}
-                </div>
-            `;
-            document.getElementById('studentCardModal').style.display = 'flex';
-        }
-
-        function closeStudentCardModal() { document.getElementById('studentCardModal').style.display = 'none'; }
-
-        // ==========================================
-        // Modal التلميذ الشخصي
-        // ==========================================
         function openStudentModal(studentId) {
             const student = studentsData.find(s => s.id === studentId);
             if (!student) return;
@@ -1079,153 +1348,19 @@
 
             document.getElementById('modalContent').innerHTML = `
                 <h2 style="color:var(--massar-dark-blue);margin-bottom:20px;border-bottom:2px solid var(--massar-border);padding-bottom:10px;"><i class="fa-solid fa-id-card"></i> فضاء التلميذ الشخصي</h2>
-                <div style="margin-bottom:20px;">
-                    <h3>${student.name}</h3>
-                    <p>المستوى: ${student.level === '5' ? 'الخامس' : 'السادس'} ابتدائي</p>
-                    <p><strong>المعدل التراكمي:</strong> <span style="font-size:1.2rem;color:var(--massar-light-blue);">${calc.cumulative}</span></p>
-                </div>
-                <h3 style="font-size:1.1rem;margin-bottom:10px;color:var(--massar-light-blue);">فروض المراقبة المستمرة</h3>
-                <div style="margin-bottom:20px;">${caHtml}</div>
-                <h3 style="font-size:1.1rem;margin-bottom:10px;color:var(--massar-light-blue);">الاختبارات الأسبوعية</h3>
-                <div style="max-height:200px;overflow-y:auto;margin-bottom:20px;">${wtHtml}</div>
+                <div style="margin-bottom:20px;"><h3>${student.name}</h3><p>المستوى: ${student.level === '5' ? 'الخامس' : 'السادس'} ابتدائي</p><p><strong>المعدل التراكمي:</strong> <span style="font-size:1.2rem;color:var(--massar-light-blue);">${calc.cumulative}</span></p></div>
+                <h3 style="font-size:1.1rem;margin-bottom:10px;color:var(--massar-light-blue);">فروض المراقبة المستمرة</h3><div style="margin-bottom:20px;">${caHtml}</div>
+                <h3 style="font-size:1.1rem;margin-bottom:10px;color:var(--massar-light-blue);">الاختبارات الأسبوعية</h3><div style="max-height:200px;overflow-y:auto;margin-bottom:20px;">${wtHtml}</div>
                 <h3 style="font-size:1.1rem;margin-bottom:10px;color:var(--massar-light-blue);">الأنشطة والخصومات</h3>
-                <div style="background:#f8f9fa;padding:15px;border-radius:5px;">
-                    <div style="display:flex;justify-content:space-around;text-align:center;">
-                        <div><div style="font-size:1.5rem;color:var(--success);">${calc.extraActivities}</div><small>أنشطة إضافية</small></div>
-                        <div><div style="font-size:1.5rem;color:var(--massar-light-blue);">${calc.distinguishedActivities}</div><small>أنشطة تميزية</small></div>
-                        <div><div style="font-size:1.5rem;color:var(--danger);">${calc.absences}</div><small>غياب</small></div>
-                        <div><div style="font-size:1.5rem;color:var(--warning);">${calc.unfinishedHomework}</div><small>واجبات</small></div>
-                    </div>
-                </div>
+                <div style="background:#f8f9fa;padding:15px;border-radius:5px;"><div style="display:flex;justify-content:space-around;text-align:center;"><div><div style="font-size:1.5rem;color:var(--success);">${calc.extraActivities}</div><small>أنشطة إضافية</small></div><div><div style="font-size:1.5rem;color:var(--massar-light-blue);">${calc.distinguishedActivities}</div><small>أنشطة تميزية</small></div><div><div style="font-size:1.5rem;color:var(--danger);">${calc.absences}</div><small>غياب</small></div><div><div style="font-size:1.5rem;color:var(--warning);">${calc.unfinishedHomework}</div><small>واجبات</small></div></div></div>
             `;
             document.getElementById('studentModal').style.display = 'flex';
         }
 
         function closeModal() { document.getElementById('studentModal').style.display = 'none'; }
 
-        // ==========================================
-        // دوال الإدارة
-        // ==========================================
-        function openAddStudentModal(level) {
-            const name = prompt('أدخل اسم التلميذ الكامل:');
-            if (name) {
-                db.collection('students').add({ name, level, extraActivities: 0, distinguishedActivities: 0, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-            }
-        }
-
-        function modifyBehavior(studentId, type, value) {
-            const student = studentsData.find(s => s.id === studentId);
-            if (!student) return;
-            let updateData = {};
-            if (type === 'extra') updateData.extraActivities = (student.extraActivities || 0) + value;
-            if (type === 'dist') updateData.distinguishedActivities = (student.distinguishedActivities || 0) + value;
-            db.collection('students').doc(studentId).update(updateData);
-        }
-
-        function deleteStudent(studentId) {
-            const code = prompt('⚠️ حذف نهائي للتلميذ\nالرجاء إدخال رمز الحذف (081191):');
-            if (code === DELETE_STUDENT_CODE) {
-                if (confirm('هل أنت متأكد تماماً من الحذف النهائي؟')) db.collection('students').doc(studentId).delete();
-            } else if (code !== null) alert('رمز الحذف غير صحيح!');
-        }
-
-        function deleteTest(testId) {
-            if (confirm('هل أنت متأكد من حذف هذا الاختبار؟')) {
-                db.collection('tests').doc(testId).delete();
-            }
-        }
-
-        function renderWeeklyTestInputs() {
-            const container = document.getElementById('wtStudentsList');
-            if (!container) return;
-            container.innerHTML = '';
-            const level = document.getElementById('wtLevel')?.value || '5';
-            const levelStudents = studentsData.filter(s => s.level === level);
-            if (levelStudents.length === 0) { container.innerHTML = '<div class="no-students-message"><i class="fa-solid fa-user-slash" style="font-size:3rem;color:#ccc;margin-bottom:10px;"></i><p>لا يوجد تلاميذ</p></div>'; return; }
-            levelStudents.forEach((s, index) => {
-                const div = document.createElement('div');
-                div.className = 'student-input-row';
-                div.innerHTML = `<div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:600;color:var(--massar-dark-blue);">${index + 1}.</span><span>${s.name}</span></div><input type="number" step="0.01" min="0" max="10" class="form-control wt-score-input" data-student-id="${s.id}" data-student-name="${s.name}" style="width:120px;text-align:center;" placeholder="النقطة /10">`;
-                container.appendChild(div);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const wtLevelSelect = document.getElementById('wtLevel');
-            if (wtLevelSelect) wtLevelSelect.addEventListener('change', renderWeeklyTestInputs);
-        });
-
-        function saveWeeklyTest() {
-            const subject = document.getElementById('wtSubject').value;
-            const level = document.getElementById('wtLevel').value;
-            const date = document.getElementById('wtDate').value;
-            if (!date) { alert('الرجاء اختيار التاريخ'); return; }
-            const inputs = document.querySelectorAll('.wt-score-input');
-            let batch = db.batch();
-            let savedCount = 0;
-            inputs.forEach(input => {
-                const score = input.value.trim();
-                if (score !== '' && !isNaN(score)) {
-                    const docRef = db.collection('tests').doc();
-                    batch.set(docRef, { studentId: input.dataset.studentId, studentName: input.dataset.studentName, subject, level, type: 'اختبار أسبوعي', score: parseFloat(score), date, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-                    savedCount++;
-                }
-            });
-            if (savedCount === 0) { alert('الرجاء إدخال نقطة واحدة على الأقل'); return; }
-            batch.commit().then(() => { alert(`تم الحفظ بنجاح! عدد التلاميذ: ${savedCount}`); document.querySelectorAll('.wt-score-input').forEach(i => i.value = ''); });
-        }
-
-        function renderCAMgmtInputs() {
-            const container = document.getElementById('caMgmtStudentsList');
-            if (!container) return;
-            container.innerHTML = '';
-            const stage = document.getElementById('caMgmtStage').value;
-            const subject = document.getElementById('caMgmtSubject').value;
-            if (studentsData.length === 0) { container.innerHTML = '<div class="no-students-message">لا يوجد تلاميذ</div>'; return; }
-            studentsData.forEach(s => {
-                const key = `s_${s.id}_stage${stage}_${subject}`;
-                const currentVal = caGradesData[key] || '';
-                const div = document.createElement('div');
-                div.className = 'student-input-row';
-                div.innerHTML = `<span>${s.name} (${s.level === '5' ? 'خامس' : 'سادس'})</span><input type="number" step="0.01" min="0" max="10" class="form-control ca-mgmt-input" data-key="${key}" style="width:120px;text-align:center;" value="${currentVal}" placeholder="النقطة">`;
-                container.appendChild(div);
-            });
-        }
-
-        function saveCAGrades() {
-            const inputs = document.querySelectorAll('.ca-mgmt-input');
-            const updates = {};
-            inputs.forEach(input => { if (input.value.trim() !== '') updates[input.dataset.key] = parseFloat(input.value); });
-            if (Object.keys(updates).length > 0) db.collection('caGrades').doc('global').set(updates, { merge: true }).then(() => alert('تم الحفظ بنجاح'));
-            else alert('الرجاء إدخال نقطة واحدة على الأقل');
-        }
-
-        function loadCAGrades() {
-            const stage = document.getElementById('caStageSelect').value;
-            const level = document.getElementById('caLevelSelect').value;
-            const container = document.getElementById('caResultsArea');
-            const levelStudents = studentsData.filter(s => s.level === level);
-            const subjects = ['فرنسية', 'رياضيات', 'نشاط علمي'];
-            let html = '<table class="table-container" style="width:100%;margin-top:15px;"><thead><tr><th>التلميذ</th>';
-            subjects.forEach(s => html += `<th>${s}</th>`);
-            html += '</tr></thead><tbody>';
-            let hasAnyGrade = false;
-            levelStudents.forEach(s => {
-                html += `<tr><td>${s.name}</td>`;
-                subjects.forEach(sub => {
-                    const key = `s_${s.id}_stage${stage}_${sub}`;
-                    const grade = caGradesData[key];
-                    if (grade) { html += `<td><strong>${grade}</strong></td>`; hasAnyGrade = true; } else html += `<td>-</td>`;
-                });
-                html += '</tr>';
-            });
-            html += '</tbody></table>';
-            container.innerHTML = hasAnyGrade ? html : '<div class="alert-box alert-warning"><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ لم تجر الاختبارات بعد</div>';
-        }
-
         window.onclick = function(event) {
             if (event.target == document.getElementById('studentModal')) closeModal();
-            if (event.target == document.getElementById('studentCardModal')) closeStudentCardModal();
         }
     </script>
 </body>
