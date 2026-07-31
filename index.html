@@ -113,6 +113,7 @@
         .badge-success { background: #d4edda; color: #155724; }
         .badge-danger { background: #f8d7da; color: #721c24; }
         .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
         .btn-sm { padding: 5px 10px; font-size: 0.8rem; border-radius: 4px; border: none; cursor: pointer; margin: 2px; }
         .btn-info { background: #17a2b8; color: white; }
         .btn-danger { background: var(--danger); color: white; }
@@ -125,7 +126,7 @@
             background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;
         }
         .modal-content {
-            background-color: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 600px;
+            background-color: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 700px;
             max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
@@ -185,6 +186,39 @@
             border-radius: 10px;
             font-size: 0.85rem;
             font-weight: 600;
+        }
+
+        .hierarchy-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--massar-light-blue);
+        }
+        .hierarchy-info h4 {
+            color: var(--massar-dark-blue);
+            margin-bottom: 10px;
+        }
+        .hierarchy-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+        }
+        .hierarchy-level {
+            background: var(--massar-dark-blue);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
         }
 
         @media (max-width: 768px) {
@@ -257,6 +291,38 @@
         </div>
 
         <div id="studentsList" class="tab-content active">
+            <div class="hierarchy-info admin-only">
+                <h4><i class="fa-solid fa-layer-group"></i> التسلسل الهرمي للمعدلات (من الأقل إلى الأعلى أهمية)</h4>
+                <div class="hierarchy-item">
+                    <div class="hierarchy-level">1</div>
+                    <div>
+                        <strong>معدل الاختبار الأسبوعي</strong>
+                        <small style="display: block; color: #666;">معدل كل اختبار على حدة (من 10)</small>
+                    </div>
+                </div>
+                <div class="hierarchy-item">
+                    <div class="hierarchy-level">2</div>
+                    <div>
+                        <strong>معدل معدلات الاختبارات الأسبوعية</strong>
+                        <small style="display: block; color: #666;">متوسط جميع الاختبارات الأسبوعية المنجزة</small>
+                    </div>
+                </div>
+                <div class="hierarchy-item">
+                    <div class="hierarchy-level">3</div>
+                    <div>
+                        <strong>معدل اختبارات المراقبة المستمرة</strong>
+                        <small style="display: block; color: #666;">متوسط فروض المراقبة المستمرة (المراحل 1-5)</small>
+                    </div>
+                </div>
+                <div class="hierarchy-item" style="background: linear-gradient(135deg, var(--massar-light-blue), var(--massar-dark-blue)); color: white;">
+                    <div class="hierarchy-level" style="background: white; color: var(--massar-dark-blue);">4</div>
+                    <div>
+                        <strong>المعدل التراكمي</strong>
+                        <small style="display: block; opacity: 0.9;">(معدل الاختبارات الأسبوعية + معدل المراقبة المستمرة) ÷ 2 + الأنشطة التميزية</small>
+                    </div>
+                </div>
+            </div>
+
             <div class="table-container">
                 <div class="table-header">
                     <span><i class="fa-solid fa-users-viewfinder"></i> نتائج التلاميذ - الخامس ابتدائي</span>
@@ -271,7 +337,7 @@
                                 <th>اسم التلميذ</th>
                                 <th>معدل الاختبارات الأسبوعية</th>
                                 <th>معدل المراقبة المستمرة</th>
-                                <th>الفارق السلوكي</th>
+                                <th>الأنشطة</th>
                                 <th>المعدل التراكمي</th>
                                 <th class="admin-only">إجراءات</th>
                             </tr>
@@ -295,7 +361,7 @@
                                 <th>اسم التلميذ</th>
                                 <th>معدل الاختبارات الأسبوعية</th>
                                 <th>معدل المراقبة المستمرة</th>
-                                <th>الفارق السلوكي</th>
+                                <th>الأنشطة</th>
                                 <th>المعدل التراكمي</th>
                                 <th class="admin-only">إجراءات</th>
                             </tr>
@@ -458,8 +524,11 @@
             <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--massar-light-blue);">أرشيف الاختبارات الأسبوعية</h3>
             <div id="modalWeeklyTests" style="max-height: 200px; overflow-y: auto;"></div>
 
-            <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--massar-light-blue);">الرصيد السلوكي</h3>
-            <div id="modalBehavior" style="background: #f8f9fa; padding: 15px; border-radius: 5px;"></div>
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--massar-light-blue);">الأنشطة الإضافية والتميزية</h3>
+            <div id="modalActivities" style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;"></div>
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--massar-light-blue);">تفاصيل المعدل التراكمي</h3>
+            <div id="modalCalculation" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 15px; border-radius: 5px;"></div>
         </div>
     </div>
 
@@ -663,18 +732,17 @@
         }
 
         // ==========================================
-        // إصلاح جذري: حساب المعدل التراكمي التدرجي
+        // الإصلاح الجوهري 2: المعدلات حسب التسلسل الهرمي
         // ==========================================
         function calculateCumulativeAverage(student) {
-            // 1. معدل الاختبارات الأسبوعية (تراكمي تدرجي)
-            // فقط الاختبارات المنجزة تحتسب، الاختبارات غير المنجزة لا تؤثر
+            // ==========================================
+            // المستوى 1 و 2: معدل الاختبارات الأسبوعية
+            // ==========================================
             const studentTests = testsData.filter(t => t.studentId === student.id);
-            
             let weeklyAvg = 0;
             let testsCount = 0;
             
             if (studentTests.length > 0) {
-                // جمع النقاط الفعلية فقط (تجاهل القيم الفارغة أو غير الصالحة)
                 let totalScore = 0;
                 studentTests.forEach(test => {
                     const score = parseFloat(test.score);
@@ -683,12 +751,12 @@
                         testsCount++;
                     }
                 });
-                
-                // المعدل = مجموع النقاط / عدد الاختبارات المنجزة فقط
                 weeklyAvg = testsCount > 0 ? (totalScore / testsCount) : 0;
             }
 
-            // 2. معدل المراقبة المستمرة (تراكمي تدرجي)
+            // ==========================================
+            // المستوى 3: معدل المراقبة المستمرة
+            // ==========================================
             let caSum = 0;
             let caCount = 0;
             const subjects = ['فرنسية', 'رياضيات', 'نشاط علمي'];
@@ -709,37 +777,46 @@
             
             const caAvg = caCount > 0 ? (caSum / caCount) : 0;
 
-            // 3. الفارق السلوكي
-            const extra = (student.extraActivities || 0) * 0.01;
-            const distinguished = (student.distinguishedActivities || 0) * 0.03;
-            const unfinished = (student.unfinishedHomework || 0) * 0.03;
-            const behavioralDiff = extra + distinguished - unfinished;
+            // ==========================================
+            // الأنشطة الإضافية والتميزية
+            // ==========================================
+            // الأنشطة الإضافية: +0.01 في معدل المادة (تحتسب في المعدل التراكمي)
+            // الأنشطة التميزية: +0.01 مباشرة في المعدل التراكمي (نظراً لأهميتها)
+            const extraActivities = student.extraActivities || 0;
+            const distinguishedActivities = student.distinguishedActivities || 0;
+            
+            // مجموع تأثير الأنشطة على المعدل التراكمي
+            const activitiesBonus = (extraActivities * 0.01) + (distinguishedActivities * 0.01);
 
-            // 4. المعدل التراكمي العام
-            // المعادلة: (معدل الاختبارات + معدل المراقبة) / 2 + الفارق السلوكي
-            // إذا لم يكن هناك اختبارات أو مراقبة، لا يتم احتسابها كصفر
+            // ==========================================
+            // المستوى 4: المعدل التراكمي
+            // ==========================================
+            // المعدل التراكمي = (معدل الاختبارات الأسبوعية + معدل المراقبة المستمرة) ÷ 2 + الأنشطة
             let cumulative = 0;
             
             if (testsCount > 0 && caCount > 0) {
-                cumulative = ((weeklyAvg + caAvg) / 2) + behavioralDiff;
+                // كلا المعدلين موجودين
+                cumulative = ((weeklyAvg + caAvg) / 2) + activitiesBonus;
             } else if (testsCount > 0) {
                 // فقط الاختبارات الأسبوعية موجودة
-                cumulative = weeklyAvg + behavioralDiff;
+                cumulative = weeklyAvg + activitiesBonus;
             } else if (caCount > 0) {
                 // فقط المراقبة المستمرة موجودة
-                cumulative = caAvg + behavioralDiff;
+                cumulative = caAvg + activitiesBonus;
             } else {
-                // لا توجد نقاط بعد
-                cumulative = 0;
+                // لا توجد نقاط بعد، فقط الأنشطة
+                cumulative = activitiesBonus;
             }
             
             return {
                 weeklyAvg: weeklyAvg.toFixed(2),
                 caAvg: caAvg.toFixed(2),
-                behavioralDiff: behavioralDiff.toFixed(2),
                 cumulative: cumulative.toFixed(2),
                 testsCount: testsCount,
-                caCount: caCount
+                caCount: caCount,
+                extraActivities: extraActivities,
+                distinguishedActivities: distinguishedActivities,
+                activitiesBonus: activitiesBonus.toFixed(2)
             };
         }
 
@@ -775,7 +852,6 @@
                 const tr = document.createElement('tr');
                 tr.className = rankClass;
                 
-                // عرض عدد الاختبارات المنجزة
                 const testsInfo = student.calc.testsCount > 0 
                     ? `${student.calc.weeklyAvg} <small style="color: #666;">(${student.calc.testsCount} اختبار)</small>`
                     : '<span style="color: #999;">لم تجر بعد</span>';
@@ -784,18 +860,31 @@
                     ? `${student.calc.caAvg} <small style="color: #666;">(${student.calc.caCount} فرض)</small>`
                     : '<span style="color: #999;">لم تجر بعد</span>';
 
+                // عرض الأنشطة
+                let activitiesHtml = '';
+                if (student.calc.extraActivities > 0 || student.calc.distinguishedActivities > 0) {
+                    activitiesHtml = `<span class="badge badge-success">+${student.calc.activitiesBonus}</span>`;
+                    if (student.calc.extraActivities > 0) {
+                        activitiesHtml += ` <small style="color: #666;">(${student.calc.extraActivities} إضافي)</small>`;
+                    }
+                    if (student.calc.distinguishedActivities > 0) {
+                        activitiesHtml += ` <small style="color: var(--massar-light-blue);">(${student.calc.distinguishedActivities} تميزي)</small>`;
+                    }
+                } else {
+                    activitiesHtml = '<span style="color: #999;">-</span>';
+                }
+
                 tr.innerHTML = `
                     <td><strong>${rank}</strong></td>
                     <td><i class="fa-solid fa-door-open door-icon" onclick="openStudentModal('${student.id}')"></i></td>
                     <td>${student.name}</td>
                     <td>${testsInfo}</td>
                     <td>${caInfo}</td>
-                    <td>${student.calc.behavioralDiff > 0 ? '+' : ''}${student.calc.behavioralDiff}</td>
+                    <td>${activitiesHtml}</td>
                     <td><strong style="color: var(--massar-dark-blue); font-size: 1.1rem;">${student.calc.cumulative}</strong></td>
                     <td class="admin-only">
-                        <button class="btn-sm btn-info" onclick="modifyBehavior('${student.id}', 'extra', 1)" title="نشاط إضافي +0.01"><i class="fa-solid fa-plus"></i></button>
-                        <button class="btn-sm btn-success" onclick="modifyBehavior('${student.id}', 'dist', 1)" title="نشاط تميزي +0.03"><i class="fa-solid fa-star"></i></button>
-                        <button class="btn-sm btn-danger" onclick="modifyBehavior('${student.id}', 'unfin', 1)" title="عدم إنجاز واجب -0.03"><i class="fa-solid fa-minus"></i></button>
+                        <button class="btn-sm btn-info" onclick="modifyBehavior('${student.id}', 'extra', 1)" title="نشاط إضافي +0.01"><i class="fa-solid fa-plus"></i> إضافي</button>
+                        <button class="btn-sm btn-success" onclick="modifyBehavior('${student.id}', 'dist', 1)" title="نشاط تميزي +0.01"><i class="fa-solid fa-star"></i> تميزي</button>
                         <button class="btn-sm btn-danger" onclick="deleteStudent('${student.id}')" title="حذف نهائي"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 `;
@@ -855,9 +944,12 @@
             if (!student) return;
 
             let updateData = {};
-            if (type === 'extra') updateData.extraActivities = (student.extraActivities || 0) + value;
-            if (type === 'dist') updateData.distinguishedActivities = (student.distinguishedActivities || 0) + value;
-            if (type === 'unfin') updateData.unfinishedHomework = (student.unfinishedHomework || 0) + value;
+            if (type === 'extra') {
+                updateData.extraActivities = (student.extraActivities || 0) + value;
+            }
+            if (type === 'dist') {
+                updateData.distinguishedActivities = (student.distinguishedActivities || 0) + value;
+            }
 
             db.collection('students').doc(studentId).update(updateData);
         }
@@ -1044,10 +1136,6 @@
                 <h3>${student.name}</h3>
                 <p>المستوى: ${student.level === '5' ? 'الخامس ابتدائي' : 'السادس ابتدائي'}</p>
                 <p><strong>المعدل التراكمي الحالي:</strong> <span style="font-size: 1.2rem; color: var(--massar-light-blue);">${calc.cumulative}</span></p>
-                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                    <i class="fa-solid fa-info-circle"></i> 
-                    عدد الاختبارات المنجزة: ${calc.testsCount} | عدد فروض المراقبة: ${calc.caCount}
-                </p>
             `;
 
             let caHtml = '<table style="width:100%; font-size: 0.9rem;"><tr><th>المرحلة</th><th>المادة</th><th>النقطة</th></tr>';
@@ -1063,7 +1151,7 @@
                 });
             }
             caHtml += '</table>';
-            if (!hasCa) caHtml = '<p class="badge badge-warning">️ لم تجر الاختبارات بعد</p>';
+            if (!hasCa) caHtml = '<p class="badge badge-warning">⚠️ لم تجر الاختبارات بعد</p>';
             document.getElementById('modalCAGrades').innerHTML = caHtml;
 
             const sTests = testsData.filter(t => t.studentId === studentId);
@@ -1081,23 +1169,50 @@
             wtHtml += '</ul>';
             document.getElementById('modalWeeklyTests').innerHTML = wtHtml;
 
-            document.getElementById('modalBehavior').innerHTML = `
+            // الأنشطة
+            document.getElementById('modalActivities').innerHTML = `
                 <div style="display: flex; justify-content: space-around; text-align: center;">
                     <div>
-                        <div style="font-size: 1.5rem; color: var(--success);">${student.extraActivities || 0}</div>
-                        <small>أنشطة إضافية (+0.01)</small>
+                        <div style="font-size: 1.5rem; color: var(--success);">${calc.extraActivities}</div>
+                        <small>أنشطة إضافية<br>(+0.01 لكل نشاط)</small>
                     </div>
                     <div>
-                        <div style="font-size: 1.5rem; color: var(--massar-light-blue);">${student.distinguishedActivities || 0}</div>
-                        <small>أنشطة تميزية (+0.03)</small>
+                        <div style="font-size: 1.5rem; color: var(--massar-light-blue);">${calc.distinguishedActivities}</div>
+                        <small>أنشطة تميزية<br>(+0.01 لكل نشاط)</small>
                     </div>
                     <div>
-                        <div style="font-size: 1.5rem; color: var(--danger);">${student.unfinishedHomework || 0}</div>
-                        <small>عدم إنجاز واجبات (-0.03)</small>
+                        <div style="font-size: 1.5rem; color: var(--massar-dark-blue);">+${calc.activitiesBonus}</div>
+                        <small>مجموع التأثير<br>على المعدل</small>
                     </div>
                 </div>
-                <div style="margin-top: 10px; text-align: center; font-weight: bold;">
-                    صافي الفارق السلوكي: ${calc.behavioralDiff > 0 ? '+' : ''}${calc.behavioralDiff}
+            `;
+
+            // تفاصيل حساب المعدل التراكمي
+            document.getElementById('modalCalculation').innerHTML = `
+                <div style="font-family: 'Cairo', sans-serif;">
+                    <h4 style="margin-bottom: 15px; color: var(--massar-dark-blue);">تفاصيل حساب المعدل التراكمي:</h4>
+                    
+                    <div style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                        <strong>1. معدل الاختبارات الأسبوعية:</strong> ${calc.weeklyAvg} 
+                        <small style="color: #666;">(${calc.testsCount} اختبار)</small>
+                    </div>
+                    
+                    <div style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                        <strong>2. معدل المراقبة المستمرة:</strong> ${calc.caAvg} 
+                        <small style="color: #666;">(${calc.caCount} فرض)</small>
+                    </div>
+                    
+                    <div style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                        <strong>3. الأنشطة:</strong> +${calc.activitiesBonus}
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, var(--massar-light-blue), var(--massar-dark-blue)); color: white; padding: 15px; border-radius: 5px; text-align: center; margin-top: 15px;">
+                        <div style="font-size: 0.9rem; margin-bottom: 5px;">المعدل التراكمي النهائي:</div>
+                        <div style="font-size: 2rem; font-weight: 800;">${calc.cumulative}</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.9;">
+                            (${calc.weeklyAvg} + ${calc.caAvg}) ÷ 2 + ${calc.activitiesBonus}
+                        </div>
+                    </div>
                 </div>
             `;
 
