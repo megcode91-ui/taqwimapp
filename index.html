@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منظومة تقويم Taqwim V1 - فضاء الأستاذ محمد الغمري</title>
     
-    <!-- Google Fonts: Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome v6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase v9 Compat -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -179,6 +176,15 @@
         }
         .visitor-mode-badge.active {
             display: inline-block;
+        }
+
+        .grade-badge {
+            background: var(--massar-light-blue);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -656,40 +662,84 @@
             }
         }
 
+        // ==========================================
+        // إصلاح جذري: حساب المعدل التراكمي التدرجي
+        // ==========================================
         function calculateCumulativeAverage(student) {
+            // 1. معدل الاختبارات الأسبوعية (تراكمي تدرجي)
+            // فقط الاختبارات المنجزة تحتسب، الاختبارات غير المنجزة لا تؤثر
             const studentTests = testsData.filter(t => t.studentId === student.id);
-            let weeklySum = 0;
+            
+            let weeklyAvg = 0;
+            let testsCount = 0;
+            
             if (studentTests.length > 0) {
-                weeklySum = studentTests.reduce((acc, curr) => acc + (parseFloat(curr.score) || 0), 0);
+                // جمع النقاط الفعلية فقط (تجاهل القيم الفارغة أو غير الصالحة)
+                let totalScore = 0;
+                studentTests.forEach(test => {
+                    const score = parseFloat(test.score);
+                    if (!isNaN(score) && score >= 0) {
+                        totalScore += score;
+                        testsCount++;
+                    }
+                });
+                
+                // المعدل = مجموع النقاط / عدد الاختبارات المنجزة فقط
+                weeklyAvg = testsCount > 0 ? (totalScore / testsCount) : 0;
             }
-            const weeklyAvg = studentTests.length > 0 ? (weeklySum / studentTests.length) : 0;
 
+            // 2. معدل المراقبة المستمرة (تراكمي تدرجي)
             let caSum = 0;
             let caCount = 0;
             const subjects = ['فرنسية', 'رياضيات', 'نشاط علمي'];
+            
             for (let stage = 1; stage <= 5; stage++) {
                 subjects.forEach(sub => {
                     const key = `s_${student.id}_stage${stage}_${sub}`;
-                    if (caGradesData[key]) {
-                        caSum += parseFloat(caGradesData[key]);
-                        caCount++;
+                    const grade = caGradesData[key];
+                    if (grade !== undefined && grade !== null && grade !== '') {
+                        const parsedGrade = parseFloat(grade);
+                        if (!isNaN(parsedGrade) && parsedGrade >= 0) {
+                            caSum += parsedGrade;
+                            caCount++;
+                        }
                     }
                 });
             }
+            
             const caAvg = caCount > 0 ? (caSum / caCount) : 0;
 
+            // 3. الفارق السلوكي
             const extra = (student.extraActivities || 0) * 0.01;
             const distinguished = (student.distinguishedActivities || 0) * 0.03;
             const unfinished = (student.unfinishedHomework || 0) * 0.03;
             const behavioralDiff = extra + distinguished - unfinished;
 
-            const cumulative = ((weeklyAvg + caAvg) / 2) + behavioralDiff;
+            // 4. المعدل التراكمي العام
+            // المعادلة: (معدل الاختبارات + معدل المراقبة) / 2 + الفارق السلوكي
+            // إذا لم يكن هناك اختبارات أو مراقبة، لا يتم احتسابها كصفر
+            let cumulative = 0;
+            
+            if (testsCount > 0 && caCount > 0) {
+                cumulative = ((weeklyAvg + caAvg) / 2) + behavioralDiff;
+            } else if (testsCount > 0) {
+                // فقط الاختبارات الأسبوعية موجودة
+                cumulative = weeklyAvg + behavioralDiff;
+            } else if (caCount > 0) {
+                // فقط المراقبة المستمرة موجودة
+                cumulative = caAvg + behavioralDiff;
+            } else {
+                // لا توجد نقاط بعد
+                cumulative = 0;
+            }
             
             return {
                 weeklyAvg: weeklyAvg.toFixed(2),
                 caAvg: caAvg.toFixed(2),
                 behavioralDiff: behavioralDiff.toFixed(2),
-                cumulative: cumulative.toFixed(2)
+                cumulative: cumulative.toFixed(2),
+                testsCount: testsCount,
+                caCount: caCount
             };
         }
 
@@ -724,14 +774,24 @@
 
                 const tr = document.createElement('tr');
                 tr.className = rankClass;
+                
+                // عرض عدد الاختبارات المنجزة
+                const testsInfo = student.calc.testsCount > 0 
+                    ? `${student.calc.weeklyAvg} <small style="color: #666;">(${student.calc.testsCount} اختبار)</small>`
+                    : '<span style="color: #999;">لم تجر بعد</span>';
+                
+                const caInfo = student.calc.caCount > 0 
+                    ? `${student.calc.caAvg} <small style="color: #666;">(${student.calc.caCount} فرض)</small>`
+                    : '<span style="color: #999;">لم تجر بعد</span>';
+
                 tr.innerHTML = `
                     <td><strong>${rank}</strong></td>
                     <td><i class="fa-solid fa-door-open door-icon" onclick="openStudentModal('${student.id}')"></i></td>
                     <td>${student.name}</td>
-                    <td>${student.calc.weeklyAvg}</td>
-                    <td>${student.calc.caAvg}</td>
+                    <td>${testsInfo}</td>
+                    <td>${caInfo}</td>
                     <td>${student.calc.behavioralDiff > 0 ? '+' : ''}${student.calc.behavioralDiff}</td>
-                    <td><strong style="color: var(--massar-dark-blue);">${student.calc.cumulative}</strong></td>
+                    <td><strong style="color: var(--massar-dark-blue); font-size: 1.1rem;">${student.calc.cumulative}</strong></td>
                     <td class="admin-only">
                         <button class="btn-sm btn-info" onclick="modifyBehavior('${student.id}', 'extra', 1)" title="نشاط إضافي +0.01"><i class="fa-solid fa-plus"></i></button>
                         <button class="btn-sm btn-success" onclick="modifyBehavior('${student.id}', 'dist', 1)" title="نشاط تميزي +0.03"><i class="fa-solid fa-star"></i></button>
@@ -803,7 +863,7 @@
         }
 
         function deleteStudent(studentId) {
-            const code = prompt('⚠️ حذف نهائي للتلميذ\nالرجاء إدخال رمز الحذف (081191):');
+            const code = prompt('️ حذف نهائي للتلميذ\nالرجاء إدخال رمز الحذف (081191):');
             if (code === DELETE_STUDENT_CODE) {
                 if (confirm('هل أنت متأكد تماماً من الحذف النهائي لهذا التلميذ وجميع بياناته؟')) {
                     db.collection('students').doc(studentId).delete();
@@ -984,6 +1044,10 @@
                 <h3>${student.name}</h3>
                 <p>المستوى: ${student.level === '5' ? 'الخامس ابتدائي' : 'السادس ابتدائي'}</p>
                 <p><strong>المعدل التراكمي الحالي:</strong> <span style="font-size: 1.2rem; color: var(--massar-light-blue);">${calc.cumulative}</span></p>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                    <i class="fa-solid fa-info-circle"></i> 
+                    عدد الاختبارات المنجزة: ${calc.testsCount} | عدد فروض المراقبة: ${calc.caCount}
+                </p>
             `;
 
             let caHtml = '<table style="width:100%; font-size: 0.9rem;"><tr><th>المرحلة</th><th>المادة</th><th>النقطة</th></tr>';
@@ -999,7 +1063,7 @@
                 });
             }
             caHtml += '</table>';
-            if (!hasCa) caHtml = '<p class="badge badge-warning">⚠️ لم تجر الاختبارات بعد</p>';
+            if (!hasCa) caHtml = '<p class="badge badge-warning">️ لم تجر الاختبارات بعد</p>';
             document.getElementById('modalCAGrades').innerHTML = caHtml;
 
             const sTests = testsData.filter(t => t.studentId === studentId);
@@ -1010,7 +1074,7 @@
                 sTests.forEach(t => {
                     wtHtml += `<li style="padding: 5px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;">
                         <span>${t.subject} - ${t.date}</span>
-                        <strong>${t.score}/10</strong>
+                        <strong class="grade-badge">${t.score}/10</strong>
                     </li>`;
                 });
             }
