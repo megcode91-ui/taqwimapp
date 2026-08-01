@@ -704,7 +704,12 @@
                     <div>
                         <div class="flex justify-between items-start">
                             <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">${t.subject}</span>
-                            <span class="text-xs text-slate-400">${t.date}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-slate-400">${t.date}</span>
+                                <button onclick="deleteTest('${t.id}')" title="حذف الاختبار" class="admin-only ${isAdmin ? '' : 'hidden'} text-rose-500 hover:text-rose-700 text-xs px-1 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                         <h4 class="font-bold text-slate-800 text-sm mt-2">${t.title}</h4>
                     </div>
@@ -713,6 +718,14 @@
                     </button>
                 </div>
             `).join('');
+        }
+
+        function deleteTest(id) {
+            if (!isAdmin) return;
+            if (confirm('هل أنت متأكد من رغبتك في حذف هذا الاختبار نهائياً؟')) {
+                db.collection('tests').doc(id).delete()
+                    .catch(err => alert('حدث خطأ أثناء الحذف: ' + err.message));
+            }
         }
 
         function renderCATable() {
