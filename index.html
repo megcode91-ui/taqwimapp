@@ -156,7 +156,6 @@
                             <tr>
                                 <th class="p-3 text-center rounded-tr-xl font-bold">الرتبة</th>
                                 <th class="p-3 font-bold text-slate-900">الاسم الكامل</th>
-                                <th class="p-3">الجنس</th>
                                 <th class="p-3 text-center">معدل الاختبارات الأسبوعية</th>
                                 <th class="p-3 text-center">معدل المراقبة المستمرة الإجمالي</th>
                                 <th class="p-3 text-center bg-blue-900 text-white font-black">المعدل التراكمي الإجمالي</th>
@@ -232,7 +231,7 @@
     </div>
 
     <!-- Modals -->
-    <!-- Modal: إضافة تلميذ -->
+    <!-- Modal: إضافة تلميذ (تم الإبقاء على تحديد الجنس هنا) -->
     <div id="modal-student" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4">
             <h3 class="text-base font-bold">إضافة تلميذ جديد</h3>
@@ -657,7 +656,7 @@
             const ranked = getRankedStudentsForLevel(currentLevel);
 
             if (ranked.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-slate-400">لا يوجد تلاميذ مضافون في هذا المستوى.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400">لا يوجد تلاميذ مضافون في هذا المستوى.</td></tr>`;
                 return;
             }
 
@@ -671,7 +670,6 @@
                             <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">#${item.rank}</span>
                         </td>
                         <td class="p-3 font-bold text-slate-900">${s.fullName} ${isSelectedVisitor ? '<span class="text-xs text-amber-600">(أنت)</span>' : ''}</td>
-                        <td class="p-3 text-slate-600">${s.gender}</td>
                         <td class="p-3 text-center font-semibold text-slate-700">${item.stats.weeklyAvg}</td>
                         <td class="p-3 text-center font-semibold text-slate-700">${item.stats.caAvg}</td>
                         <td class="p-3 text-center bg-blue-50 font-black text-blue-900 text-base border-r border-l border-blue-200">
