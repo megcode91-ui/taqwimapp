@@ -3,725 +3,935 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قسمي v1 - فضاء خاص بالمعلم والتلاميذ</title>
+    <title>تطبيق قسمي - Qismi v1.1</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Tajawal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
-        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
-        .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; font-weight: 800; }
-        .hidden-section { display: none; }
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body { font-family: 'Tajawal', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
     </style>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
-<body class="text-gray-800">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- شريط الموسم الدراسي -->
-    <div class="bg-blue-900 text-blue-100 text-xs py-1.5 text-center font-medium">
-        <i class="fas fa-calendar-alt ml-1"></i> الموسم الدراسي: 7 شتنبر - 30 يونيو | 
-        <span id="school-countdown" class="text-yellow-300 font-bold">جاري الحساب...</span>
-    </div>
+    <!-- Header / Navbar -->
+    <header class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="bg-white text-blue-900 p-2.5 rounded-xl font-black text-2xl shadow">Q</div>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-wide">قسمي <span class="text-amber-400 text-sm font-normal">v1.1</span></h1>
+                    <p class="text-xs text-blue-200">فضاء التلميذ والأستاذ وولي الأمر</p>
+                </div>
+            </div>
 
-    <!-- Header -->
-    <header class="bg-blue-700 text-white p-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-extrabold tracking-wide"><i class="fas fa-school ml-2"></i> قسمي v1</h1>
-            <div class="text-sm opacity-90 hidden md:block">فضاء خاص بالمعلم، التلاميذ، وأولياء الأمور</div>
+            <!-- Switch Level -->
+            <div class="flex bg-blue-950/40 p-1.5 rounded-xl border border-blue-400/30">
+                <button onclick="switchLevel('5')" id="btn-lvl-5" class="px-4 py-1.5 rounded-lg text-sm font-bold transition">المستوى الخامس</button>
+                <button onclick="switchLevel('6')" id="btn-lvl-6" class="px-4 py-1.5 rounded-lg text-sm font-bold transition">المستوى السادس</button>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="flex items-center gap-2">
+                <!-- Visitor Login Button -->
+                <button onclick="openVisitorModal()" class="bg-emerald-500 hover:bg-emerald-400 text-white font-bold px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-user"></i> دخول التلميذ/الولي
+                </button>
+
+                <!-- Admin Auth Button Status -->
+                <div id="auth-section">
+                    <div id="user-info" class="hidden flex items-center gap-2">
+                        <span id="admin-badge" class="bg-amber-400 text-blue-950 px-2 py-1 rounded-lg text-xs font-black">أستاذ معتمد</span>
+                        <button onclick="logout()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                            خروج
+                        </button>
+                    </div>
+                    <button id="login-btn" onclick="openLoginModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow border border-blue-400">
+                        <i class="fa-solid fa-lock"></i> دخول الأستاذ
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-40">
-        <div class="container mx-auto flex overflow-x-auto">
-            <button onclick="showTab('students')" id="tab-students" class="tab-btn flex-1 py-4 px-4 text-center hover:bg-blue-50 transition tab-active">
-                <i class="fas fa-users ml-2"></i> التلاميذ
-            </button>
-            <button onclick="showTab('weekly-tests')" id="tab-weekly-tests" class="tab-btn flex-1 py-4 px-4 text-center hover:bg-blue-50 transition">
-                <i class="fas fa-file-alt ml-2"></i> الاختبارات الأسبوعية
-            </button>
-            <button onclick="showTab('continuous-assessment')" id="tab-continuous-assessment" class="tab-btn flex-1 py-4 px-4 text-center hover:bg-blue-50 transition">
-                <i class="fas fa-clipboard-check ml-2"></i> المراقبة المستمرة
-            </button>
-            <button onclick="showTab('announcements')" id="tab-announcements" class="tab-btn flex-1 py-4 px-4 text-center hover:bg-blue-50 transition">
-                <i class="fas fa-bullhorn ml-2"></i> إعلانات هامة
-            </button>
-            <button onclick="showTab('penalties')" id="tab-penalties" class="tab-btn flex-1 py-4 px-4 text-center hover:bg-blue-50 transition">
-                <i class="fas fa-gavel ml-2"></i> التحفيز والعقوبات
-            </button>
+    <!-- Announcement Bar -->
+    <div class="bg-amber-500 text-slate-900 font-medium text-sm py-2 px-4 shadow-inner flex items-center justify-between">
+        <div class="max-w-7xl mx-auto w-full flex items-center gap-2 overflow-x-auto">
+            <span class="bg-rose-700 text-white font-bold px-2.5 py-0.5 rounded-md text-xs shrink-0 animate-pulse">
+                <i class="fa-solid fa-bullhorn ml-1"></i> إعلان هام
+            </span>
+            <div id="announcements-list" class="flex gap-6 text-xs md:text-sm font-semibold whitespace-nowrap">
+                <span>جاري تحميل الاختبارات البرمجة مستقبلياً...</span>
+            </div>
         </div>
-    </nav>
+    </div>
 
     <!-- Main Content -->
-    <main class="container mx-auto p-4 fade-in">
-        
-        <!-- Students Tab -->
-        <section id="students" class="tab-content">
-            <!-- نجم الأسبوع -->
-            <div id="star-of-the-week-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></div>
+    <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-grow">
+        <!-- Navigation Tabs -->
+        <div class="flex border-b border-slate-200 mb-6 gap-2 overflow-x-auto">
+            <button onclick="switchTab('students')" id="tab-students" class="tab-btn active border-b-2 border-blue-600 font-bold text-blue-600 pb-3 px-4 text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-users"></i> ركن التلاميذ
+            </button>
+            <button onclick="switchTab('weekly')" id="tab-weekly" class="tab-btn text-slate-500 font-medium pb-3 px-4 text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-calendar-check"></i> الاختبارات الأسبوعية
+            </button>
+            <button onclick="switchTab('ca')" id="tab-ca" class="tab-btn text-slate-500 font-medium pb-3 px-4 text-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-file-signature"></i> المراقبة المستمرة
+            </button>
+            <button id="tab-incentives-btn" onclick="switchTab('incentives')" class="tab-btn text-slate-500 font-medium pb-3 px-4 text-sm flex items-center gap-2 whitespace-nowrap hidden">
+                <i class="fa-solid fa-award"></i> السلوك والتحفيز (خاص بالأستاذ)
+            </button>
+        </div>
 
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-700">قائمة التلاميذ</h2>
-                <button onclick="openModal('addStudentModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow">
-                    <i class="fas fa-plus ml-2"></i> إضافة تلميذ
-                </button>
-            </div>
-            
-            <!-- Level 5 -->
-            <div class="mb-8">
-                <h3 class="text-xl font-bold text-blue-800 mb-3 border-b-2 border-blue-200 pb-2 flex items-center">
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded ml-2">المستوى 5</span> الخامس ابتدائي
-                </h3>
-                <div class="overflow-x-auto bg-white rounded-lg shadow">
-                    <table class="w-full text-right">
-                        <thead class="bg-gray-100 text-gray-600">
-                            <tr>
-                                <th class="p-3 border-b">المعدل التراكمي</th>
-                                <th class="p-3 border-b">الاسم الكامل</th>
-                                <th class="p-3 border-b">الجنس</th>
-                                <th class="p-3 border-b">معدل الأسبوعي</th>
-                                <th class="p-3 border-b">معدل المراقبة</th>
-                                <th class="p-3 border-b">إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="students-level-5-body"></tbody>
-                    </table>
+        <!-- Section 1: Students List -->
+        <section id="section-students" class="space-y-4">
+            <div class="flex justify-between items-center flex-wrap gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">
+                        قائمة تلاميذ <span id="current-level-title" class="text-blue-600">المستوى الخامس</span>
+                    </h2>
+                    <p class="text-xs text-slate-500">المستويات مستقلة كلياً ولا يتم دمجها</p>
                 </div>
-            </div>
-
-            <!-- Level 6 -->
-            <div class="mb-8">
-                <h3 class="text-xl font-bold text-green-800 mb-3 border-b-2 border-green-200 pb-2 flex items-center">
-                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded ml-2">المستوى 6</span> السادس ابتدائي
-                </h3>
-                <div class="overflow-x-auto bg-white rounded-lg shadow">
-                    <table class="w-full text-right">
-                        <thead class="bg-gray-100 text-gray-600">
-                            <tr>
-                                <th class="p-3 border-b">المعدل التراكمي</th>
-                                <th class="p-3 border-b">الاسم الكامل</th>
-                                <th class="p-3 border-b">الجنس</th>
-                                <th class="p-3 border-b">معدل الأسبوعي</th>
-                                <th class="p-3 border-b">معدل المراقبة</th>
-                                <th class="p-3 border-b">إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="students-level-6-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Weekly Tests Tab -->
-        <section id="weekly-tests" class="tab-content hidden-section">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-700">الاختبارات الأسبوعية</h2>
-                <button onclick="openModal('addTestModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow">
-                    <i class="fas fa-plus ml-2"></i> برمجة اختبار
+                <!-- زر إضافة تلميذ ظاهر للجميع ويطلب الدخول إذا لم تكن أدمن -->
+                <button onclick="handleAddStudentButtonClick()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-sm transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-user-plus"></i> إضافة تلميذ جديد
                 </button>
             </div>
-            <div id="weekly-tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-        </section>
 
-        <!-- Continuous Assessment Tab -->
-        <section id="continuous-assessment" class="tab-content hidden-section">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-700">المراقبة المستمرة</h2>
-                <button onclick="openModal('addCAModal')" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition shadow">
-                    <i class="fas fa-plus ml-2"></i> إضافة تقييم
-                </button>
-            </div>
-            <div id="ca-tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-        </section>
-
-        <!-- Announcements Tab -->
-        <section id="announcements" class="tab-content hidden-section">
-            <h2 class="text-2xl font-bold text-gray-700 mb-6"><i class="fas fa-bullhorn text-yellow-500 ml-2"></i>إعلانات هامة (اختبارات مستقبلية)</h2>
-            <div id="announcements-list" class="space-y-4"></div>
-        </section>
-
-        <!-- Penalties Tab -->
-        <section id="penalties" class="tab-content hidden-section">
-            <h2 class="text-2xl font-bold text-gray-700 mb-6">سجل التحفيز والعقوبات</h2>
-            <div class="bg-white p-6 rounded-lg shadow mb-6 border-r-4 border-red-500">
-                <h3 class="text-lg font-bold mb-4 text-red-700">تسجيل حدث جديد</h3>
-                <form id="penaltyForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <select id="penalty-student" class="border p-2 rounded focus:ring-2 focus:ring-red-200 outline-none" required>
-                        <option value="">اختر التلميذ</option>
-                    </select>
-                    <select id="penalty-type" class="border p-2 rounded focus:ring-2 focus:ring-red-200 outline-none" required onchange="updatePenaltyDescription()">
-                        <option value="">نوع الحدث</option>
-                        <option value="activity_weak">نشاط إضافي (ضعيف التأثير)</option>
-                        <option value="activity_strong">نشاط تميزي (قوي التأثير)</option>
-                        <option value="absence_unjustified">تغيب غير مبرر</option>
-                        <option value="homework_missing">عدم إنجاز الوجبات</option>
-                        <option value="cheating">حالة غش</option>
-                        <option value="disruption_major">شغب جسيم</option>
-                        <option value="rank_drop_1">تراجع برتبة واحدة</option>
-                        <option value="rank_drop_2">تراجع برتبتين</option>
-                        <option value="rank_drop_3">تراجع بـ 3 رتب</option>
-                        <option value="rank_drop_3_plus">تراجع بأكثر من 3 رتب</option>
-                    </select>
-                    <input type="date" id="penalty-date" class="border p-2 rounded focus:ring-2 focus:ring-red-200 outline-none" required>
-                    <input type="text" id="penalty-notes" class="border p-2 rounded focus:ring-2 focus:ring-red-200 outline-none" placeholder="ملاحظات إضافية (اختياري)">
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 md:col-span-2 font-bold transition">تسجيل الحدث</button>
-                </form>
-                <div id="penalty-description" class="mt-4 text-sm text-gray-700 bg-gray-50 p-3 rounded border border-gray-200"></div>
-            </div>
-            
-            <div class="bg-white rounded-lg shadow overflow-x-auto">
-                <table class="w-full text-right">
-                    <thead class="bg-gray-100">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-right text-sm">
+                    <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
                         <tr>
-                            <th class="p-3 border-b">التاريخ</th>
-                            <th class="p-3 border-b">التلميذ</th>
-                            <th class="p-3 border-b">الحدث</th>
-                            <th class="p-3 border-b">تأثير الأسبوعي</th>
-                            <th class="p-3 border-b">تأثير التراكمي</th>
-                            <th class="p-3 border-b">ظاهر للزوار</th>
-                            <th class="p-3 border-b">إجراء</th>
+                            <!-- 19. المعدل التراكمي الإجمالي في أقصى اليسار -->
+                            <th class="p-3 text-center bg-blue-900 text-white font-black text-sm rounded-tr-xl">المعدل التراكمي الإجمالي</th>
+                            <th class="p-3 text-center">معدل الاختبارات الأسبوعية</th>
+                            <th class="p-3 text-center">معدل المراقبة المستمرة</th>
+                            <th class="p-3 text-center">الرتبة</th>
+                            <th class="p-3">المستوى</th>
+                            <th class="p-3">الجنس</th>
+                            <th class="p-3 font-bold">الاسم الكامل</th>
+                            <th class="p-3 text-center">الفضاء الخاص</th>
+                            <th class="p-3 text-center admin-only hidden">إجراءات</th>
                         </tr>
                     </thead>
-                    <tbody id="penalties-list"></tbody>
+                    <tbody id="students-table-body" class="divide-y divide-slate-100">
+                        <!-- Dynamic content -->
+                    </tbody>
                 </table>
+            </div>
+        </section>
+
+        <!-- Section 2: Weekly Tests -->
+        <section id="section-weekly" class="space-y-4 hidden">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+                <h2 class="text-xl font-bold text-slate-800">الاختبارات الأسبوعية</h2>
+                <button onclick="openAddTestModal()" class="admin-only hidden bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-sm transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-plus"></i> برمجة اختبار أسبوعي
+                </button>
+            </div>
+            <div id="weekly-tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Dynamic tests -->
+            </div>
+        </section>
+
+        <!-- Section 3: Continuous Assessment -->
+        <section id="section-ca" class="space-y-4 hidden">
+            <h2 class="text-xl font-bold text-slate-800">نقط المراقبة المستمرة (مسك النقط مباشرة)</h2>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+                <table class="w-full text-right text-sm">
+                    <thead class="bg-slate-50 text-slate-600 text-xs">
+                        <tr>
+                            <th class="p-3">التلميذ</th>
+                            <th class="p-3 text-center">اللغة الفرنسية</th>
+                            <th class="p-3 text-center">الرياضيات</th>
+                            <th class="p-3 text-center">النشاط العلمي</th>
+                            <th class="p-3 text-center font-bold">معدل المراقبة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ca-table-body" class="divide-y divide-slate-100">
+                        <!-- Dynamic Grades Inputs -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Behavior (Admin Only) -->
+        <section id="section-incentives" class="space-y-4 hidden">
+            <h2 class="text-xl font-bold text-slate-800">إدارة التحفيزات والعقوبات (خاص بالأستاذ)</h2>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <form id="behavior-form" onsubmit="saveBehaviorLog(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold mb-1">اختر التلميذ:</label>
+                        <select id="behavior-student-select" required class="w-full border rounded-xl p-2.5 text-sm"></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">نوع الإجراء:</label>
+                        <select id="behavior-type" required class="w-full border rounded-xl p-2.5 text-sm">
+                            <option value="extra">نشاط إضافي (+0.1 أسبوعي)</option>
+                            <option value="distinct">نشاط تميزي (+0.1 أسبوعي و +0.01 إجمالي)</option>
+                            <option value="absent_unexcused">تغيب غير مبرر (-0.3 أسبوعي)</option>
+                            <option value="no_homework">عدم إنجاز الواجبات (-0.05 أسبوعي)</option>
+                            <option value="cheating">حالة غش (-0.5 أسبوعي - سري للأدمن فقط)</option>
+                            <option value="severe_misconduct">شغب جسيم (-0.5 أسبوعي و -0.1 إجمالي - سري)</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-1 flex items-end">
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm transition">
+                            تسجيل الإجراء
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="bg-white p-4 rounded-2xl border border-slate-200">
+                <h3 class="font-bold text-sm mb-3">سجل ملاحظات السلوك المسجلة</h3>
+                <div id="behavior-logs-list" class="space-y-2 text-xs">
+                    <!-- Logs -->
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- Modals -->
-    <!-- Add Student Modal -->
-    <div id="addStudentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-2xl">
-            <h3 class="text-xl font-bold mb-4 text-blue-800">إضافة تلميذ جديد</h3>
-            <form id="addStudentForm" class="space-y-4">
-                <input type="text" id="student-name" placeholder="الاسم الكامل" class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-200 outline-none" required>
-                <select id="student-gender" class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-200 outline-none" required>
-                    <option value="ذكر">ذكر</option>
-                    <option value="أنثى">أنثى</option>
-                </select>
-                <select id="student-level" class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-200 outline-none" required>
-                    <option value="5">الخامس ابتدائي</option>
-                    <option value="6">السادس ابتدائي</option>
-                </select>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('addStudentModal')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">إلغاء</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">حفظ</button>
+    <!-- Modal Teacher Login (Email & Password) -->
+    <div id="modal-login" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-bold text-slate-900">دخول الأستاذ (البريد والقن السري)</h3>
+                <button onclick="closeModal('modal-login')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="loginWithEmail(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold mb-1">البريد الإلكتروني للأستاذ</label>
+                    <input type="email" id="login-email" required placeholder="meg.code91@gmail.com" class="w-full border rounded-xl p-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">القن السري (كلمة المرور)</label>
+                    <input type="password" id="login-password" required placeholder="******" class="w-full border rounded-xl p-2.5 text-sm">
+                </div>
+                <div class="text-xs text-slate-500">
+                    * متاح فقط للبريدين المعتمدين: meg.code91@gmail.com أو meg.taalim@gmail.com
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="registerTeacherEmail(event)" class="px-3 py-2 text-xs rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">إنشاء حساب أستاذ جديد</button>
+                    <button type="submit" class="px-5 py-2 text-sm rounded-xl bg-blue-600 text-white font-bold">دخول</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Add Test Modal -->
-    <div id="addTestModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-2xl">
-            <h3 class="text-xl font-bold mb-4 text-blue-800">برمجة اختبار أسبوعي</h3>
-            <form id="addTestForm" class="space-y-4">
-                <select id="test-level" class="w-full border p-2 rounded" required>
-                    <option value="5">الخامس ابتدائي</option>
-                    <option value="6">السادس ابتدائي</option>
-                </select>
-                <select id="test-subject" class="w-full border p-2 rounded" required>
-                    <option value="اللغة الفرنسية">اللغة الفرنسية</option>
-                    <option value="الرياضيات">الرياضيات</option>
-                    <option value="النشاط العلمي">النشاط العلمي</option>
-                </select>
-                <input type="date" id="test-date" class="w-full border p-2 rounded" required>
-                <input type="number" id="test-max-score" class="w-full border p-2 rounded" placeholder="العلامة الكاملة (مثال: 10)" value="10" required>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('addTestModal')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">إلغاء</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">حفظ</button>
+    <!-- Modal Visitor Access (دخول التلميذ بالاسم فقط) -->
+    <div id="modal-visitor" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-bold text-slate-900">دخول فضاء التلميذ / ولي الأمر</h3>
+                <button onclick="closeModal('modal-visitor')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold mb-1">اختر اسم التلميذ للولوج إلى فضائه:</label>
+                    <select id="visitor-student-select" class="w-full border rounded-xl p-2.5 text-sm"></select>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add CA Modal -->
-    <div id="addCAModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-2xl">
-            <h3 class="text-xl font-bold mb-4 text-green-800">إضافة تقييم مراقبة مستمرة</h3>
-            <form id="addCAForm" class="space-y-4">
-                <select id="ca-level" class="w-full border p-2 rounded" required>
-                    <option value="5">الخامس ابتدائي</option>
-                    <option value="6">السادس ابتدائي</option>
-                </select>
-                <select id="ca-subject" class="w-full border p-2 rounded" required>
-                    <option value="اللغة الفرنسية">اللغة الفرنسية</option>
-                    <option value="الرياضيات">الرياضيات</option>
-                    <option value="النشاط العلمي">النشاط العلمي</option>
-                </select>
-                <input type="date" id="ca-date" class="w-full border p-2 rounded" required>
-                <input type="number" id="ca-max-score" class="w-full border p-2 rounded" placeholder="العلامة الكاملة (مثال: 10)" value="10" required>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('addCAModal')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">إلغاء</button>
-                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">حفظ</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Enter Grades Modal -->
-    <div id="enterGradesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 overflow-y-auto">
-        <div class="bg-white p-6 rounded-lg w-full max-w-2xl my-8 shadow-2xl">
-            <h3 class="text-xl font-bold mb-4" id="grades-modal-title">إدخال النقط</h3>
-            <form id="enterGradesForm" class="space-y-4">
-                <input type="hidden" id="grade-test-id">
-                <input type="hidden" id="grade-test-type">
-                <div id="grades-inputs-container" class="space-y-2 max-h-96 overflow-y-auto p-2 bg-gray-50 rounded"></div>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('enterGradesModal')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">إلغاء</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">حفظ النقط</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Student Profile Modal -->
-    <div id="studentProfileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 overflow-y-auto">
-        <div class="bg-white p-6 rounded-lg w-full max-w-2xl my-8 shadow-2xl">
-            <h3 class="text-xl font-bold mb-4 text-blue-800" id="profile-modal-title">ملف التلميذ</h3>
-            <div id="profile-content" class="space-y-4"></div>
-            <div class="flex justify-end gap-2 mt-6">
-                <button type="button" onclick="closeModal('studentProfileModal')" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">إغلاق</button>
+                <button onclick="openStudentSpaceFromSelect()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-sm transition">
+                    دخول الفضاء الخاص
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase & App Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDINWHZW3yo9a7Ch1fDFgGlePnD4dvovzs",
-            authDomain: "taqwim-d363e.firebaseapp.com",
-            projectId: "taqwim-d363e",
-            storageBucket: "taqwim-d363e.firebasestorage.app",
-            messagingSenderId: "996744665537",
-            appId: "1:996744665537:web:018aee25726259f8507740",
-            measurementId: "G-Q248VTXCG0"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const db = getFirestore(app);
-
-        window.db = db;
-
-        // قواعد التحفيز والعقوبات
-        const penaltyRules = {
-            'activity_weak': { name: 'نشاط إضافي (ضعيف التأثير)', weeklyAdj: 0.1, cumulativeAdj: 0, isVisibleToVisitor: true },
-            'activity_strong': { name: 'نشاط تميزي (قوي التأثير)', weeklyAdj: 0.1, cumulativeAdj: 0.01, isVisibleToVisitor: true },
-            'absence_unjustified': { name: 'تغيب غير مبرر', weeklyAdj: -0.3, cumulativeAdj: 0, isVisibleToVisitor: true },
-            'homework_missing': { name: 'عدم إنجاز الوجبات', weeklyAdj: -0.05, cumulativeAdj: 0, isVisibleToVisitor: true },
-            'cheating': { name: 'حالة غش', weeklyAdj: -0.5, cumulativeAdj: 0, isVisibleToVisitor: false },
-            'disruption_major': { name: 'شغب جسيم', weeklyAdj: -0.5, cumulativeAdj: -0.1, isVisibleToVisitor: false },
-            'rank_drop_1': { name: 'تراجع برتبة واحدة', weeklyAdj: 0, cumulativeAdj: -0.1, isVisibleToVisitor: false },
-            'rank_drop_2': { name: 'تراجع برتبتين', weeklyAdj: 0, cumulativeAdj: -0.2, isVisibleToVisitor: false },
-            'rank_drop_3': { name: 'تراجع بـ 3 رتب', weeklyAdj: 0, cumulativeAdj: -0.3, isVisibleToVisitor: false },
-            'rank_drop_3_plus': { name: 'تراجع بأكثر من 3 رتب', weeklyAdj: 0, cumulativeAdj: -0.5, isVisibleToVisitor: false }
-        };
-
-        // عداد الموسم الدراسي
-        function updateCountdown() {
-            const targetDate = new Date('2026-09-07T00:00:00');
-            const now = new Date();
-            const diff = targetDate - now;
-            if (diff > 0) {
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('school-countdown').innerText = `متبقي ${days} يوم على انطلاق الموسم الدراسي`;
-            } else {
-                document.getElementById('school-countdown').innerText = `الموسم الدراسي منطلق! (نهاية الموسم: 30 يونيو)`;
-            }
-        }
-        updateCountdown();
-
-        // دوال الواجهة
-        window.showTab = function(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden-section'));
-            document.getElementById(tabId).classList.remove('hidden-section');
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('tab-active'));
-            document.getElementById('tab-' + tabId).classList.add('tab-active');
-            
-            if(tabId === 'students') { loadStudents(); loadStarOfTheWeek(); }
-            if(tabId === 'weekly-tests') loadTests('weekly');
-            if(tabId === 'continuous-assessment') loadTests('continuous');
-            if(tabId === 'announcements') loadAnnouncements();
-            if(tabId === 'penalties') loadPenalties();
-        }
-
-        window.openModal = function(modalId) { document.getElementById(modalId).classList.remove('hidden'); }
-        window.closeModal = function(modalId) { document.getElementById(modalId).classList.add('hidden'); }
-
-        // حساب إحصائيات التلميذ
-        async function calculateStudentStats(studentId) {
-            const weeklyQ = query(collection(db, "scores"), where("studentId", "==", studentId), where("type", "==", "weekly"));
-            const weeklySnap = await getDocs(weeklyQ);
-            let weeklySum = 0, weeklyCount = 0;
-            weeklySnap.forEach(d => { weeklySum += (d.data().score / d.data().maxScore) * 10; weeklyCount++; });
-            const weeklyAvg = weeklyCount > 0 ? (weeklySum / weeklyCount) : 0;
-
-            const caQ = query(collection(db, "scores"), where("studentId", "==", studentId), where("type", "==", "continuous"));
-            const caSnap = await getDocs(caQ);
-            let caSum = 0, caCount = 0;
-            caSnap.forEach(d => { caSum += (d.data().score / d.data().maxScore) * 10; caCount++; });
-            const caAvg = caCount > 0 ? (caSum / caCount) : 0;
-
-            let baseCumulative = 0;
-            if (weeklyCount > 0 && caCount > 0) baseCumulative = (weeklyAvg + caAvg) / 2;
-            else if (weeklyCount > 0) baseCumulative = weeklyAvg;
-            else if (caCount > 0) baseCumulative = caAvg;
-
-            const eventsQ = query(collection(db, "events"), where("studentId", "==", studentId));
-            const eventsSnap = await getDocs(eventsQ);
-            let totalWeeklyAdj = 0, totalCumulativeAdj = 0;
-            eventsSnap.forEach(d => {
-                if (!d.data().isReversed) {
-                    totalWeeklyAdj += d.data().weeklyAdj || 0;
-                    totalCumulativeAdj += d.data().cumulativeAdj || 0;
-                }
-            });
-
-            return {
-                weeklyAvg: weeklyAvg + totalWeeklyAdj,
-                caAvg: caAvg,
-                cumulativeAvg: Math.max(0, baseCumulative + totalCumulativeAdj) // لا يقل عن 0
-            };
-        }
-
-        // تحميل التلاميذ
-        async function loadStudents() {
-            const q = query(collection(db, "students"), orderBy("createdAt", "desc"));
-            const querySnapshot = await getDocs(q);
-            const students = [];
-            querySnapshot.forEach((d) => students.push({ id: d.id, ...d.data() }));
-            
-            const studentsWithStats = await Promise.all(students.map(async (student) => {
-                return { ...student, ...(await calculateStudentStats(student.id)) };
-            }));
-
-            const level5Body = document.getElementById('students-level-5-body');
-            const level6Body = document.getElementById('students-level-6-body');
-            level5Body.innerHTML = ''; level6Body.innerHTML = '';
-
-            studentsWithStats.forEach(student => {
-                const row = `
-                    <tr class="border-b hover:bg-gray-50 transition">
-                        <td class="p-3 font-extrabold text-blue-700 text-lg">${student.cumulativeAvg.toFixed(2)}</td>
-                        <td class="p-3 font-medium">${student.name}</td>
-                        <td class="p-3 text-gray-600">${student.gender}</td>
-                        <td class="p-3">${student.weeklyAvg.toFixed(2)}</td>
-                        <td class="p-3">${student.caAvg.toFixed(2)}</td>
-                        <td class="p-3">
-                            <button onclick="openStudentProfile('${student.id}')" class="text-blue-600 hover:text-blue-800 ml-3" title="الملف الشخصي"><i class="fas fa-user-circle text-xl"></i></button>
-                        </td>
-                    </tr>
-                `;
-                if (student.level === '5') level5Body.innerHTML += row;
-                else level6Body.innerHTML += row;
-            });
-        }
-
-        // نجم الأسبوع
-        window.loadStarOfTheWeek = async function() {
-            const studentsSnap = await getDocs(collection(db, "students"));
-            let best5 = null, best6 = null, max5 = -1, max6 = -1;
-
-            for (const d of studentsSnap.docs) {
-                const student = { id: d.id, ...d.data() };
-                const stats = await calculateStudentStats(student.id);
-                if (student.level === '5' && stats.cumulativeAvg > max5) { max5 = stats.cumulativeAvg; best5 = { ...student, ...stats }; }
-                else if (student.level === '6' && stats.cumulativeAvg > max6) { max6 = stats.cumulativeAvg; best6 = { ...student, ...stats }; }
-            }
-
-            const container = document.getElementById('star-of-the-week-container');
-            container.innerHTML = '';
-            const starHtml = (level, data) => `
-                <div class="bg-gradient-to-l from-yellow-50 to-yellow-100 border border-yellow-300 rounded-lg p-4 flex items-center shadow-md">
-                    <i class="fas fa-crown text-yellow-500 text-4xl ml-4 animate-pulse"></i>
-                    <div>
-                        <h4 class="font-bold text-yellow-800 text-lg">نجم الأسبوع - المستوى ${level === '5' ? 'الخامس' : 'السادس'}</h4>
-                        <p class="text-yellow-700 font-medium">${data.name} <span class="text-sm opacity-75">(المعدل التراكمي: ${data.cumulativeAvg.toFixed(2)})</span></p>
-                        <p class="text-xs text-yellow-600 mt-1">* يُحدّد تلقائياً بناءً على أعلى معدل تراكمي</p>
-                    </div>
+    <!-- Modal Student Personal Space (فضاء التلميذ الخاص) -->
+    <div id="modal-student-space" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <div>
+                    <h3 id="space-student-name" class="text-xl font-extrabold text-blue-900">--</h3>
+                    <p id="space-student-level" class="text-xs text-slate-500">--</p>
                 </div>
-            `;
-            if (best5) container.innerHTML += starHtml('5', best5);
-            if (best6) container.innerHTML += starHtml('6', best6);
-        }
+                <button onclick="closeModal('modal-student-space')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
 
-        // تحميل الاختبارات
-        async function loadTests(type) {
-            const q = query(collection(db, "tests"), where("type", "==", type), orderBy("date", "desc"));
-            const querySnapshot = await getDocs(q);
-            const container = type === 'weekly' ? document.getElementById('weekly-tests-list') : document.getElementById('ca-tests-list');
-            container.innerHTML = '';
-            
-            querySnapshot.forEach((d) => {
-                const test = { id: d.id, ...d.data() };
-                const isFuture = new Date(test.date) > new Date();
-                const card = `
-                    <div class="bg-white p-4 rounded-lg shadow border-r-4 ${type === 'weekly' ? 'border-blue-500' : 'border-green-500'} hover:shadow-lg transition">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h4 class="font-bold text-lg">${test.subject}</h4>
-                                <p class="text-sm text-gray-600">المستوى: ${test.level === '5' ? 'الخامس' : 'السادس'}</p>
-                                <p class="text-sm text-gray-600">التاريخ: ${test.date}</p>
-                                <p class="text-sm text-gray-500 mt-1">العلامة الكاملة: ${test.maxScore}</p>
-                            </div>
-                            <button onclick="openGradesModalForTest('${test.id}', '${type}', '${test.subject}')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm transition">
-                                <i class="fas fa-edit ml-1"></i> إدخال النقط
-                            </button>
-                        </div>
-                        ${isFuture && type === 'weekly' ? '<span class="inline-block mt-3 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-bold"><i class="fas fa-exclamation-circle ml-1"></i>سيظهر في الإعلانات الهامة</span>' : ''}
-                    </div>
-                `;
-                container.innerHTML += card;
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                <div class="bg-blue-900 text-white p-3 rounded-xl">
+                    <span class="block text-xs">المعدل التراكمي</span>
+                    <span id="space-cumulative" class="text-xl font-black">--</span>
+                </div>
+                <div class="bg-amber-100 text-amber-900 p-3 rounded-xl">
+                    <span class="block text-xs">الرتبة بالحصلة</span>
+                    <span id="space-rank" class="text-xl font-black">--</span>
+                </div>
+                <div class="bg-slate-100 p-3 rounded-xl">
+                    <span class="block text-xs">معدل الاختبارات</span>
+                    <span id="space-weekly-avg" class="text-lg font-bold">--</span>
+                </div>
+                <div class="bg-slate-100 p-3 rounded-xl">
+                    <span class="block text-xs">معدل المراقبة</span>
+                    <span id="space-ca-avg" class="text-lg font-bold">--</span>
+                </div>
+            </div>
+
+            <!-- Public Notes & Behavior -->
+            <div class="border rounded-xl p-4 space-y-2 bg-slate-50">
+                <h4 class="font-bold text-sm text-slate-800">سجل التقييم والتنبيهات العامة:</h4>
+                <div id="space-behavior-logs" class="space-y-1.5 text-xs">
+                    <!-- Dynamic student public logs -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Student -->
+    <div id="modal-student" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4">
+            <h3 class="text-lg font-bold text-slate-900">إضافة تلميذ جديد</h3>
+            <form onsubmit="addStudent(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold mb-1">الاسم الكامل للتلميذ</label>
+                    <input type="text" id="std-fullname" required placeholder="مثال: محمد الأحمدي" class="w-full border rounded-xl p-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">الجنس</label>
+                    <select id="std-gender" class="w-full border rounded-xl p-2.5 text-sm">
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-student')" class="px-4 py-2 text-sm rounded-xl border">إلغاء</button>
+                    <button type="submit" class="px-4 py-2 text-sm rounded-xl bg-blue-600 text-white font-bold">حفظ التلميذ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Add Test -->
+    <div id="modal-test" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4">
+            <h3 class="text-lg font-bold">برمجة اختبار أسبوعي جديد</h3>
+            <form onsubmit="addTest(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold mb-1">المادة</label>
+                    <select id="test-subject" class="w-full border rounded-xl p-2.5 text-sm">
+                        <option value="اللغة الفرنسية">اللغة الفرنسية</option>
+                        <option value="الرياضيات">الرياضيات</option>
+                        <option value="النشاط العلمي">النشاط العلمي</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">عنوان الاختبار</label>
+                    <input type="text" id="test-title" required placeholder="مثال: اختبار الرياضيات الأسبوع 2" class="w-full border rounded-xl p-2.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">تاريخ الاختبار</label>
+                    <input type="date" id="test-date" required class="w-full border rounded-xl p-2.5 text-sm">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-test')" class="px-4 py-2 text-sm rounded-xl border">إلغاء</button>
+                    <button type="submit" class="px-4 py-2 text-sm rounded-xl bg-emerald-600 text-white font-bold">برمجة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Grades Input -->
+    <div id="modal-grades" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 max-h-[85vh] flex flex-col">
+            <h3 id="grades-modal-title" class="text-lg font-bold">مسك نقط الاختبار (النقطة مباشرة من 10)</h3>
+            <div id="grades-inputs-container" class="space-y-3 overflow-y-auto flex-grow pr-2">
+                <!-- Grades Inputs -->
+            </div>
+            <div class="flex justify-end gap-2 pt-2 border-t">
+                <button type="button" onclick="closeModal('modal-grades')" class="px-4 py-2 text-sm rounded-xl border">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
+            authDomain: "qismi-46d97.firebaseapp.com",
+            projectId: "qismi-46d97",
+            storageBucket: "qismi-46d97.firebasestorage.app",
+            messagingSenderId: "647622297258",
+            appId: "1:647622297258:web:a8e87c115588f3b718f2d3",
+            measurementId: "G-C339D9Y5GG"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const ADMIN_EMAILS = ["meg.code91@gmail.com", "meg.taalim@gmail.com"];
+
+        // --- App State ---
+        let currentLevel = '5';
+        let isAdmin = false;
+        let students = [];
+        let tests = [];
+        let behaviorLogs = [];
+
+        // --- Init ---
+        window.addEventListener('DOMContentLoaded', () => {
+            updateLevelUI();
+
+            auth.onAuthStateChanged(user => {
+                if (user && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+                    isAdmin = true;
+                    document.getElementById('user-info').classList.remove('hidden');
+                    document.getElementById('login-btn').classList.add('hidden');
+                    document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                    document.getElementById('tab-incentives-btn').classList.remove('hidden');
+                } else {
+                    isAdmin = false;
+                    document.getElementById('user-info').classList.add('hidden');
+                    document.getElementById('login-btn').classList.remove('hidden');
+                    document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+                    document.getElementById('tab-incentives-btn').classList.add('hidden');
+                }
+                renderAll();
             });
-        }
 
-        // الإعلانات الهامة
-        async function loadAnnouncements() {
-            const today = new Date().toISOString().split('T')[0];
-            const q = query(collection(db, "tests"), where("type", "==", "weekly"), where("date", ">=", today), orderBy("date", "asc"));
-            const querySnapshot = await getDocs(q);
-            const container = document.getElementById('announcements-list');
-            container.innerHTML = '';
-            
-            if (querySnapshot.empty) {
-                container.innerHTML = '<p class="text-gray-500 text-center bg-white p-6 rounded shadow">لا توجد إعلانات هامة حالياً.</p>';
+            db.collection('students').onSnapshot(snapshot => {
+                students = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAll();
+            });
+
+            db.collection('tests').onSnapshot(snapshot => {
+                tests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAll();
+            });
+
+            db.collection('behavior').onSnapshot(snapshot => {
+                behaviorLogs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAll();
+            });
+        });
+
+        // --- Auth Functions (Email & Password) ---
+        function loginWithEmail(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!ADMIN_EMAILS.includes(email.toLowerCase())) {
+                alert("عذراً، هذا البريد غير مصرح له كأستاذ.");
                 return;
             }
 
-            querySnapshot.forEach((d) => {
-                const test = d.data();
-                container.innerHTML += `
-                    <div class="bg-yellow-50 border-r-4 border-yellow-400 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-yellow-800"><i class="fas fa-bullhorn ml-2"></i> اختبار أسبوعي قادم</h4>
-                        <p class="text-gray-700 mt-1">المادة: <strong>${test.subject}</strong> | المستوى: <strong>${test.level === '5' ? 'الخامس' : 'السادس'}</strong></p>
-                        <p class="text-gray-600 text-sm mt-1">تاريخ الإنجاز: ${test.date}</p>
-                    </div>
-                `;
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    closeModal('modal-login');
+                })
+                .catch(err => alert("خطأ في الدخول: " + err.message));
+        }
+
+        function registerTeacherEmail(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!ADMIN_EMAILS.includes(email.toLowerCase())) {
+                alert("عذراً، هذا البريد غير مصرح له كأستاذ.");
+                return;
+            }
+
+            if (password.length < 6) {
+                alert("كلمة المرور يجب أن تكون 6 أحرف/أرقام على الأقل.");
+                return;
+            }
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    alert("تم إنشاء حساب الأستاذ بنجاح!");
+                    closeModal('modal-login');
+                })
+                .catch(err => alert("خطأ في إنشاء الحساب: " + err.message));
+        }
+
+        function logout() {
+            auth.signOut();
+        }
+
+        // --- Level & Tabs ---
+        function switchLevel(lvl) {
+            currentLevel = lvl;
+            updateLevelUI();
+            renderAll();
+        }
+
+        function updateLevelUI() {
+            const btn5 = document.getElementById('btn-lvl-5');
+            const btn6 = document.getElementById('btn-lvl-6');
+            if (currentLevel === '5') {
+                btn5.className = "px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-400 text-blue-950 shadow";
+                btn6.className = "px-4 py-1.5 rounded-lg text-sm font-bold text-blue-100 hover:bg-blue-900/50";
+                document.getElementById('current-level-title').innerText = "المستوى الخامس ابتدائي";
+            } else {
+                btn6.className = "px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-400 text-blue-950 shadow";
+                btn5.className = "px-4 py-1.5 rounded-lg text-sm font-bold text-blue-100 hover:bg-blue-900/50";
+                document.getElementById('current-level-title').innerText = "المستوى السادس ابتدائي";
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active', 'border-b-2', 'border-blue-600', 'font-bold', 'text-blue-600');
+                b.classList.add('text-slate-500', 'font-medium');
+            });
+
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-b-2', 'border-blue-600', 'font-bold', 'text-blue-600');
+                activeBtn.classList.remove('text-slate-500', 'font-medium');
+            }
+
+            ['students', 'weekly', 'ca', 'incentives'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+            });
+
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+        }
+
+        // --- Engine Calculations ---
+        function calculateStudentStats(student) {
+            const studentTests = tests.filter(t => t.level === student.level);
+            let weeklySum = 0;
+            let count = 0;
+
+            studentTests.forEach(t => {
+                if (student.weeklyGrades && student.weeklyGrades[t.id] !== undefined && student.weeklyGrades[t.id] !== null) {
+                    weeklySum += parseFloat(student.weeklyGrades[t.id]);
+                    count++;
+                }
+            });
+
+            let baseWeeklyAvg = count > 0 ? (weeklySum / count) : 0;
+            let weeklyMod = 0;
+            let cumulativeMod = 0;
+
+            const logs = behaviorLogs.filter(b => b.studentId === student.id);
+            logs.forEach(log => {
+                if (log.type === 'extra') weeklyMod += 0.1;
+                if (log.type === 'distinct') { weeklyMod += 0.1; cumulativeMod += 0.01; }
+                if (log.type === 'absent_unexcused' && !log.excused) weeklyMod -= 0.3;
+                if (log.type === 'no_homework') weeklyMod -= 0.05;
+                if (log.type === 'cheating') weeklyMod -= 0.5;
+                if (log.type === 'severe_misconduct') { weeklyMod -= 0.5; cumulativeMod -= 0.1; }
+            });
+
+            let finalWeeklyAvg = Math.max(0, Math.min(10, baseWeeklyAvg + weeklyMod));
+
+            // CA Avg
+            let ca = student.caGrades || {};
+            let fr = parseFloat(ca['اللغة الفرنسية'] || 0);
+            let math = parseFloat(ca['الرياضيات'] || 0);
+            let sci = parseFloat(ca['النشاط العلمي'] || 0);
+            let caCount = (ca['اللغة الفرنسية'] ? 1 : 0) + (ca['الرياضيات'] ? 1 : 0) + (ca['النشاط العلمي'] ? 1 : 0);
+            let finalCAAvg = caCount > 0 ? ((fr + math + sci) / caCount) : 0;
+
+            let baseCumulative = (finalWeeklyAvg + finalCAAvg) / 2;
+            let finalCumulative = Math.max(0, Math.min(10, baseCumulative + cumulativeMod));
+
+            return {
+                weeklyAvg: finalWeeklyAvg.toFixed(2),
+                caAvg: finalCAAvg.toFixed(2),
+                cumulativeAvg: finalCumulative.toFixed(2),
+                rawCumulative: finalCumulative
+            };
+        }
+
+        function getRankedStudentsForLevel(lvl) {
+            const levelStudents = students.filter(s => s.level === lvl);
+            let mapped = levelStudents.map(s => ({ student: s, stats: calculateStudentStats(s) }));
+
+            mapped.sort((a, b) => b.stats.rawCumulative - a.stats.rawCumulative);
+
+            return mapped.map((item, index) => {
+                let currentRank = index + 1;
+                let prevRank = item.student.previousRank || currentRank;
+                let drop = currentRank - prevRank;
+                let penalty = 0;
+
+                if (drop === 1) penalty = 0.1;
+                else if (drop === 2) penalty = 0.2;
+                else if (drop === 3) penalty = 0.3;
+                else if (drop > 3) penalty = 0.5;
+
+                let finalCum = Math.max(0, item.stats.rawCumulative - penalty);
+
+                return {
+                    ...item,
+                    rank: currentRank,
+                    finalCumulativeAvg: finalCum.toFixed(2)
+                };
             });
         }
 
-        // تحميل العقوبات
-        async function loadPenalties() {
-            const studentsSnap = await getDocs(collection(db, "students"));
-            const select = document.getElementById('penalty-student');
-            select.innerHTML = '<option value="">اختر التلميذ</option>';
-            const studentNames = {};
-            studentsSnap.forEach(d => { 
-                studentNames[d.id] = d.data().name;
-                select.innerHTML += `<option value="${d.id}">${d.data().name} (${d.data().level === '5' ? 'خامس' : 'سادس'})</option>`;
-            });
+        // --- Render UI ---
+        function renderAll() {
+            renderAnnouncements();
+            renderStudentsTable();
+            renderWeeklyTests();
+            renderCATable();
+            renderIncentivesSelect();
+            renderBehaviorLogs();
+            renderVisitorSelect();
+        }
 
-            const q = query(collection(db, "events"), orderBy("date", "desc"));
-            const querySnapshot = await getDocs(q);
-            const tbody = document.getElementById('penalties-list');
-            tbody.innerHTML = '';
+        function renderAnnouncements() {
+            const upcoming = tests.filter(t => t.level === currentLevel && new Date(t.date) >= new Date().setHours(0,0,0,0));
+            const container = document.getElementById('announcements-list');
 
-            querySnapshot.forEach((d) => {
-                const event = { id: d.id, ...d.data() };
-                const rule = penaltyRules[event.type];
-                const row = `
-                    <tr class="border-b hover:bg-gray-50 transition ${event.isReversed ? 'opacity-50 line-through bg-gray-100' : ''}">
-                        <td class="p-3">${event.date}</td>
-                        <td class="p-3 font-medium">${studentNames[event.studentId] || 'غير معروف'}</td>
-                        <td class="p-3">${rule ? rule.name : event.type}</td>
-                        <td class="p-3 ${event.weeklyAdj > 0 ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${event.weeklyAdj > 0 ? '+' : ''}${event.weeklyAdj}</td>
-                        <td class="p-3 ${event.cumulativeAdj > 0 ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${event.cumulativeAdj > 0 ? '+' : ''}${event.cumulativeAdj}</td>
-                        <td class="p-3 text-sm">${event.isVisibleToVisitor ? '<span class="text-green-600 font-bold">نعم</span>' : '<span class="text-gray-400">لا (أدمن فقط)</span>'}</td>
-                        <td class="p-3">
-                            ${!event.isReversed ? `<button onclick="reverseEvent('${d.id}')" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded font-bold transition">تراجع/تبرير</button>` : '<span class="text-xs text-gray-500 font-bold">مُلغى</span>'}
+            if (upcoming.length === 0) {
+                container.innerHTML = `<span class="text-slate-800">لا توجد اختبارات مبرمجة قادمة في هذا المستوى.</span>`;
+                return;
+            }
+
+            container.innerHTML = upcoming.map(t => `
+                <span class="bg-blue-900 text-white px-3 py-1 rounded-lg border border-blue-400">
+                    <i class="fa-solid fa-clock ml-1 text-amber-300"></i> ${t.subject} - ${t.title} (${t.date})
+                </span>
+            `).join('');
+        }
+
+        function renderStudentsTable() {
+            const tbody = document.getElementById('students-table-body');
+            const ranked = getRankedStudentsForLevel(currentLevel);
+
+            if (ranked.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center p-6 text-slate-400">لا يوجد تلاميذ مضافون في هذا المستوى. اضغط "إضافة تلميذ جديد".</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = ranked.map(item => {
+                const s = item.student;
+                return `
+                    <tr class="hover:bg-slate-50 border-b transition">
+                        <!-- 19. المعدل التراكمي الإجمالي في أقصى اليسار مبرز جلياً -->
+                        <td class="p-3 text-center bg-blue-50 font-black text-blue-900 text-base border-l border-blue-200">
+                            ${item.finalCumulativeAvg} / 10
+                        </td>
+                        <td class="p-3 text-center font-semibold text-slate-700">${item.stats.weeklyAvg}</td>
+                        <td class="p-3 text-center font-semibold text-slate-700">${item.stats.caAvg}</td>
+                        <td class="p-3 text-center">
+                            <span class="bg-amber-100 text-amber-900 font-bold px-2.5 py-1 rounded-lg text-xs">#${item.rank}</span>
+                        </td>
+                        <td class="p-3 text-slate-600">المستوى ${s.level}</td>
+                        <td class="p-3 text-slate-600">${s.gender}</td>
+                        <td class="p-3 font-bold text-slate-900">${s.fullName}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="openStudentSpace('${s.id}')" class="bg-blue-100 hover:bg-blue-200 text-blue-900 px-2.5 py-1 rounded-lg text-xs font-bold">
+                                معاينة الفضاء
+                            </button>
+                        </td>
+                        <td class="p-3 text-center admin-only ${isAdmin ? '' : 'hidden'}">
+                            <button onclick="deleteStudent('${s.id}')" class="text-rose-600 hover:text-rose-800 text-xs">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 `;
-                tbody.innerHTML += row;
-            });
+            }).join('');
         }
 
-        window.updatePenaltyDescription = function() {
-            const type = document.getElementById('penalty-type').value;
-            const descDiv = document.getElementById('penalty-description');
-            if (penaltyRules[type]) {
-                const rule = penaltyRules[type];
-                descDiv.innerHTML = `
-                    <strong class="text-blue-800">التأثير التلقائي:</strong><br>
-                    • معدل الاختبارات الأسبوعية: <span class="${rule.weeklyAdj > 0 ? 'text-green-600' : 'text-red-600'} font-bold">${rule.weeklyAdj > 0 ? '+' : ''}${rule.weeklyAdj}</span><br>
-                    • المعدل التراكمي الإجمالي: <span class="${rule.cumulativeAdj > 0 ? 'text-green-600' : 'text-red-600'} font-bold">${rule.cumulativeAdj > 0 ? '+' : ''}${rule.cumulativeAdj}</span><br>
-                    • مستوى الظهور: <span class="font-bold">${rule.isVisibleToVisitor ? 'ظاهر للزوار وأولياء الأمور' : 'مخفي (يظهر للأدمن فقط لحماية خصوصية التلميذ)'}</span>
-                    ${type === 'absence_unjustified' ? '<br><span class="text-xs text-orange-600 mt-1 block">* ملاحظة: في حالة تبرير التغيب في 3 أيام، استخدم زر "تراجع/تبرير" مع كود 9191 لاسترجاع النقاط.</span>' : ''}
+        function renderWeeklyTests() {
+            const container = document.getElementById('weekly-tests-list');
+            const filtered = tests.filter(t => t.level === currentLevel);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center p-8 text-slate-400">لا توجد اختبارات أسبوعية مبرمجة.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(t => `
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-100 text-blue-800">${t.subject}</span>
+                            <span class="text-xs text-slate-500"><i class="fa-regular fa-calendar ml-1"></i>${t.date}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base mt-2">${t.title}</h4>
+                    </div>
+                    <button onclick="openGradesModal('${t.id}')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen-to-square"></i> ${isAdmin ? 'مسك وتعديل النقط' : 'معاينة النقط'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderCATable() {
+            const tbody = document.getElementById('ca-table-body');
+            const filteredStudents = students.filter(s => s.level === currentLevel);
+
+            if (filteredStudents.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center p-6 text-slate-400">لا يوجد تلاميذ في هذا المستوى.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filteredStudents.map(s => {
+                const ca = s.caGrades || {};
+                const stats = calculateStudentStats(s);
+
+                return `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-3 font-bold">${s.fullName}</td>
+                        <td class="p-3 text-center">
+                            <input type="number" step="0.25" min="0" max="10" ${!isAdmin ? 'disabled' : ''} 
+                                value="${ca['اللغة الفرنسية'] || ''}" 
+                                onchange="saveCAGrade('${s.id}', 'اللغة الفرنسية', this.value)"
+                                placeholder="النقطة" class="w-20 text-center border rounded-lg p-1 text-sm ${!isAdmin ? 'bg-slate-50' : ''}">
+                        </td>
+                        <td class="p-3 text-center">
+                            <input type="number" step="0.25" min="0" max="10" ${!isAdmin ? 'disabled' : ''} 
+                                value="${ca['الرياضيات'] || ''}" 
+                                onchange="saveCAGrade('${s.id}', 'الرياضيات', this.value)"
+                                placeholder="النقطة" class="w-20 text-center border rounded-lg p-1 text-sm ${!isAdmin ? 'bg-slate-50' : ''}">
+                        </td>
+                        <td class="p-3 text-center">
+                            <input type="number" step="0.25" min="0" max="10" ${!isAdmin ? 'disabled' : ''} 
+                                value="${ca['النشاط العلمي'] || ''}" 
+                                onchange="saveCAGrade('${s.id}', 'النشاط العلمي', this.value)"
+                                placeholder="النقطة" class="w-20 text-center border rounded-lg p-1 text-sm ${!isAdmin ? 'bg-slate-50' : ''}">
+                        </td>
+                        <td class="p-3 text-center font-bold text-blue-700 bg-blue-50/50">${stats.caAvg}</td>
+                    </tr>
                 `;
+            }).join('');
+        }
+
+        function renderIncentivesSelect() {
+            const select = document.getElementById('behavior-student-select');
+            const levelStudents = students.filter(s => s.level === currentLevel);
+            select.innerHTML = levelStudents.map(s => `<option value="${s.id}">${s.fullName}</option>`).join('');
+        }
+
+        function renderVisitorSelect() {
+            const select = document.getElementById('visitor-student-select');
+            const levelStudents = students.filter(s => s.level === currentLevel);
+            select.innerHTML = levelStudents.map(s => `<option value="${s.id}">${s.fullName}</option>`).join('');
+        }
+
+        function renderBehaviorLogs() {
+            const container = document.getElementById('behavior-logs-list');
+            const levelStudentIds = students.filter(s => s.level === currentLevel).map(s => s.id);
+            let logsToShow = behaviorLogs.filter(b => levelStudentIds.includes(b.studentId));
+
+            if (logsToShow.length === 0) {
+                container.innerHTML = `<p class="text-slate-400">لا توجد ملاحظات مسجلة.</p>`;
+                return;
+            }
+
+            container.innerHTML = logsToShow.map(log => {
+                const std = students.find(s => s.id === log.studentId);
+                const stdName = std ? std.fullName : 'تلميذ';
+                return `
+                    <div class="flex justify-between items-center p-2.5 bg-slate-50 rounded-xl border">
+                        <div>
+                            <span class="font-bold text-slate-800">${stdName}:</span>
+                            <span class="text-slate-600 mr-2">${getBehaviorLabel(log.type)}</span>
+                            ${log.type === 'absent_unexcused' && log.excused ? '<span class="text-emerald-600 font-bold ml-2">(تم التبرير)</span>' : ''}
+                        </div>
+                        ${isAdmin && log.type === 'absent_unexcused' && !log.excused ? `
+                            <button onclick="excuseAbsence('${log.id}')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 rounded text-[10px]">
+                                تبرير التغيب
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getBehaviorLabel(type) {
+            const labels = {
+                'extra': 'نشاط إضافي (+0.1 أسبوعي)',
+                'distinct': 'نشاط تميزي (+0.1 أسبوعي و +0.01 إجمالي)',
+                'absent_unexcused': 'تغيب غير مبرر (-0.3 أسبوعي)',
+                'no_homework': 'عدم إنجاز الواجبات (-0.05 أسبوعي)',
+                'cheating': 'حالة غش (-0.5 أسبوعي)',
+                'severe_misconduct': 'شغب جسيم (-0.5 أسبوعي و -0.1 إجمالي)'
+            };
+            return labels[type] || type;
+        }
+
+        // --- Student Space View (فضاء التلميذ بالاسم) ---
+        function openStudentSpace(studentId) {
+            const std = students.find(s => s.id === studentId);
+            if (!std) return;
+
+            const ranked = getRankedStudentsForLevel(std.level);
+            const stdData = ranked.find(r => r.student.id === studentId);
+
+            document.getElementById('space-student-name').innerText = std.fullName;
+            document.getElementById('space-student-level').innerText = `المستوى ${std.level} ابتدائي - ${std.gender}`;
+            document.getElementById('space-cumulative').innerText = stdData ? `${stdData.finalCumulativeAvg} / 10` : '--';
+            document.getElementById('space-rank').innerText = stdData ? `#${stdData.rank}` : '--';
+            document.getElementById('space-weekly-avg').innerText = stdData ? stdData.stats.weeklyAvg : '--';
+            document.getElementById('space-ca-avg').innerText = stdData ? stdData.stats.caAvg : '--';
+
+            // Filter out private logs for visitors (cheating & severe misconduct)
+            const logsContainer = document.getElementById('space-behavior-logs');
+            let logs = behaviorLogs.filter(b => b.studentId === studentId);
+            if (!isAdmin) {
+                logs = logs.filter(b => b.type !== 'cheating' && b.type !== 'severe_misconduct');
+            }
+
+            if (logs.length === 0) {
+                logsContainer.innerHTML = `<p class="text-slate-400">لا توجد تنبيهات سلوكية مسجلة.</p>`;
             } else {
-                descDiv.innerHTML = '';
+                logsContainer.innerHTML = logs.map(l => `
+                    <div class="p-2 bg-white rounded border border-slate-200">
+                        ${getBehaviorLabel(l.type)} ${l.type === 'absent_unexcused' && l.excused ? '<b class="text-emerald-600">(تم تبريره)</b>' : ''}
+                    </div>
+                `).join('');
+            }
+
+            openModal('modal-student-space');
+        }
+
+        function openStudentSpaceFromSelect() {
+            const id = document.getElementById('visitor-student-select').value;
+            if (id) {
+                closeModal('modal-visitor');
+                openStudentSpace(id);
             }
         }
 
-        // إدخال النقط
-        window.openGradesModalForTest = async function(testId, type, subject) {
-            document.getElementById('grades-modal-title').innerText = `إدخال النقط: ${subject}`;
-            document.getElementById('grade-test-id').value = testId;
-            document.getElementById('grade-test-type').value = type;
-            
-            const testSnap = await getDocs(query(collection(db, "tests"), where("__name__", "==", testId)));
-            if (testSnap.empty) return;
-            const test = testSnap.docs[0].data();
-            
-            const studentsSnap = await getDocs(query(collection(db, "students"), where("level", "==", test.level)));
-            const container = document.getElementById('grades-inputs-container');
-            container.innerHTML = '';
-            
-            const existingGrades = {};
-            const gradesSnap = await getDocs(query(collection(db, "scores"), where("testId", "==", testId)));
-            gradesSnap.forEach(d => { existingGrades[d.data().studentId] = d.data().score; });
-
-            studentsSnap.forEach(d => {
-                const student = d.data();
-                const currentScore = existingGrades[d.id] !== undefined ? existingGrades[d.id] : '';
-                const div = document.createElement('div');
-                div.className = 'flex items-center justify-between bg-white p-3 rounded border border-gray-200';
-                div.innerHTML = `
-                    <span class="font-medium text-gray-700">${student.name}</span>
-                    <input type="number" step="0.01" name="score_${d.id}" value="${currentScore}" 
-                        class="border p-2 rounded w-24 text-center font-bold text-blue-700 focus:ring-2 focus:ring-blue-200 outline-none" placeholder="النقطة">
-                `;
-                container.appendChild(div);
-            });
-            openModal('enterGradesModal');
+        // --- Database Actions ---
+        function handleAddStudentButtonClick() {
+            if (!isAdmin) {
+                alert("إضافة تلميذ ميزة خاصة بالأستاذ. يرجى تسجيل الدخول أولاً.");
+                openLoginModal();
+            } else {
+                openModal('modal-student');
+            }
         }
 
-        // معالجة النماذج
-        document.getElementById('addStudentForm').addEventListener('submit', async (e) => {
+        function addStudent(e) {
             e.preventDefault();
-            await addDoc(collection(db, "students"), {
-                name: document.getElementById('student-name').value,
-                gender: document.getElementById('student-gender').value,
-                level: document.getElementById('student-level').value,
-                createdAt: new Date()
-            });
-            closeModal('addStudentModal'); e.target.reset(); loadStudents();
-        });
+            if (!isAdmin) return;
 
-        document.getElementById('addTestForm').addEventListener('submit', async (e) => {
+            const fullName = document.getElementById('std-fullname').value.trim();
+            const gender = document.getElementById('std-gender').value;
+
+            db.collection('students').add({
+                fullName,
+                gender,
+                level: currentLevel,
+                weeklyGrades: {},
+                caGrades: {},
+                createdAt: new Date()
+            }).then(() => {
+                closeModal('modal-student');
+                document.getElementById('std-fullname').value = '';
+            });
+        }
+
+        function deleteStudent(id) {
+            if (!isAdmin || !confirm('هل أنت تأكد من حذف التلميذ؟')) return;
+            db.collection('students').doc(id).delete();
+        }
+
+        function addTest(e) {
             e.preventDefault();
-            await addDoc(collection(db, "tests"), {
-                type: 'weekly', level: document.getElementById('test-level').value,
+            if (!isAdmin) return;
+
+            db.collection('tests').add({
                 subject: document.getElementById('test-subject').value,
+                title: document.getElementById('test-title').value,
                 date: document.getElementById('test-date').value,
-                maxScore: parseFloat(document.getElementById('test-max-score').value)
-            });
-            closeModal('addTestModal'); e.target.reset(); loadTests('weekly');
-        });
-
-        document.getElementById('addCAForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await addDoc(collection(db, "tests"), {
-                type: 'continuous', level: document.getElementById('ca-level').value,
-                subject: document.getElementById('ca-subject').value,
-                date: document.getElementById('ca-date').value,
-                maxScore: parseFloat(document.getElementById('ca-max-score').value)
-            });
-            closeModal('addCAModal'); e.target.reset(); loadTests('continuous');
-        });
-
-        document.getElementById('enterGradesForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const testId = document.getElementById('grade-test-id').value;
-            const type = document.getElementById('grade-test-type').value;
-            const formData = new FormData(e.target);
-            const testSnap = await getDocs(query(collection(db, "tests"), where("__name__", "==", testId)));
-            const maxScore = testSnap.docs[0].data().maxScore;
-
-            for (let [key, value] of formData.entries()) {
-                if (key.startsWith('score_') && value !== '') {
-                    const studentId = key.replace('score_', '');
-                    const score = parseFloat(value);
-                    const q = query(collection(db, "scores"), where("testId", "==", testId), where("studentId", "==", studentId));
-                    const existing = await getDocs(q);
-                    const scoreData = { testId, studentId, type, score, maxScore, date: new Date() };
-                    
-                    if (existing.empty) await addDoc(collection(db, "scores"), scoreData);
-                    else await updateDoc(doc(db, "scores", existing.docs[0].id), scoreData);
-                }
-            }
-            closeModal('enterGradesModal'); loadStudents();
-            if(type === 'weekly') loadTests('weekly'); else loadTests('continuous');
-        });
-
-        document.getElementById('penaltyForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const type = document.getElementById('penalty-type').value;
-            const rule = penaltyRules[type];
-            await addDoc(collection(db, "events"), {
-                studentId: document.getElementById('penalty-student').value,
-                type: type, date: document.getElementById('penalty-date').value,
-                notes: document.getElementById('penalty-notes').value,
-                weeklyAdj: rule.weeklyAdj, cumulativeAdj: rule.cumulativeAdj,
-                isVisibleToVisitor: rule.isVisibleToVisitor, isReversed: false,
+                level: currentLevel,
                 createdAt: new Date()
+            }).then(() => {
+                closeModal('modal-test');
+                document.getElementById('test-title').value = '';
             });
-            e.target.reset(); document.getElementById('penalty-description').innerHTML = '';
-            loadPenalties(); loadStudents();
-        });
-
-        // ملف التلميذ الشخصي
-        window.openStudentProfile = async function(studentId) {
-            const studentSnap = await getDocs(query(collection(db, "students"), where("__name__", "==", studentId)));
-            if (studentSnap.empty) return;
-            const student = studentSnap.docs[0].data();
-            document.getElementById('profile-modal-title').innerText = `ملف التلميذ: ${student.name}`;
-            
-            const stats = await calculateStudentStats(studentId);
-            const eventsSnap = await getDocs(query(collection(db, "events"), where("studentId", "==", studentId), orderBy("date", "desc")));
-            
-            let eventsHtml = '<ul class="list-disc list-inside text-sm text-gray-700 space-y-1">';
-            if (eventsSnap.empty) eventsHtml += '<li class="text-gray-400">لا توجد أحداث مسجلة.</li>';
-            else {
-                eventsSnap.forEach(d => {
-                    const ev = d.data();
-                    const rule = penaltyRules[ev.type];
-                    if (!ev.isReversed) {
-                        eventsHtml += `<li>${ev.date}: <strong>${rule ? rule.name : ev.type}</strong> <span class="text-xs text-gray-500">(تأثير تراكمي: ${ev.cumulativeAdj})</span></li>`;
-                    }
-                });
-            }
-            eventsHtml += '</ul>';
-
-            document.getElementById('profile-content').innerHTML = `
-                <div class="grid grid-cols-2 gap-4 bg-blue-50 p-4 rounded-lg border border-blue-100">
-                    <div><strong>المستوى:</strong> ${student.level === '5' ? 'الخامس' : 'السادس'} ابتدائي</div>
-                    <div><strong>الجنس:</strong> ${student.gender}</div>
-                    <div><strong>معدل الاختبارات الأسبوعية:</strong> ${stats.weeklyAvg.toFixed(2)}</div>
-                    <div><strong>معدل المراقبة المستمرة:</strong> ${stats.caAvg.toFixed(2)}</div>
-                    <div class="col-span-2 text-xl font-extrabold text-blue-800 border-t border-blue-200 pt-2 mt-1">
-                        المعدل التراكمي الإجمالي: ${stats.cumulativeAvg.toFixed(2)}
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <h4 class="font-bold mb-2 text-gray-700">سجل التحفيز والعقوبات:</h4>
-                    <div class="bg-gray-50 p-3 rounded border border-gray-200 max-h-48 overflow-y-auto">
-                        ${eventsHtml}
-                    </div>
-                </div>
-            `;
-            openModal('studentProfileModal');
         }
 
-        // التراجع عن حدث (مع كود الأمان 9191)
-        window.reverseEvent = async function(eventId) {
-            const code = prompt("⚠️ إجراء أمني مهم:\nيُرجى إدخال كود التأكيد (9191) للتراجع عن هذا الحدث أو تبرير التغيب:\n\n(ملاحظة: تبرير التغيب خلال 3 أيام يعيد النقاط المخصومة تلقائياً)");
-            if (code === '9191') {
-                await updateDoc(doc(db, "events", eventId), { isReversed: true });
-                alert("✅ تم التراجع عن الحدث / تبريره بنجاح. تم تحديث المعدلات.");
-                loadPenalties(); loadStudents(); loadStarOfTheWeek();
-            } else {
-                alert("❌ كود خاطئ. تم إلغاء العملية للحفاظ على أمان البيانات.");
-            }
+        function openGradesModal(testId) {
+            const test = tests.find(t => t.id === testId);
+            document.getElementById('grades-modal-title').innerText = `مسك نقط: ${test.subject} - ${test.title}`;
+            const container = document.getElementById('grades-inputs-container');
+            const levelStudents = students.filter(s => s.level === currentLevel);
+
+            container.innerHTML = levelStudents.map(s => {
+                const grade = (s.weeklyGrades && s.weeklyGrades[testId] !== undefined && s.weeklyGrades[testId] !== null) ? s.weeklyGrades[testId] : '';
+                return `
+                    <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border">
+                        <span class="font-bold text-sm">${s.fullName}</span>
+                        <!-- 16. النقطة مباشرة بدون /10 -->
+                        <input type="number" step="0.25" min="0" max="10" ${!isAdmin ? 'disabled' : ''} 
+                            value="${grade}" 
+                            onchange="saveWeeklyGrade('${s.id}', '${testId}', this.value)"
+                            placeholder="النقطة من 10" class="w-32 text-center border rounded-lg p-2 text-sm font-bold">
+                    </div>
+                `;
+            }).join('');
+
+            openModal('modal-grades');
         }
 
-        // تشغيل أولي
-        showTab('students');
+        function saveWeeklyGrade(studentId, testId, val) {
+            if (!isAdmin) return;
+            const student = students.find(s => s.id === studentId);
+            const weeklyGrades = student.weeklyGrades || {};
+            weeklyGrades[testId] = val === '' ? null : parseFloat(val);
+
+            db.collection('students').doc(studentId).update({ weeklyGrades });
+        }
+
+        function saveCAGrade(studentId, subject, val) {
+            if (!isAdmin) return;
+            const student = students.find(s => s.id === studentId);
+            const caGrades = student.caGrades || {};
+            caGrades[subject] = val === '' ? null : parseFloat(val);
+
+            db.collection('students').doc(studentId).update({ caGrades });
+        }
+
+        function saveBehaviorLog(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+
+            const studentId = document.getElementById('behavior-student-select').value;
+            const type = document.getElementById('behavior-type').value;
+
+            db.collection('behavior').add({
+                studentId,
+                type,
+                excused: false,
+                createdAt: new Date()
+            }).then(() => alert('تم تسجيل التقييم السلوكي.'));
+        }
+
+        function excuseAbsence(logId) {
+            if (!isAdmin) return;
+            db.collection('behavior').doc(logId).update({ excused: true });
+        }
+
+        // --- Modals Helpers ---
+        function openLoginModal() { openModal('modal-login'); }
+        function openVisitorModal() { openModal('modal-visitor'); }
+        function openAddTestModal() { openModal('modal-test'); }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
     </script>
 </body>
 </html>
