@@ -152,13 +152,13 @@
 
                 <div class="bg-white rounded-2xl shadow-sm border overflow-x-auto">
                     <table class="w-full text-right text-sm">
-                        <!-- تم تعديل ترتيب الأعمدة: الاسم الكامل أولاً في أقصى اليمين -->
+                        <!-- تم وضع الرتبة في العمود الأول على اليمين -->
                         <thead class="bg-slate-100 text-slate-600 text-xs uppercase border-b">
                             <tr>
-                                <th class="p-3 font-bold text-slate-900 rounded-tr-xl">الاسم الكامل</th>
+                                <th class="p-3 text-center rounded-tr-xl font-bold">الرتبة</th>
+                                <th class="p-3 font-bold text-slate-900">الاسم الكامل</th>
                                 <th class="p-3">الجنس</th>
                                 <th class="p-3">المستوى</th>
-                                <th class="p-3 text-center">الرتبة</th>
                                 <th class="p-3 text-center">معدل الاختبارات الأسبوعية</th>
                                 <th class="p-3 text-center">معدل المراقبة المستمرة</th>
                                 <th class="p-3 text-center bg-blue-900 text-white font-black">المعدل التراكمي الإجمالي</th>
@@ -471,7 +471,6 @@
             document.getElementById(`section-${tab}`).classList.remove('hidden');
         }
 
-        // --- تعديل منطق الحسابات لعدم احتساب الصفر تلقائياً ---
         function calculateStudentStats(student) {
             const studentTests = tests.filter(t => t.level === student.level);
             let weeklySum = 0, count = 0;
@@ -499,7 +498,6 @@
 
             let finalWeeklyAvg = hasWeekly ? Math.max(0, Math.min(10, baseWeeklyAvg + weeklyMod)) : null;
 
-            // حساب المراقبة المستمرة بناء على المواد الممسوكة فقط
             let ca = student.caGrades || {};
             let caSum = 0, caCount = 0;
             ['اللغة الفرنسية', 'الرياضيات', 'النشاط العلمي'].forEach(sub => {
@@ -512,7 +510,6 @@
             let hasCA = caCount > 0;
             let finalCAAvg = hasCA ? (caSum / caCount) : null;
 
-            // حساب المعدل التراكمي الإجمالي بناء على المكونات المتوفرة فقط
             let baseCumulative = null;
             if (hasWeekly && hasCA) {
                 baseCumulative = (finalWeeklyAvg + finalCAAvg) / 2;
@@ -605,16 +602,16 @@
 
                 return `
                     <tr class="hover:bg-slate-50 border-b ${isSelectedVisitor ? 'bg-amber-50 font-bold' : ''}">
-                        <!-- 1. الاسم الكامل في اليمين -->
-                        <td class="p-3 font-bold text-slate-900">${s.fullName} ${isSelectedVisitor ? '<span class="text-xs text-amber-600">(أنت)</span>' : ''}</td>
-                        <td class="p-3 text-slate-600">${s.gender}</td>
-                        <td class="p-3 text-slate-600">المستوى ${s.level}</td>
+                        <!-- 1. الرتبة في أول عمود (اليمين) -->
                         <td class="p-3 text-center">
                             <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">#${item.rank}</span>
                         </td>
+                        <!-- 2. الاسم الكامل -->
+                        <td class="p-3 font-bold text-slate-900">${s.fullName} ${isSelectedVisitor ? '<span class="text-xs text-amber-600">(أنت)</span>' : ''}</td>
+                        <td class="p-3 text-slate-600">${s.gender}</td>
+                        <td class="p-3 text-slate-600">المستوى ${s.level}</td>
                         <td class="p-3 text-center font-semibold text-slate-700">${item.stats.weeklyAvg}</td>
                         <td class="p-3 text-center font-semibold text-slate-700">${item.stats.caAvg}</td>
-                        <!-- 7. عرض النقطة مباشرة وبدون إشارة /10 -->
                         <td class="p-3 text-center bg-blue-50 font-black text-blue-900 text-base border-r border-l border-blue-200">
                             ${item.finalCumulativeAvg}
                         </td>
