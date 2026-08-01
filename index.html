@@ -3,112 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tadbir | تدبير - منظومة التدبير الشامل للتعلم</title>
+    <title>Tadbir | تدبير - منظومة التدبير الشامل</title>
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Firebase v9 Compat -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#0A2540',
-                        accent: '#0066FF',
-                        success: '#00C853',
-                        warning: '#FF6D00',
-                        danger: '#D50000',
-                        bg: '#F8FAFC',
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
-                    }
+                    colors: { primary: '#0A2540', accent: '#0066FF', success: '#00C853', warning: '#FF6D00', danger: '#D50000', bg: '#F8FAFC' },
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
 
     <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-        
-        .dark {
-            --glass-bg: rgba(15, 23, 42, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #F8FAFC;
-            transition: background-color 0.3s ease;
-        }
-
-        .dark body {
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
-
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            border-radius: 16px;
-        }
-
-        .glass-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
-        }
-
+        :root { --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(255, 255, 255, 0.6); --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); }
+        .dark { --glass-bg: rgba(15, 23, 42, 0.85); --glass-border: rgba(255, 255, 255, 0.1); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { font-family: 'Cairo', sans-serif; background-color: #F8FAFC; transition: background-color 0.3s ease; }
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        .glass { background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); border-radius: 16px; }
+        .glass-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .glass-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15); }
         .rank-1 { background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%); color: #000; font-weight: 800; }
         .rank-2 { background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%); color: #000; font-weight: 700; }
         .rank-3 { background: linear-gradient(135deg, #CD7F32 0%, #A0522D 100%); color: #fff; font-weight: 700; }
-
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .dark ::-webkit-scrollbar-thumb { background: #334155; }
-
-        .nav-item.active {
-            background-color: rgba(0, 102, 255, 0.1);
-            color: #0066FF;
-            border-right: 3px solid #0066FF;
-        }
-        .dark .nav-item.active {
-            background-color: rgba(0, 102, 255, 0.2);
-        }
+        .nav-item.active { background-color: rgba(0, 102, 255, 0.1); color: #0066FF; border-right: 3px solid #0066FF; }
+        .dark .nav-item.active { background-color: rgba(0, 102, 255, 0.2); }
+        /* Loading Spinner */
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #0066FF; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="text-slate-800 dark:text-slate-100 antialiased">
@@ -123,62 +54,46 @@
                 <p class="text-sm text-slate-400 mt-1">إشراف: الأستاذ محمد الغمري</p>
             </div>
 
-            <!-- Teacher Login -->
             <div id="teacherLoginForm" class="space-y-4">
                 <h3 class="text-lg font-semibold text-primary dark:text-accent">دخول الأستاذ (الإدارة)</h3>
                 <input type="email" id="teacherEmail" placeholder="البريد الإلكتروني" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-accent" value="meg.code91@gmail.com">
                 <input type="password" id="teacherPassword" placeholder="كلمة المرور" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-accent">
-                <button onclick="loginTeacher()" class="w-full bg-accent hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-300">
-                    <i class="fas fa-sign-in-alt ml-2"></i> دخول
+                <button id="btnLoginTeacher" class="w-full bg-accent hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
+                    <span>دخول</span> <i class="fas fa-sign-in-alt"></i>
                 </button>
             </div>
 
-            <div class="my-6 flex items-center">
-                <div class="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
-                <span class="mx-4 text-slate-400 text-sm">أو</span>
-                <div class="flex-grow border-t border-slate-300 dark:border-slate-600"></div>
-            </div>
+            <div class="my-6 flex items-center"><div class="flex-grow border-t border-slate-300 dark:border-slate-600"></div><span class="mx-4 text-slate-400 text-sm">أو</span><div class="flex-grow border-t border-slate-300 dark:border-slate-600"></div></div>
 
-            <!-- Visitor Login -->
             <div id="visitorLoginForm" class="space-y-4">
                 <h3 class="text-lg font-semibold text-primary dark:text-accent">دخول ولي الأمر (زائر)</h3>
                 <input type="text" id="visitorName" placeholder="الاسم الكامل" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-accent">
-                <button onclick="loginVisitor()" class="w-full bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 rounded-lg transition duration-300">
-                    <i class="fas fa-eye ml-2"></i> دخول كزائر
+                <button id="btnLoginVisitor" class="w-full bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
+                    <span>دخول كزائر</span> <i class="fas fa-eye"></i>
                 </button>
             </div>
-            
-            <div id="loginError" class="mt-4 text-danger text-sm hidden"></div>
+            <div id="loginError" class="mt-4 text-danger text-sm hidden font-bold"></div>
         </div>
     </div>
 
     <!-- Main App Layout -->
     <div id="mainApp" class="hidden min-h-screen flex flex-col md:flex-row">
-        
-        <!-- Sidebar -->
         <aside class="w-full md:w-64 glass md:h-screen md:sticky md:top-0 flex flex-col z-40">
             <div class="p-6 border-b border-slate-200 dark:border-slate-700">
-                <h2 class="text-2xl font-bold text-primary dark:text-white flex items-center gap-2">
-                    <i class="fas fa-layer-group text-accent"></i> تدبير
-                </h2>
+                <h2 class="text-2xl font-bold text-primary dark:text-white flex items-center gap-2"><i class="fas fa-layer-group text-accent"></i> تدبير</h2>
                 <p id="userDisplay" class="text-xs text-slate-500 mt-1 truncate"></p>
             </div>
-            
-            <nav class="flex-1 overflow-y-auto py-4 space-y-1 px-3" id="sidebarNav">
-                <!-- Nav items injected by JS -->
-            </nav>
-
+            <nav class="flex-1 overflow-y-auto py-4 space-y-1 px-3" id="sidebarNav"></nav>
             <div class="p-4 border-t border-slate-200 dark:border-slate-700">
-                <button onclick="toggleDarkMode()" class="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <button onclick="toggleDarkMode()" class="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition mb-2">
                     <i class="fas fa-moon text-slate-500"></i> <span>الوضع الليلي</span>
                 </button>
-                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-danger transition mt-2">
+                <button id="btnLogout" class="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-danger transition">
                     <i class="fas fa-sign-out-alt"></i> <span>تسجيل الخروج</span>
                 </button>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="flex-1 p-4 md:p-8 overflow-y-auto h-screen">
             <header class="flex justify-between items-center mb-8">
                 <div>
@@ -188,35 +103,31 @@
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block text-left">
                         <p class="text-sm font-semibold" id="currentDate"></p>
-                        <p class="text-xs text-slate-500">الموسم الدراسي الحالي</p>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
-                        <i class="fas fa-bell"></i>
                     </div>
                 </div>
             </header>
-
-            <!-- Dynamic Content Sections -->
-            <div id="contentArea" class="space-y-6 fade-in">
-                <!-- Content injected by JS -->
-            </div>
+            <div id="contentArea" class="space-y-6 fade-in"></div>
         </main>
     </div>
 
-    <!-- Modals -->
-    <div id="modalOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="glass bg-white dark:bg-slate-900 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6 relative">
-            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-danger">
+    <!-- Universal Modal -->
+    <div id="modalOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass bg-white dark:bg-slate-900 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-6 relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-danger transition">
                 <i class="fas fa-times text-xl"></i>
             </button>
             <div id="modalContent"></div>
         </div>
     </div>
 
-    <script>
-        // ==========================================
-        // 1. Firebase Configuration & Initialization
-        // ==========================================
+    <!-- Firebase & App Logic (ES Modules) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, getDocs, writeBatch, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+
+        // 1. Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDINWHZW3yo9a7Ch1fDFgGlePnD4dvovzs",
             authDomain: "taqwim-d363e.firebaseapp.com",
@@ -226,28 +137,36 @@
             appId: "1:996744665537:web:018aee25726259f8507740",
             measurementId: "G-Q248VTXCG0"
         };
-        
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
 
-        // ==========================================
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let analytics;
+        try { analytics = getAnalytics(app); } catch(e) { console.log("Analytics not available in this environment"); }
+
         // 2. State Management
-        // ==========================================
         const state = {
             user: null,
-            role: null, // 'teacher' or 'visitor'
+            role: null,
             visitorName: '',
             currentView: 'dashboard',
             students: [],
-            tests: [],
-            attendance: [],
-            darkMode: localStorage.getItem('darkMode') === 'true'
+            tests: []
         };
 
-        // ==========================================
-        // 3. Core Logic & Helpers
-        // ==========================================
+        // Expose necessary functions to window for HTML onclick attributes
+        window.navigateTo = navigateTo;
+        window.closeModal = closeModal;
+        window.toggleDarkMode = toggleDarkMode;
+        window.logout = logout;
+        window.filterStudents = filterStudents;
+        window.deleteStudent = deleteStudent;
+        window.viewStudentCard = viewStudentCard;
+        window.openAddStudentModal = openAddStudentModal;
+        window.saveNewStudent = saveNewStudent;
+        window.saveAttendance = saveAttendance;
+
+        // 3. Core Logic
         function isSummerVacation() {
             const now = new Date();
             const year = now.getFullYear();
@@ -257,13 +176,10 @@
         }
 
         function calculateStudentMetrics(student) {
-            // Simplified calculation based on prompt rules
-            // In a real app, this would aggregate from tests, caGrades, attendance collections
             const testAvg = student.testAvg || 0;
             const caAvg = student.caAvg || 0;
-            const activities = (student.extraActivities || 0) * 0.01 + (student.distinctionActivities || 0) * 0.01;
-            const deductions = (student.absences || 0) * 0.01 + (student.missedHomework || 0) * 0.01;
-            
+            const activities = ((student.extraActivities || 0) + (student.distinctionActivities || 0)) * 0.01;
+            const deductions = ((student.absences || 0) + (student.missedHomework || 0)) * 0.01;
             const cumulativeAvg = ((testAvg + caAvg) / 2) + activities - deductions;
             return {
                 average: Math.max(0, cumulativeAvg).toFixed(2),
@@ -272,43 +188,44 @@
             };
         }
 
-        function logAudit(action, details) {
+        async function logAudit(action, details) {
             if (state.role !== 'teacher') return;
-            db.collection("auditLog").add({
-                action,
-                details,
-                user: state.user?.email || state.visitorName,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            try {
+                await addDoc(collection(db, "auditLog"), {
+                    action, details, user: state.user?.email || state.visitorName,
+                    timestamp: serverTimestamp()
+                });
+            } catch (e) { console.error("Audit log failed", e); }
         }
 
-        // ==========================================
         // 4. Authentication
-        // ==========================================
-        function loginTeacher() {
+        document.getElementById('btnLoginTeacher').addEventListener('click', async () => {
             const email = document.getElementById('teacherEmail').value;
             const password = document.getElementById('teacherPassword').value;
+            const errorEl = document.getElementById('loginError');
             
             if (email !== "meg.code91@gmail.com") {
-                showLoginError("البريد الإلكتروني غير مصرح به لهذا النظام.");
+                errorEl.textContent = "البريد الإلكتروني غير مصرح به.";
+                errorEl.classList.remove('hidden');
                 return;
             }
 
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    state.user = userCredential.user;
-                    state.role = 'teacher';
-                    initApp();
-                })
-                .catch((error) => {
-                    showLoginError("خطأ في الدخول: " + error.message);
-                });
-        }
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                // onAuthStateChanged will handle the rest
+            } catch (error) {
+                errorEl.textContent = "خطأ في الدخول: " + error.message;
+                errorEl.classList.remove('hidden');
+            }
+        });
 
-        function loginVisitor() {
+        document.getElementById('btnLoginVisitor').addEventListener('click', async () => {
             const name = document.getElementById('visitorName').value.trim();
+            const errorEl = document.getElementById('loginError');
+            
             if (!name) {
-                showLoginError("الرجاء إدخال الاسم");
+                errorEl.textContent = "الرجاء إدخال الاسم";
+                errorEl.classList.remove('hidden');
                 return;
             }
 
@@ -320,146 +237,103 @@
             state.visitorName = name;
             state.role = 'visitor';
             
-            db.collection("visitorLogs").add({
-                name: name,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            try {
+                await addDoc(collection(db, "visitorLogs"), {
+                    name: name, timestamp: serverTimestamp()
+                });
+            } catch(e) { console.log("Visitor log failed", e); }
             
             initApp();
-        }
+        });
 
-        function showLoginError(msg) {
-            const el = document.getElementById('loginError');
-            el.textContent = msg;
-            el.classList.remove('hidden');
-        }
-
-        function logout() {
-            auth.signOut();
-            state.user = null;
-            state.role = null;
-            state.visitorName = '';
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            signOut(auth);
+            state.user = null; state.role = null; state.visitorName = '';
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('mainApp').classList.add('hidden');
-        }
+        });
 
-        // ==========================================
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email === "meg.code91@gmail.com") {
+                state.user = user;
+                state.role = 'teacher';
+                initApp();
+            }
+        });
+
         // 5. UI Rendering
-        // ==========================================
         function initApp() {
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
             
-            if (state.darkMode) document.documentElement.classList.add('dark');
+            if (localStorage.getItem('darkMode') === 'true') document.documentElement.classList.add('dark');
             
             document.getElementById('userDisplay').textContent = state.role === 'teacher' ? state.user.email : `زائر: ${state.visitorName}`;
             document.getElementById('currentDate').textContent = new Date().toLocaleDateString('ar-MA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
             renderSidebar();
             navigateTo('dashboard');
-            
-            // Real-time listeners
             setupRealtimeListeners();
         }
 
         function renderSidebar() {
             const navItems = [
-                { id: 'dashboard', icon: 'fa-chart-pie', label: 'لوحة القيادة الذكية', teacherOnly: false },
+                { id: 'dashboard', icon: 'fa-chart-pie', label: 'لوحة القيادة', teacherOnly: false },
                 { id: 'students', icon: 'fa-users', label: 'إدارة التلاميذ', teacherOnly: true },
-                { id: 'assessment', icon: 'fa-calculator', label: 'محرك التقويم الذكي', teacherOnly: true },
+                { id: 'assessment', icon: 'fa-calculator', label: 'محرك التقويم', teacherOnly: true },
                 { id: 'attendance', icon: 'fa-clipboard-check', label: 'الحضور والسلوك', teacherOnly: true },
-                { id: 'analytics', icon: 'fa-exclamation-triangle', label: 'التحليلات والإنذار المبكر', teacherOnly: false },
-                { id: 'calendar', icon: 'fa-calendar-alt', label: 'التقويم التفاعلي', teacherOnly: false },
-                { id: 'goals', icon: 'fa-bullseye', label: 'نظام الأهداف الذكية', teacherOnly: true },
-                { id: 'announcements', icon: 'fa-bullhorn', label: 'فضاء الأولياء', teacherOnly: false },
+                { id: 'analytics', icon: 'fa-exclamation-triangle', label: 'الإنذار المبكر', teacherOnly: false },
                 { id: 'motivation', icon: 'fa-trophy', label: 'نظام التحفيز', teacherOnly: false },
                 { id: 'settings', icon: 'fa-cogs', label: 'مركز التحكم', teacherOnly: true }
             ];
 
-            const nav = document.getElementById('sidebarNav');
-            nav.innerHTML = navItems.map(item => {
+            document.getElementById('sidebarNav').innerHTML = navItems.map(item => {
                 if (item.teacherOnly && state.role !== 'teacher') return '';
-                return `
-                    <button onclick="navigateTo('${item.id}')" id="nav-${item.id}" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition mb-1">
-                        <i class="fas ${item.icon} w-5 text-center"></i>
-                        <span class="font-semibold text-sm">${item.label}</span>
-                    </button>
-                `;
+                return `<button onclick="navigateTo('${item.id}')" id="nav-${item.id}" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition mb-1 text-sm font-semibold">
+                    <i class="fas ${item.icon} w-5 text-center"></i> <span>${item.label}</span>
+                </button>`;
             }).join('');
         }
 
         function navigateTo(viewId) {
             state.currentView = viewId;
-            
-            // Update active nav
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             const activeNav = document.getElementById(`nav-${viewId}`);
             if (activeNav) activeNav.classList.add('active');
 
-            // Update title
-            const titles = {
-                dashboard: 'لوحة القيادة الذكية',
-                students: 'إدارة التلاميذ',
-                assessment: 'محرك التقويم الذكي',
-                attendance: 'الحضور والسلوك',
-                analytics: 'التحليلات والإنذار المبكر',
-                calendar: 'التقويم التفاعلي',
-                goals: 'نظام الأهداف الذكية',
-                announcements: 'فضاء الأولياء',
-                motivation: 'نظام التحفيز',
-                settings: 'مركز التحكم'
-            };
-            document.getElementById('pageTitle').textContent = titles[viewId];
+            const titles = { dashboard: 'لوحة القيادة الذكية', students: 'إدارة التلاميذ', assessment: 'محرك التقويم الذكي', attendance: 'الحضور والسلوك', analytics: 'التحليلات والإنذار المبكر', motivation: 'نظام التحفيز', settings: 'مركز التحكم' };
+            document.getElementById('pageTitle').textContent = titles[viewId] || viewId;
 
-            // Render content
             const content = document.getElementById('contentArea');
-            content.innerHTML = '<div class="flex justify-center p-8"><i class="fas fa-circle-notch fa-spin text-3xl text-accent"></i></div>';
+            content.innerHTML = '<div class="flex justify-center p-12"><div class="loader"></div></div>';
             
             setTimeout(() => {
-                switch(viewId) {
-                    case 'dashboard': renderDashboard(content); break;
-                    case 'students': renderStudents(content); break;
-                    case 'assessment': renderAssessment(content); break;
-                    case 'attendance': renderAttendance(content); break;
-                    case 'analytics': renderAnalytics(content); break;
-                    case 'calendar': renderCalendar(content); break;
-                    case 'goals': renderGoals(content); break;
-                    case 'announcements': renderAnnouncements(content); break;
-                    case 'motivation': renderMotivation(content); break;
-                    case 'settings': renderSettings(content); break;
-                }
-            }, 300);
+                if (viewId === 'dashboard') renderDashboard(content);
+                else if (viewId === 'students') renderStudents(content);
+                else if (viewId === 'assessment') renderAssessment(content);
+                else if (viewId === 'attendance') renderAttendance(content);
+                else if (viewId === 'analytics') renderAnalytics(content);
+                else if (viewId === 'motivation') renderMotivation(content);
+                else if (viewId === 'settings') renderSettings(content);
+            }, 200);
         }
 
-        // ==========================================
-        // 6. View Renderers
-        // ==========================================
+        // --- VIEW RENDERERS ---
         function renderDashboard(container) {
             const metrics = state.students.map(s => calculateStudentMetrics(s));
             const atRiskCount = metrics.filter(m => m.isAtRisk).length;
             const avgClass = metrics.length > 0 ? (metrics.reduce((sum, m) => sum + parseFloat(m.average), 0) / metrics.length).toFixed(2) : 0;
 
             container.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     ${statCard('إجمالي التلاميذ', state.students.length, 'fa-users', 'bg-blue-100 text-blue-600')}
                     ${statCard('متوسط القسم', avgClass, 'fa-chart-line', 'bg-green-100 text-green-600')}
-                    ${statCard('الاختبارات المنجزة', state.tests.length, 'fa-file-alt', 'bg-purple-100 text-purple-600')}
                     ${statCard('تلاميذ في خطر', atRiskCount, 'fa-exclamation-circle', 'bg-red-100 text-red-600')}
-                    ${statCard('نسبة الحضور', '94%', 'fa-user-check', 'bg-orange-100 text-orange-600')}
+                    ${statCard('الاختبارات المنجزة', state.tests.length, 'fa-file-alt', 'bg-purple-100 text-purple-600')}
                 </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="glass p-6 lg:col-span-2">
-                        <h3 class="font-bold text-lg mb-4">توزيع المعدلات</h3>
-                        <canvas id="gradesChart" height="100"></canvas>
-                    </div>
-                    <div class="glass p-6">
-                        <h3 class="font-bold text-lg mb-4">تنبيهات عاجلة</h3>
-                        <div class="space-y-3">
-                            ${atRiskCount > 0 ? `<div class="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 border-r-4 border-danger rounded-lg"><i class="fas fa-bell text-danger"></i><div><p class="font-semibold text-sm">تلاميذ في خطر</p><p class="text-xs text-slate-500">${atRiskCount} تلميذ يحتاج تدخل فوري</p></div></div>` : ''}
-                            <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 border-r-4 border-accent rounded-lg"><i class="fas fa-info-circle text-accent"></i><div><p class="font-semibold text-sm">تحديث النظام</p><p class="text-xs text-slate-500">تم تحديث بيانات المراقبة المستمرة</p></div></div>
-                        </div>
-                    </div>
+                <div class="glass p-6">
+                    <h3 class="font-bold text-lg mb-4">توزيع المعدلات</h3>
+                    <canvas id="gradesChart" height="100"></canvas>
                 </div>
             `;
 
@@ -487,68 +361,47 @@
         }
 
         function statCard(title, value, icon, colorClass) {
-            return `
-                <div class="glass glass-card p-4 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full ${colorClass} flex items-center justify-center text-xl">
-                        <i class="fas ${icon}"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-500 text-xs font-semibold">${title}</p>
-                        <p class="text-2xl font-bold font-inter text-primary dark:text-white">${value}</p>
-                    </div>
-                </div>
-            `;
+            return `<div class="glass glass-card p-4 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full ${colorClass} flex items-center justify-center text-xl"><i class="fas ${icon}"></i></div>
+                <div><p class="text-slate-500 text-xs font-semibold">${title}</p><p class="text-2xl font-bold font-inter text-primary dark:text-white">${value}</p></div>
+            </div>`;
         }
 
         function renderStudents(container) {
-            const levelFilter = 'all'; // Can be extended to tabs
             const sortedStudents = [...state.students].sort((a, b) => calculateStudentMetrics(b).average - calculateStudentMetrics(a).average);
-
             container.innerHTML = `
                 <div class="glass p-4 mb-4 flex flex-col md:flex-row gap-4 justify-between items-center">
                     <div class="relative w-full md:w-96">
                         <i class="fas fa-search absolute right-3 top-3 text-slate-400"></i>
                         <input type="text" id="studentSearch" onkeyup="filterStudents()" placeholder="بحث بالاسم..." class="w-full pr-10 pl-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-accent">
                     </div>
-                    ${state.role === 'teacher' ? `<button onclick="openAddStudentModal()" class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"><i class="fas fa-plus ml-2"></i> إضافة تلميذ</button>` : ''}
+                    <button onclick="openAddStudentModal()" class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+                        <i class="fas fa-plus"></i> إضافة تلميذ
+                    </button>
                 </div>
-
                 <div class="glass overflow-x-auto">
                     <table class="w-full text-sm text-right">
                         <thead class="bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
                             <tr>
-                                <th class="p-4 rounded-tr-lg">الرتبة</th>
-                                <th class="p-4">الاسم الكامل</th>
-                                <th class="p-4">المستوى</th>
-                                <th class="p-4 font-inter">المعدل</th>
-                                <th class="p-4">الأنشطة</th>
-                                <th class="p-4">الخصومات</th>
-                                <th class="p-4 rounded-tl-lg text-center">إجراءات</th>
+                                <th class="p-4 rounded-tr-lg">الرتبة</th><th class="p-4">الاسم الكامل</th><th class="p-4">المستوى</th>
+                                <th class="p-4 font-inter">المعدل</th><th class="p-4 rounded-tl-lg text-center">إجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="studentsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700">
+                        <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                             ${sortedStudents.map((s, index) => {
                                 const metrics = calculateStudentMetrics(s);
                                 const rank = index + 1;
-                                let rankClass = '';
-                                if (rank === 1) rankClass = 'rank-1';
-                                else if (rank === 2) rankClass = 'rank-2';
-                                else if (rank === 3) rankClass = 'rank-3';
-                                
-                                return `
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition student-row" data-name="${s.name}">
-                                        <td class="p-4 font-bold ${rankClass} w-16 text-center rounded-r-lg">${rank}</td>
-                                        <td class="p-4 font-semibold">${s.name}</td>
-                                        <td class="p-4"><span class="px-2 py-1 rounded-full text-xs bg-slate-200 dark:bg-slate-700">${s.level}</span></td>
-                                        <td class="p-4 font-inter font-bold ${metrics.isAtRisk ? 'text-danger' : (metrics.isExcellent ? 'text-success' : 'text-primary')}">${metrics.average}</td>
-                                        <td class="p-4 text-success font-inter">+${((s.extraActivities || 0) + (s.distinctionActivities || 0)) * 0.01}</td>
-                                        <td class="p-4 text-danger font-inter">-${((s.absences || 0) + (s.missedHomework || 0)) * 0.01}</td>
-                                        <td class="p-4 text-center">
-                                            <button onclick="viewStudentCard('${s.id}')" class="text-accent hover:text-blue-700 mx-1" title="عرض البطاقة"><i class="fas fa-id-card"></i></button>
-                                            ${state.role === 'teacher' ? `<button onclick="deleteStudent('${s.id}')" class="text-danger hover:text-red-700 mx-1" title="حذف"><i class="fas fa-trash"></i></button>` : ''}
-                                        </td>
-                                    </tr>
-                                `;
+                                let rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
+                                return `<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition student-row" data-name="${s.name}">
+                                    <td class="p-4 font-bold ${rankClass} w-16 text-center rounded-r-lg">${rank}</td>
+                                    <td class="p-4 font-semibold">${s.name}</td>
+                                    <td class="p-4"><span class="px-2 py-1 rounded-full text-xs bg-slate-200 dark:bg-slate-700">${s.level}</span></td>
+                                    <td class="p-4 font-inter font-bold ${metrics.isAtRisk ? 'text-danger' : (metrics.isExcellent ? 'text-success' : 'text-primary')}">${metrics.average}</td>
+                                    <td class="p-4 text-center">
+                                        <button onclick="viewStudentCard('${s.id}')" class="text-accent hover:text-blue-700 mx-1" title="عرض"><i class="fas fa-eye"></i></button>
+                                        <button onclick="deleteStudent('${s.id}')" class="text-danger hover:text-red-700 mx-1" title="حذف"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>`;
                             }).join('')}
                         </tbody>
                     </table>
@@ -556,64 +409,152 @@
             `;
         }
 
-        function filterStudents() {
+        // --- ACTION FUNCTIONS (FIXED & WORKING) ---
+        window.filterStudents = function() {
             const query = document.getElementById('studentSearch').value.toLowerCase();
             document.querySelectorAll('.student-row').forEach(row => {
-                const name = row.getAttribute('data-name').toLowerCase();
-                row.style.display = name.includes(query) ? '' : 'none';
+                row.style.display = row.getAttribute('data-name').toLowerCase().includes(query) ? '' : 'none';
             });
-        }
+        };
 
-        function deleteStudent(id) {
+        window.openAddStudentModal = function() {
+            document.getElementById('modalContent').innerHTML = `
+                <h3 class="text-xl font-bold mb-4 text-primary dark:text-white">إضافة تلميذ جديد</h3>
+                <form id="addStudentForm" class="space-y-4">
+                    <div><label class="block text-sm font-semibold mb-1">الاسم الكامل</label>
+                        <input type="text" id="newStudentName" required class="w-full px-4 py-2 rounded-lg border dark:bg-slate-800 dark:border-slate-600 focus:ring-2 focus:ring-accent outline-none">
+                    </div>
+                    <div><label class="block text-sm font-semibold mb-1">المستوى</label>
+                        <select id="newStudentLevel" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-800 dark:border-slate-600 focus:ring-2 focus:ring-accent outline-none">
+                            <option value="الخامس ابتدائي">الخامس ابتدائي</option>
+                            <option value="السادس ابتدائي">السادس ابتدائي</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-semibold mb-1">معدل الاختبارات</label>
+                            <input type="number" step="0.01" id="newStudentTestAvg" value="0" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-800 dark:border-slate-600">
+                        </div>
+                        <div><label class="block text-sm font-semibold mb-1">معدل المراقبة</label>
+                            <input type="number" step="0.01" id="newStudentCaAvg" value="0" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-800 dark:border-slate-600">
+                        </div>
+                    </div>
+                    <button type="button" onclick="saveNewStudent()" class="w-full bg-accent text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition mt-4">حفظ التلميذ</button>
+                </form>
+            `;
+            document.getElementById('modalOverlay').classList.remove('hidden');
+        };
+
+        window.saveNewStudent = async function() {
+            const name = document.getElementById('newStudentName').value;
+            const level = document.getElementById('newStudentLevel').value;
+            const testAvg = parseFloat(document.getElementById('newStudentTestAvg').value) || 0;
+            const caAvg = parseFloat(document.getElementById('newStudentCaAvg').value) || 0;
+
+            if (!name) { alert("الرجاء إدخال الاسم"); return; }
+
+            try {
+                await addDoc(collection(db, "students"), {
+                    name, level, testAvg, caAvg, extraActivities: 0, distinctionActivities: 0, absences: 0, missedHomework: 0,
+                    createdAt: serverTimestamp()
+                });
+                closeModal();
+                alert("تم إضافة التلميذ بنجاح!");
+                logAudit("إضافة تلميذ", name);
+            } catch (error) {
+                console.error(error);
+                alert("حدث خطأ أثناء الحفظ. تأكد من صلاحيات Firestore.");
+            }
+        };
+
+        window.deleteStudent = async function(id) {
             const code = prompt("أدخل رمز الحذف للتأكيد (081191):");
             if (code === "081191") {
-                db.collection("students").doc(id).delete().then(() => {
-                    alert("تم حذف التلميذ بنجاح");
-                    logAudit("حذف تلميذ", id);
-                }).catch(err => alert("خطأ: " + err.message));
+                if(confirm("هل أنت متأكد من حذف هذا التلميذ نهائياً؟")) {
+                    try {
+                        await deleteDoc(doc(db, "students", id));
+                        alert("تم الحذف بنجاح");
+                        logAudit("حذف تلميذ", id);
+                    } catch (error) {
+                        alert("خطأ في الحذف: " + error.message);
+                    }
+                }
             } else if (code !== null) {
                 alert("رمز الحذف غير صحيح");
             }
-        }
+        };
 
-        function renderAssessment(container) {
-            container.innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="glass p-6">
-                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-file-signature text-accent"></i> الاختبارات الأسبوعية</h3>
-                        <div class="space-y-4">
-                            <div class="grid grid-cols-2 gap-4">
-                                <select id="testSubject" class="p-2 rounded border dark:bg-slate-800 dark:border-slate-600">
-                                    <option>الرياضيات</option>
-                                    <option>اللغة الفرنسية</option>
-                                    <option>النشاط العلمي</option>
-                                </select>
-                                <select id="testLevel" class="p-2 rounded border dark:bg-slate-800 dark:border-slate-600">
-                                    <option>الخامس ابتدائي</option>
-                                    <option>السادس ابتدائي</option>
-                                </select>
-                            </div>
-                            <input type="date" id="testDate" class="w-full p-2 rounded border dark:bg-slate-800 dark:border-slate-600">
-                            <button onclick="openTestEntryModal()" class="w-full bg-accent text-white py-2 rounded hover:bg-blue-700 transition">بدء إدخال النقط</button>
-                        </div>
+        window.viewStudentCard = function(id) {
+            const student = state.students.find(s => s.id === id);
+            if (!student) return;
+            const metrics = calculateStudentMetrics(student);
+            
+            document.getElementById('modalContent').innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3 text-3xl text-accent">
+                        <i class="fas fa-user-graduate"></i>
                     </div>
-
-                    <div class="glass p-6">
-                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-tasks text-purple-500"></i> المراقبة المستمرة (CA)</h3>
-                        <p class="text-sm text-slate-500 mb-4">5 مراحل × 3 مواد (فرنسية، رياضيات، نشاط علمي)</p>
-                        <button onclick="openCAModal()" class="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 py-4 rounded-lg hover:border-accent hover:text-accent transition">
-                            <i class="fas fa-plus-circle text-2xl mb-2 block"></i>
-                            تحديث نقاط المراقبة المستمرة
-                        </button>
-                        <div class="mt-4 text-xs text-slate-400 bg-slate-50 dark:bg-slate-800 p-3 rounded">
-                            <p class="font-bold mb-1">مبدأ تدرجي:</p>
-                            <p>الاختبارات غير المنجزة لا تحتسب كصفر ولا تسحب المعدل.</p>
-                            <p>المعدل = (معدل الاختبارات + معدل المراقبة) ÷ 2 + الأنشطة - الخصومات</p>
-                        </div>
+                    <h3 class="text-2xl font-bold text-primary dark:text-white">${student.name}</h3>
+                    <p class="text-slate-500">${student.level}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg text-center">
+                        <p class="text-xs text-slate-500">المعدل التراكمي</p>
+                        <p class="text-2xl font-bold font-inter ${metrics.isAtRisk ? 'text-danger' : 'text-success'}">${metrics.average}</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg text-center">
+                        <p class="text-xs text-slate-500">حالة الأداء</p>
+                        <p class="text-lg font-bold ${metrics.isExcellent ? 'text-success' : (metrics.isAtRisk ? 'text-danger' : 'text-warning')}">
+                            ${metrics.isExcellent ? 'ممتاز' : (metrics.isAtRisk ? 'في خطر' : 'جيد')}
+                        </p>
                     </div>
                 </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between p-2 border-b dark:border-slate-700"><span>الغياب</span> <span class="font-inter text-danger">-${(student.absences || 0) * 0.01}</span></div>
+                    <div class="flex justify-between p-2 border-b dark:border-slate-700"><span>الواجبات غير المنجزة</span> <span class="font-inter text-danger">-${(student.missedHomework || 0) * 0.01}</span></div>
+                    <div class="flex justify-between p-2"><span>الأنشطة الإضافية</span> <span class="font-inter text-success">+${((student.extraActivities || 0) + (student.distinctionActivities || 0)) * 0.01}</span></div>
+                </div>
             `;
-        }
+            document.getElementById('modalOverlay').classList.remove('hidden');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('modalOverlay').classList.add('hidden');
+        };
+
+        window.saveAttendance = async function() {
+            const date = document.getElementById('attendanceDate').value;
+            const absences = document.querySelectorAll('input[data-type="absence"]:checked');
+            const homeworks = document.querySelectorAll('input[data-type="homework"]:checked');
+            
+            if (!date) { alert("الرجاء اختيار التاريخ"); return; }
+
+            const batch = writeBatch(db);
+            let count = 0;
+            
+            absences.forEach(cb => {
+                const ref = doc(collection(db, "attendance"));
+                batch.set(ref, { studentId: cb.dataset.id, date, unexcusedAbsence: true, missedHomework: false, timestamp: serverTimestamp() });
+                count++;
+            });
+
+            homeworks.forEach(cb => {
+                const ref = doc(collection(db, "attendance"));
+                batch.set(ref, { studentId: cb.dataset.id, date, unexcusedAbsence: false, missedHomework: true, timestamp: serverTimestamp() });
+                count++;
+            });
+
+            if (count === 0) { alert("لم يتم تحديد أي تسجيلات"); return; }
+
+            try {
+                await batch.commit();
+                alert(`تم حفظ ${count} تسجيلات بنجاح`);
+                logAudit("تسجيل حضور وغياب", date);
+                // Reset checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            } catch (error) {
+                alert("خطأ في الحفظ: " + error.message);
+            }
+        };
 
         function renderAttendance(container) {
             container.innerHTML = `
@@ -622,10 +563,9 @@
                         <h3 class="font-bold text-lg">تسجيل الحضور والسلوك</h3>
                         <input type="date" id="attendanceDate" class="p-2 rounded border dark:bg-slate-800 dark:border-slate-600" value="${new Date().toISOString().split('T')[0]}">
                     </div>
-                    
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto max-h-[60vh]">
                         <table class="w-full text-sm">
-                            <thead class="bg-slate-50 dark:bg-slate-800">
+                            <thead class="bg-slate-50 dark:bg-slate-800 sticky top-0">
                                 <tr>
                                     <th class="p-3 text-right">التلميذ</th>
                                     <th class="p-3 text-center">غياب غير مبرر<br><span class="text-xs text-danger">(-0.01)</span></th>
@@ -643,87 +583,56 @@
                             </tbody>
                         </table>
                     </div>
-                    <button onclick="saveAttendance()" class="mt-6 w-full bg-primary text-white py-3 rounded-lg hover:bg-slate-800 transition font-bold">حفظ التسجيل</button>
+                    <button onclick="saveAttendance()" class="mt-6 w-full bg-primary text-white py-3 rounded-lg hover:bg-slate-800 transition font-bold">حفظ التسجيلات</button>
                 </div>
             `;
         }
 
-        function saveAttendance() {
-            const date = document.getElementById('attendanceDate').value;
-            const absences = document.querySelectorAll('input[data-type="absence"]:checked');
-            const homeworks = document.querySelectorAll('input[data-type="homework"]:checked');
-            
-            const batch = db.batch();
-            
-            absences.forEach(cb => {
-                const ref = db.collection("attendance").doc();
-                batch.set(ref, {
-                    studentId: cb.dataset.id,
-                    date: date,
-                    unexcusedAbsence: true,
-                    missedHomework: false,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            });
-
-            homeworks.forEach(cb => {
-                const ref = db.collection("attendance").doc();
-                batch.set(ref, {
-                    studentId: cb.dataset.id,
-                    date: date,
-                    unexcusedAbsence: false,
-                    missedHomework: true,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            });
-
-            batch.commit().then(() => {
-                alert("تم حفظ بيانات الحضور والسلوك بنجاح");
-                logAudit("تسجيل حضور وغياب", date);
-            });
+        function renderAssessment(container) {
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass p-6">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-file-signature text-accent"></i> الاختبارات الأسبوعية</h3>
+                        <div class="space-y-4">
+                            <select class="w-full p-2 rounded border dark:bg-slate-800 dark:border-slate-600"><option>الرياضيات</option><option>اللغة الفرنسية</option><option>النشاط العلمي</option></select>
+                            <select class="w-full p-2 rounded border dark:bg-slate-800 dark:border-slate-600"><option>الخامس ابتدائي</option><option>السادس ابتدائي</option></select>
+                            <input type="date" class="w-full p-2 rounded border dark:bg-slate-800 dark:border-slate-600">
+                            <button onclick="alert('سيتم فتح جدول إدخال النقط لجميع التلاميذ')" class="w-full bg-accent text-white py-2 rounded hover:bg-blue-700 transition">بدء إدخال النقط</button>
+                        </div>
+                    </div>
+                    <div class="glass p-6">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-tasks text-purple-500"></i> المراقبة المستمرة (CA)</h3>
+                        <p class="text-sm text-slate-500 mb-4">5 مراحل × 3 مواد (فرنسية، رياضيات، نشاط علمي)</p>
+                        <button onclick="alert('سيتم فتح واجهة تحديث المراقبة المستمرة')" class="w-full border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 py-4 rounded-lg hover:border-accent hover:text-accent transition">
+                            <i class="fas fa-plus-circle text-2xl mb-2 block"></i> تحديث نقاط المراقبة المستمرة
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
         function renderAnalytics(container) {
             const atRiskStudents = state.students.filter(s => calculateStudentMetrics(s).isAtRisk);
-            
             container.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    ${statCard('المؤشر الأكاديمي', 'جيد', 'fa-chart-bar', 'bg-blue-100 text-blue-600')}
-                    ${statCard('مؤشر التحسن', '+12%', 'fa-arrow-up', 'bg-green-100 text-green-600')}
-                    ${statCard('مؤشر التميز', `${state.students.filter(s => calculateStudentMetrics(s).isExcellent).length}`, 'fa-star', 'bg-yellow-100 text-yellow-600')}
-                    ${statCard('مؤشر الخطر', atRiskStudents.length, 'fa-exclamation-triangle', 'bg-red-100 text-red-600')}
-                </div>
-
                 <div class="glass p-6">
                     <h3 class="font-bold text-lg mb-4 text-danger">جدول التلاميذ في خطر والتوصيات</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead class="bg-red-50 dark:bg-red-900/20 text-danger">
-                                <tr>
-                                    <th class="p-3 text-right">التلميذ</th>
-                                    <th class="p-3 text-center">المعدل</th>
-                                    <th class="p-3 text-right">مستوى الخطر</th>
-                                    <th class="p-3 text-right">التوصية</th>
-                                </tr>
+                                <tr><th class="p-3 text-right">التلميذ</th><th class="p-3 text-center">المعدل</th><th class="p-3 text-right">مستوى الخطر</th><th class="p-3 text-right">التوصية</th></tr>
                             </thead>
                             <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                                 ${atRiskStudents.map(s => {
                                     const avg = parseFloat(calculateStudentMetrics(s).average);
-                                    let level = 'منخفض';
-                                    let rec = 'تشجيع وتحفيز';
-                                    let color = 'text-warning';
-                                    
+                                    let level = 'منخفض', rec = 'تشجيع وتحفيز', color = 'text-warning';
                                     if (avg < 5) { level = 'عالي'; rec = 'تدخل فوري + حصص دعم'; color = 'text-danger font-bold'; }
                                     else if (avg < 6) { level = 'متوسط'; rec = 'متابعة أسبوعية'; color = 'text-warning font-bold'; }
-                                    
-                                    return `
-                                        <tr>
-                                            <td class="p-3 font-semibold">${s.name}</td>
-                                            <td class="p-3 text-center font-inter font-bold text-danger">${avg}</td>
-                                            <td class="p-3 ${color}">${level}</td>
-                                            <td class="p-3 text-slate-600 dark:text-slate-300">${rec}</td>
-                                        </tr>
-                                    `;
+                                    return `<tr>
+                                        <td class="p-3 font-semibold">${s.name}</td>
+                                        <td class="p-3 text-center font-inter font-bold text-danger">${avg}</td>
+                                        <td class="p-3 ${color}">${level}</td>
+                                        <td class="p-3 text-slate-600 dark:text-slate-300">${rec}</td>
+                                    </tr>`;
                                 }).join('')}
                                 ${atRiskStudents.length === 0 ? '<tr><td colspan="4" class="p-4 text-center text-slate-500">لا يوجد تلاميذ في خطر حالياً</td></tr>' : ''}
                             </tbody>
@@ -733,146 +642,20 @@
             `;
         }
 
-        function renderCalendar(container) {
-            container.innerHTML = `
-                <div class="glass p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-lg">التقويم الشهري</h3>
-                        ${state.role === 'teacher' ? `<button onclick="alert('ميزة إضافة موعد قيد التطوير')" class="bg-accent text-white px-4 py-2 rounded text-sm"><i class="fas fa-plus ml-1"></i> إضافة موعد</button>` : ''}
-                    </div>
-                    <div class="grid grid-cols-7 gap-2 text-center mb-2 font-bold text-slate-500">
-                        <div>الأحد</div><div>الاثنين</div><div>الثلاثاء</div><div>الأربعاء</div><div>الخميس</div><div>الجمعة</div><div>السبت</div>
-                    </div>
-                    <div class="grid grid-cols-7 gap-2">
-                        ${Array.from({length: 30}, (_, i) => {
-                            const day = i + 1;
-                            let eventClass = '';
-                            let eventText = '';
-                            if (day === 5) { eventClass = 'bg-blue-100 text-blue-700 border-blue-200'; eventText = 'اختبار'; }
-                            if (day === 12) { eventClass = 'bg-purple-100 text-purple-700 border-purple-200'; eventText = 'مراقبة'; }
-                            if (day === 18) { eventClass = 'bg-orange-100 text-orange-700 border-orange-200'; eventText = 'واجب'; }
-                            
-                            return `
-                                <div class="aspect-square rounded-lg border border-slate-200 dark:border-slate-700 p-2 flex flex-col items-start justify-start hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer">
-                                    <span class="text-sm font-semibold mb-1">${day}</span>
-                                    ${eventText ? `<span class="text-[10px] px-1.5 py-0.5 rounded ${eventClass} w-full text-center">${eventText}</span>` : ''}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                    <div class="flex gap-4 mt-6 text-xs justify-center">
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-500"></span> اختبار</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-purple-500"></span> مراقبة مستمرة</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-orange-500"></span> واجب</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderGoals(container) {
-            container.innerHTML = `
-                <div class="glass p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-lg">نظام الأهداف الذكية (SMART)</h3>
-                        ${state.role === 'teacher' ? `<button class="bg-accent text-white px-4 py-2 rounded text-sm"><i class="fas fa-plus ml-1"></i> هدف جديد</button>` : ''}
-                    </div>
-                    <div class="space-y-4">
-                        <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white/50 dark:bg-slate-800/50">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h4 class="font-bold text-primary dark:text-white">تحسين معدل الرياضيات</h4>
-                                    <p class="text-xs text-slate-500">التلميذ: أحمد العلوي | الموعد النهائي: 30 نونبر</p>
-                                </div>
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">قيد التنفيذ</span>
-                            </div>
-                            <div class="w-full bg-slate-200 rounded-full h-2.5 dark:bg-slate-700">
-                                <div class="bg-accent h-2.5 rounded-full" style="width: 65%"></div>
-                            </div>
-                            <p class="text-xs text-left mt-1 text-slate-500">65%</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderAnnouncements(container) {
-            container.innerHTML = `
-                <div class="glass p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-lg">إعلانات فضاء الأولياء</h3>
-                        ${state.role === 'teacher' ? `<button class="bg-accent text-white px-4 py-2 rounded text-sm"><i class="fas fa-plus ml-1"></i> نشر إعلان</button>` : ''}
-                    </div>
-                    <div class="space-y-4">
-                        <div class="p-4 border-r-4 border-danger bg-red-50 dark:bg-red-900/10 rounded-lg">
-                            <div class="flex justify-between items-start">
-                                <h4 class="font-bold text-danger"><i class="fas fa-exclamation-circle ml-2"></i> عاجل: اجتماع أولياء الأمور</h4>
-                                <span class="text-xs text-slate-500">منذ يومين</span>
-                            </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">يدعى جميع الأولياء لحضور الاجتماع الدوري يوم الجمعة القادم على الساعة 10:00 صباحاً.</p>
-                        </div>
-                        <div class="p-4 border-r-4 border-accent bg-blue-50 dark:bg-blue-900/10 rounded-lg">
-                            <div class="flex justify-between items-start">
-                                <h4 class="font-bold text-accent"><i class="fas fa-info-circle ml-2"></i> جدول الاختبارات</h4>
-                                <span class="text-xs text-slate-500">منذ أسبوع</span>
-                            </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">تم نشر جدول الاختبارات الإشهادية في قسم الوثائق.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
         function renderMotivation(container) {
             const sorted = [...state.students].sort((a, b) => calculateStudentMetrics(b).average - calculateStudentMetrics(a).average).slice(0, 6);
-            
             container.innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 glass p-6">
-                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-crown text-yellow-500"></i> لوحة المتصدرين</h3>
-                        <div class="space-y-3">
-                            ${sorted.map((s, i) => {
-                                const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣'];
-                                return `
-                                    <div class="flex items-center gap-4 p-3 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700">
-                                        <span class="text-2xl">${medals[i]}</span>
-                                        <div class="flex-1">
-                                            <h4 class="font-bold text-primary dark:text-white">${s.name}</h4>
-                                            <p class="text-xs text-slate-500">${s.level}</p>
-                                        </div>
-                                        <div class="text-left">
-                                            <span class="font-inter font-bold text-accent text-lg">${calculateStudentMetrics(s).average}</span>
-                                            <span class="text-xs text-slate-400 block">معدل</span>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="glass p-6">
-                        <h3 class="font-bold text-lg mb-4">الأوسمة والشارات</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                                <div class="text-3xl mb-2">⭐</div>
-                                <h4 class="font-bold text-sm">نجم القسم</h4>
-                                <p class="text-xs text-slate-500 mt-1">أعلى معدل شهري</p>
-                            </div>
-                            <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                                <div class="text-3xl mb-2">📈</div>
-                                <h4 class="font-bold text-sm">الأكثر تحسناً</h4>
-                                <p class="text-xs text-slate-500 mt-1">تطور ملحوظ في المعدل</p>
-                            </div>
-                            <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                                <div class="text-3xl mb-2">🎯</div>
-                                <h4 class="font-bold text-sm">الملتزم</h4>
-                                <p class="text-xs text-slate-500 mt-1">بدون غياب أو تأخير</p>
-                            </div>
-                            <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                                <div class="text-3xl mb-2">🏆</div>
-                                <h4 class="font-bold text-sm">المتفوق</h4>
-                                <p class="text-xs text-slate-500 mt-1">معدل عام ≥ 9</p>
-                            </div>
-                        </div>
+                <div class="glass p-6">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-crown text-yellow-500"></i> لوحة المتصدرين</h3>
+                    <div class="space-y-3">
+                        ${sorted.map((s, i) => {
+                            const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣'];
+                            return `<div class="flex items-center gap-4 p-3 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700">
+                                <span class="text-2xl">${medals[i]}</span>
+                                <div class="flex-1"><h4 class="font-bold text-primary dark:text-white">${s.name}</h4><p class="text-xs text-slate-500">${s.level}</p></div>
+                                <div class="text-left"><span class="font-inter font-bold text-accent text-lg">${calculateStudentMetrics(s).average}</span><span class="text-xs text-slate-400 block">معدل</span></div>
+                            </div>`;
+                        }).join('')}
                     </div>
                 </div>
             `;
@@ -882,132 +665,44 @@
             container.innerHTML = `
                 <div class="glass p-6 max-w-2xl">
                     <h3 class="font-bold text-lg mb-6">مركز التحكم والإعدادات</h3>
-                    
                     <div class="space-y-6">
                         <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
-                            <div>
-                                <h4 class="font-semibold">الوضع الليلي</h4>
-                                <p class="text-xs text-slate-500">تفعيل المظهر الداكن للتطبيق</p>
-                            </div>
+                            <div><h4 class="font-semibold">الوضع الليلي</h4><p class="text-xs text-slate-500">تفعيل المظهر الداكن للتطبيق</p></div>
                             <button onclick="toggleDarkMode()" class="w-12 h-6 bg-slate-300 dark:bg-accent rounded-full relative transition-colors">
                                 <div class="w-4 h-4 bg-white rounded-full absolute top-1 right-1 dark:left-1 dark:right-auto transition-all"></div>
                             </button>
                         </div>
-
                         <div class="border-t border-slate-200 dark:border-slate-700 pt-6">
                             <h4 class="font-semibold mb-4">إدارة البيانات</h4>
-                            <div class="flex gap-4">
-                                <button onclick="exportData()" class="flex-1 bg-primary text-white py-2 rounded-lg hover:bg-slate-800 transition">
-                                    <i class="fas fa-download ml-2"></i> تصدير JSON
-                                </button>
-                                <label class="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 py-2 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition cursor-pointer text-center">
-                                    <i class="fas fa-upload ml-2"></i> استعادة JSON
-                                    <input type="file" class="hidden" onchange="importData(this)">
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="border-t border-slate-200 dark:border-slate-700 pt-6">
-                            <h4 class="font-semibold mb-4 text-danger">منطقة الخطر</h4>
-                            <button onclick="alert('هذه الميزة تتطلب مصادقة إضافية')" class="text-danger text-sm hover:underline">مسح جميع بيانات السجل (Audit Log)</button>
+                            <button onclick="alert('ميزة التصدير قيد التطوير')" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-slate-800 transition mb-2">
+                                <i class="fas fa-download ml-2"></i> تصدير البيانات (JSON)
+                            </button>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // ==========================================
-        // 7. Utilities & Real-time
-        // ==========================================
+        // 6. Utilities
+        window.toggleDarkMode = function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', isDark);
+            if (state.currentView === 'settings') navigateTo('settings');
+        };
+
         function setupRealtimeListeners() {
-            // Listen to students
-            db.collection("students").onSnapshot((snapshot) => {
+            onSnapshot(collection(db, "students"), (snapshot) => {
                 state.students = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                if (state.currentView === 'students' || state.currentView === 'dashboard' || state.currentView === 'motivation' || state.currentView === 'analytics') {
-                    navigateTo(state.currentView); // Re-render to show updates
+                if (['dashboard', 'students', 'motivation', 'analytics'].includes(state.currentView)) {
+                    navigateTo(state.currentView);
                 }
             });
 
-            // Listen to tests
-            db.collection("tests").onSnapshot((snapshot) => {
+            onSnapshot(collection(db, "tests"), (snapshot) => {
                 state.tests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (state.currentView === 'dashboard') navigateTo('dashboard');
             });
         }
-
-        function toggleDarkMode() {
-            state.darkMode = !state.darkMode;
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('darkMode', state.darkMode);
-            if (state.currentView === 'settings') navigateTo('settings'); // Re-render toggle
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.add('hidden');
-        }
-
-        function exportData() {
-            const data = {
-                students: state.students,
-                exportDate: new Date().toISOString()
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `tadbir_backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            logAudit("تصدير بيانات", "JSON Backup");
-        }
-
-        function importData(input) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    // Here you would implement batch write to Firestore
-                    alert("تم قراءة الملف بنجاح. جاهز للرفع (محاكاة).");
-                    logAudit("استيراد بيانات", file.name);
-                } catch (err) {
-                    alert("ملف غير صالح");
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // Mock data initialization for demonstration if DB is empty
-        function seedMockData() {
-            // This would normally check if DB is empty first
-            const mockStudents = [
-                { name: "أحمد العلوي", level: "السادس ابتدائي", testAvg: 8.5, caAvg: 9, extraActivities: 2, absences: 0, missedHomework: 0 },
-                { name: "فاطمة الزهراء", level: "الخامس ابتدائي", testAvg: 9.2, caAvg: 9.5, extraActivities: 5, absences: 0, missedHomework: 0 },
-                { name: "يوسف بن علي", level: "السادس ابتدائي", testAvg: 4.5, caAvg: 5, extraActivities: 0, absences: 3, missedHomework: 2 },
-                { name: "خديجة العمراني", level: "الخامس ابتدائي", testAvg: 7.0, caAvg: 7.5, extraActivities: 1, absences: 1, missedHomework: 0 }
-            ];
-            
-            // Uncomment to seed:
-            // const batch = db.batch();
-            // mockStudents.forEach(s => {
-            //     const ref = db.collection("students").doc();
-            //     batch.set(ref, s);
-            // });
-            // batch.commit();
-        }
-
-        // Initialize
-        window.onload = () => {
-            // Check if already logged in
-            auth.onAuthStateChanged((user) => {
-                if (user && user.email === "meg.code91@gmail.com") {
-                    state.user = user;
-                    state.role = 'teacher';
-                    initApp();
-                }
-            });
-        };
     </script>
 </body>
 </html>
