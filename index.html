@@ -15,7 +15,7 @@
         body { font-family: 'Tajawal', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3c72 100%); }
 
-        /* حركات شريط الإعلانات من اليسار إلى اليمين بشكل جبار */
+        /* تم إبطاء السرعة بـ 50% لتصبح الحركة هادئة وانسيابية تماماً */
         @keyframes marqueeLeftToRight {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -24,10 +24,10 @@
         .animate-marquee {
             display: inline-flex;
             white-space: nowrap;
-            animation: marqueeLeftToRight 15s linear infinite;
+            animation: marqueeLeftToRight 30s linear infinite;
         }
 
-        /* إيقاف الحركة عند تحريك الماوس فوق الإعلان لقراءته بسهولة */
+        /* إيقاف الحركة عند تحريك الماوس فوق الشريط */
         .marquee-container:hover .animate-marquee {
             animation-play-state: paused;
         }
@@ -124,7 +124,7 @@
             </div>
         </header>
 
-        <!-- الإعلانات - تصميم متطور مع حركة سباحة من اليسار إلى اليمين -->
+        <!-- الإعلانات - حركة هادئة ومريحة (30 ثانية) من اليسار إلى اليمين -->
         <div class="bg-amber-500 text-slate-900 font-medium text-xs py-2 px-4 shadow-inner relative overflow-hidden flex items-center">
             <div class="max-w-7xl mx-auto w-full flex items-center gap-3">
                 <span class="bg-rose-700 text-white font-extrabold px-3 py-1 rounded-lg text-[11px] shrink-0 z-10 shadow-md animate-pulse flex items-center gap-1">
@@ -723,7 +723,7 @@
             renderBehaviorLogs();
         }
 
-        // عرض الإعلانات متحركة من اليسار إلى اليمين
+        // عرض الإعلانات بالحركة الهادئة (30 ثانية)
         function renderAnnouncements() {
             const upcoming = tests.filter(t => t.level === currentLevel && new Date(t.date) >= new Date().setHours(0,0,0,0));
             const container = document.getElementById('announcements-list');
