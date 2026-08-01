@@ -335,7 +335,7 @@ button{font-family:inherit}
 </div>
 
 <script type="module">
-/* ================= Qismi v1 — always-online edition (fixed) ================= */
+/* ================= Qismi v1 — always-online edition (reveal-fix) ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
   authDomain: "qismi-46d97.firebaseapp.com",
@@ -837,7 +837,7 @@ function viewGate(){
 function viewVisitorPick(){
   if(!app.vlv){
     return `<div class="gate">
-      <div class="board dash-head reveal in"><h2>👨‍👩‍‍👦 فضاء التلاميذ والأولياء</h2><span class="d-date">اختر المستوى الدراسي للدخول</span></div>
+      <div class="board dash-head reveal in"><h2>👨‍👩‍👧‍👦 فضاء التلاميذ والأولياء</h2><span class="d-date">اختر المستوى الدراسي للدخول</span></div>
       <div class="wood-strip"></div>
       <div class="doors" style="margin-top:22px">
         ${LEVELS.map(l=>`<button class="door door-notebook reveal" style="background:linear-gradient(170deg, ${l.id==='5'?'#d9a521,#b3860e':'#2f63b8,#1c4487'})" onclick="Q.toVisitorPick('${l.id}')">
@@ -1164,7 +1164,7 @@ function viewStudent(){
       <input id="evNote" class="input" placeholder="ملاحظة (اختياري)">
       <button class="btn btn-red" onclick="Q.addEvent('${s.id}')">تسجيل ✔</button>
     </div>
-    <p class="mini muted" style="margin-bottom:12px">تُطبَّق الآثار على المعدلات تلقائيا فور التسجيل · 🚷️📉 أحداث سرية لا تظهر للزوار · التبرير متاح خلال 3 أيام.</p>`:''}
+    <p class="mini muted" style="margin-bottom:12px">تُطبَّق الآثار على المعدلات تلقائيا فور التسجيل · 🚷🌪️📉 أحداث سرية لا تظهر للزوار · التبرير متاح خلال 3 أيام.</p>`:''}
     ${eventRows(s.id, isAdmin)}
   </div>
   </div>`;
@@ -1181,7 +1181,17 @@ function render(){
 }
 const io=new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }),{threshold:.07});
 function afterRender(){
-  document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+  /* إظهارٌ فوريٌّ متزامن لكل بطاقةٍ موجودةٍ في الشاشة الآن (لا ينتظر المراقب — يصلح WebToApp/WebView) */
+  const vh=window.innerHeight||document.documentElement.clientHeight;
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top < vh*0.95 && r.bottom > 0){ el.classList.add('in'); }
+    else { try{ io.observe(el); }catch{ el.classList.add('in'); } }
+  });
+  /* شبكة أمانٍ مطلقة: إن تعنّت المراقب في أي بيئة، أُظهر الكل بعد مهلةٍ قصيرة */
+  clearTimeout(window.__revFallback);
+  window.__revFallback=setTimeout(()=>{ document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')); }, 700);
+
   document.querySelectorAll('[data-to]').forEach(el=>{
     const to=parseFloat(el.dataset.to)||0, dec=+(el.dataset.dec||0), t0=performance.now(), dur=750;
     (function step(t){ const p=Math.min(1,(t-t0)/dur); el.textContent=(to*(1-Math.pow(1-p,3))).toFixed(dec); if(p<1) requestAnimationFrame(step); })(t0);
