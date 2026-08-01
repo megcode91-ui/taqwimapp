@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#173f2f">
 <title>قسمي Qismi v1 — فضاء الأستاذ وتلاميذه وأوليائهم</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏫</text></svg>">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/lalezar@latest.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/ibm-plex-sans-arabic@latest.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/lalezar@latest/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/ibm-plex-sans-arabic@latest/css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/ibm-plex-sans-arabic@latest/arabic-500-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/ibm-plex-sans-arabic@latest/arabic-700-normal.css">
 <style>
@@ -16,8 +16,9 @@
   --paper:#faf7ec; --card:#fffdf4; --line:#e4dcc2; --line2:#d5cba8;
   --ink:#22303a; --muted:#6d7a72;
   --red:#c8372d; --red-d:#a52b22; --blue:#2456a6; --green:#1d7a4f; --yellow:#f7c948; --yellow-soft:#fdf0c8;
-  --wood:#8a5a33; --wood-d:#6d4426;
+  --wood:#8a5a33; --wood-d:#6d4426; --amber:#d98a16;
   --shadow:0 10px 28px rgba(23,42,32,.13);
+  --offbar-h:0px;
   --f-disp:'Lalezar','IBM Plex Sans Arabic',system-ui;
   --f-body:'IBM Plex Sans Arabic','Segoe UI',Tahoma,system-ui,sans-serif;
 }
@@ -29,8 +30,9 @@ body{
     linear-gradient(rgba(60,90,120,.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(60,90,120,.06) 1px, transparent 1px);
   background-size:28px 28px; min-height:100vh;
+  padding-top:var(--offbar-h,0px); transition:padding-top .35s ease;
 }
-body::before{content:''; position:fixed; top:0; bottom:0; right:76px; width:2px; background:rgba(200,55,45,.22); z-index:0; pointer-events:none}
+body::before{content:''; position:fixed; top:var(--offbar-h,0px); bottom:0; right:76px; width:2px; background:rgba(200,55,45,.22); z-index:0; pointer-events:none; transition:top .35s ease}
 @media(max-width:900px){ body::before{display:none} }
 ::selection{background:var(--yellow); color:var(--ink)}
 #doodles span{position:fixed; z-index:0; pointer-events:none; color:#3c5a4a; opacity:.06; font-family:var(--f-disp); animation:floaty ease-in-out infinite alternate}
@@ -38,6 +40,31 @@ body::before{content:''; position:fixed; top:0; bottom:0; right:76px; width:2px;
 #app{position:relative; z-index:1}
 button{font-family:inherit}
 :focus-visible{outline:3px solid rgba(36,86,166,.45); outline-offset:2px; border-radius:6px}
+
+/* ====== offline bar ====== */
+.offline-bar{position:fixed; top:0; left:0; right:0; z-index:300; background:linear-gradient(90deg,#a52b22,#c8372d 50%,#a52b22); color:#fff; font-weight:800; font-size:.9rem; text-align:center; padding:11px 16px; display:flex; align-items:center; justify-content:center; gap:9px; transform:translateY(-130%); transition:transform .4s cubic-bezier(.2,.8,.3,1); box-shadow:0 5px 16px rgba(165,43,34,.45)}
+.offline-bar.show{transform:none}
+.offline-bar .ob-dot{width:9px; height:9px; border-radius:50%; background:#fff; animation:pulse 1s infinite; flex:none}
+.offline-bar .ob-retry{background:rgba(255,255,255,.18); border:1.4px solid rgba(255,255,255,.5); color:#fff; border-radius:8px; padding:3px 12px; font-weight:800; font-size:.8rem; cursor:pointer; transition:.2s}
+.offline-bar .ob-retry:hover{background:rgba(255,255,255,.3)}
+
+/* ====== boot ====== */
+.boot{position:fixed; inset:0; z-index:9999; display:grid; place-items:center; background:radial-gradient(ellipse at 50% 28%, #1c4a37, #0f2f22 72%); padding:20px; transition:opacity .55s ease, visibility .55s; overflow:auto}
+.boot.hide{opacity:0; visibility:hidden; pointer-events:none}
+.boot-card{padding:38px 30px; text-align:center; border:6px solid var(--wood); max-width:520px; width:100%; position:relative; z-index:2; margin:auto}
+.boot-logo{font-family:var(--f-disp); font-size:3.2rem; color:var(--chalk); text-shadow:0 0 16px rgba(244,241,228,.35), 2px 3px 0 rgba(0,0,0,.25); line-height:1}
+.boot-logo .ver-chip{font-size:1rem; vertical-align:middle}
+.boot-spinner{width:56px; height:56px; margin:22px auto; border:5px solid rgba(244,241,228,.22); border-top-color:var(--yellow); border-radius:50%; animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.boot-msg{color:var(--chalk); font-weight:800; font-size:1.08rem}
+.boot-sub{color:var(--chalk-dim); font-size:.86rem; margin-top:9px; line-height:1.8}
+.boot-err{color:#ffe2c2; font-weight:600; margin-top:16px; font-size:.85rem; line-height:1.95; background:rgba(217,138,22,.14); border:1.4px dashed rgba(255,226,194,.5); border-radius:10px; padding:13px 15px; text-align:right}
+.boot-err b{color:#fff}
+.boot-err .be-head{display:flex; gap:8px; align-items:center; font-weight:800; color:#fff; margin-bottom:8px; font-size:.95rem}
+.boot-rules{margin-top:12px; text-align:right}
+.boot-rules pre{direction:ltr; text-align:left; background:#0c241b; color:#bfe9cf; border:1.4px solid rgba(191,233,207,.25); border-radius:10px; padding:12px 13px; font-size:.74rem; line-height:1.7; overflow:auto; white-space:pre; font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace; margin-top:8px}
+.boot-gd{position:absolute; font-family:var(--f-disp); color:rgba(244,241,228,.16); pointer-events:none; animation:floaty 9s ease-in-out infinite alternate}
+.boot-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
 
 /* ====== boards & chalk ====== */
 .board{background:
@@ -48,7 +75,6 @@ button{font-family:inherit}
 .board::after{content:''; position:absolute; inset:0; pointer-events:none;
   background:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.6px); background-size:9px 9px; opacity:.5}
 .wood-strip{height:9px; background:linear-gradient(180deg,#b07a42,var(--wood) 45%,var(--wood-d)); border-radius:0 0 6px 6px; box-shadow:0 3px 8px rgba(60,35,10,.25)}
-.chalk-txt{color:var(--chalk); text-shadow:0 0 8px rgba(244,241,228,.28)}
 .hl{background:linear-gradient(180deg, transparent 56%, rgba(247,201,72,.62) 56% 94%, transparent 94%); padding:0 .18em; border-radius:3px}
 
 /* ====== generic ====== */
@@ -131,13 +157,14 @@ button{font-family:inherit}
 .gate-foot{text-align:center; color:var(--muted); font-size:.85rem; margin-top:26px}
 
 /* ====== app bar & admin layout ====== */
-.appbar{position:sticky; top:0; z-index:50; border-radius:0 0 12px 12px; box-shadow:0 8px 22px rgba(15,40,30,.28)}
+.appbar{position:sticky; top:var(--offbar-h,0px); z-index:50; border-radius:0 0 12px 12px; box-shadow:0 8px 22px rgba(15,40,30,.28); transition:top .35s ease}
 .appbar-in{max-width:1220px; margin:0 auto; display:flex; align-items:center; gap:14px; padding:12px 18px; flex-wrap:wrap; position:relative; z-index:2}
 .logo{font-family:var(--f-disp); font-size:1.7rem; color:var(--chalk); text-shadow:0 0 10px rgba(244,241,228,.3)}
 .logo .ver{font-style:normal; font-size:.85rem; background:var(--yellow); color:#5c4708; padding:1px 8px; border-radius:6px; vertical-align:middle; display:inline-block; transform:rotate(-4deg); margin-right:4px}
 .status{display:inline-flex; align-items:center; gap:7px; font-size:.83rem; color:var(--chalk-dim); border:1.4px dashed rgba(244,241,228,.4); padding:4px 12px; border-radius:999px}
-.dot{width:9px; height:9px; border-radius:50%; background:#d9a521; box-shadow:0 0 6px #d9a521}
+.dot{width:9px; height:9px; border-radius:50%; background:#d9a521; box-shadow:0 0 6px #d9a521; flex:none}
 .dot.on{background:#5ad48a; box-shadow:0 0 8px #5ad48a; animation:pulse 1.8s infinite}
+.dot.off{background:#ff5a4d; box-shadow:0 0 8px #ff5a4d; animation:pulse 1s infinite}
 @keyframes pulse{50%{opacity:.45}}
 .appbar .clock{font-family:var(--f-disp); color:var(--yellow); font-size:1.15rem; direction:ltr; letter-spacing:.05em}
 .who{font-size:.85rem; color:var(--chalk-dim); direction:ltr}
@@ -145,7 +172,7 @@ button{font-family:inherit}
 .appbar .btn-ghost:hover{background:rgba(255,255,255,.1); border-color:var(--chalk)}
 .spacer{flex:1}
 .admin-wrap{max-width:1220px; margin:0 auto; padding:20px 18px 60px; display:flex; gap:20px; align-items:flex-start}
-.side{position:sticky; top:86px; width:235px; flex:none; padding:12px}
+.side{position:sticky; top:calc(var(--offbar-h,0px) + 86px); width:235px; flex:none; padding:12px; transition:top .35s ease}
 .side .side-t{font-family:var(--f-disp); color:var(--muted); font-size:1rem; padding:4px 10px 10px}
 .tab{display:flex; align-items:center; gap:10px; width:100%; text-align:right; padding:11px 13px; border:none; background:transparent; border-radius:10px; font-size:.95rem; font-weight:600; color:var(--ink); cursor:pointer; transition:.2s; margin-bottom:3px; border-right:4px solid transparent}
 .tab:hover{background:var(--yellow-soft)}
@@ -268,7 +295,6 @@ button{font-family:inherit}
 .g-row{display:flex; align-items:center; gap:12px; padding:9px 4px; border-bottom:1.5px dashed var(--line)}
 .g-row span{flex:1; font-weight:700; font-size:.93rem}
 .g-in{width:96px; text-align:center; font-family:var(--f-disp); font-size:1.2rem; direction:ltr}
-.hint{font-size:.83rem; color:var(--muted); margin-bottom:8px}
 .confirm-msg{font-size:1.05rem; font-weight:700; text-align:center; padding:8px 4px 4px}
 #toastRoot{position:fixed; bottom:18px; inset-inline-start:18px; z-index:200; display:flex; flex-direction:column; gap:10px}
 .toast{background:var(--board); color:var(--chalk); padding:12px 20px; border-radius:12px; border-right:5px solid var(--yellow); box-shadow:0 12px 28px rgba(0,0,0,.3); font-weight:700; font-size:.92rem; opacity:0; transform:translateY(16px); transition:.3s; max-width:330px}
@@ -286,13 +312,30 @@ button{font-family:inherit}
 </style>
 </head>
 <body>
+<div id="offlineBar" class="offline-bar" role="alert"><span class="ob-dot"></span><span>⚠️ انقطع الاتصال بالخادم — قد لا تكون البيانات محدّثة. جارٍ إعادة الاتصال تلقائياً…</span><button class="ob-retry" onclick="Q.forceReconnect()">🔄 الآن</button></div>
 <div id="doodles" aria-hidden="true"></div>
 <div id="app"></div>
 <div id="modalRoot"></div>
 <div id="toastRoot"></div>
 
+<div id="bootScreen" class="boot">
+  <div class="boot-card board">
+    <span class="boot-gd" style="top:14px; right:18px; font-size:1.5rem">÷</span>
+    <span class="boot-gd" style="bottom:16px; left:20px; font-size:1.3rem; animation-delay:-3s">★</span>
+    <span class="boot-gd" style="top:40%; left:10px; font-size:1.2rem; animation-delay:-5s">√</span>
+    <div class="boot-logo">قسمي <span class="ver-chip">v1</span></div>
+    <div class="boot-spinner" id="bootSpinner"></div>
+    <div class="boot-msg" id="bootMsg">جارٍ الاتصال بالخادم السحابي…</div>
+    <div class="boot-sub" id="bootSub">نربط قسمك بالسحابة ليصل كل جديدٍ إلى تلاميذك وأوليائهم أولاً بأول، دون اعتماد على هذا الجهاز.</div>
+    <div class="boot-err" id="bootErr" style="display:none"></div>
+    <div class="boot-actions">
+      <button id="bootRetry" class="btn btn-red" style="display:none" onclick="Q.retryBoot()">🔄 إعادة المحاولة</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
-/* ================= Qismi v1 ================= */
+/* ================= Qismi v1 — always-online edition (fixed) ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
   authDomain: "qismi-46d97.firebaseapp.com",
@@ -329,13 +372,28 @@ const TASK_ORDER = [
 const COLK = {weekly:'weeklyTests', cc:'ccTests'};
 const MONTHS_MA = ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
 const DAYS_MA = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const FIRESTORE_RULES = `rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}`;
 
 /* ---------- state ---------- */
 const state = { students:[], weeklyTests:[], ccTests:[], events:[], announcements:[], meta:null };
 const app = { view:'gate', tab:'dash', lv:'5', vlv:null, sid:null, mode:'visitor', loginOpen:false };
-let remote=false, FS=null, db=null, autoChecked=false, nextTarget=new Date(), renderTimer=null;
+let conn='boot';
+let remote=false;
+let FS=null, db=null, fbApp=null, remoteAttached=false, autoChecked=false, nextTarget=new Date(), renderTimer=null;
+let bootLastError=null;
+const writeQueue=[];
+const firstSnap={};
+let metaFirstDone=false;
 
 /* ---------- utils ---------- */
+const $=id=>document.getElementById(id);
 const uid = ()=> (crypto.randomUUID ? crypto.randomUUID() : 'id'+Date.now().toString(16)+Math.random().toString(16).slice(2));
 const esc = s => String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const p2 = n => String(n).padStart(2,'0');
@@ -356,17 +414,87 @@ const avgCls = v => v==null?'avg-n':(v>=8?'avg-g':(v>=5?'avg-b':'avg-r'));
 const rankCls = r => r===1?'r1':(r===2?'r2':(r===3?'r3':''));
 const empty = (ico,txt)=>`<div class="empty"><b>${ico}</b>${txt}</div>`;
 const adminEmail = ()=> localStorage.getItem('qismi_admin')||'';
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+const timeoutPromise = ms => new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('timeout'),{code:'timeout'})),ms));
+const isFileProtocol = ()=> location.protocol==='file:';
 
 function toast(msg, tone='ok'){
-  const root=document.getElementById('toastRoot');
+  const root=$('toastRoot');
   const el=document.createElement('div');
   el.className='toast '+tone; el.innerHTML=msg; root.appendChild(el);
   requestAnimationFrame(()=>el.classList.add('show'));
   setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),320); }, 2800);
 }
-function openModal(html){ document.getElementById('modalRoot').innerHTML = `<div class="overlay" onclick="if(event.target===this)Q.closeModal()"><div class="modal">${html}</div></div>`; }
+function openModal(html){ $('modalRoot').innerHTML = `<div class="overlay" onclick="if(event.target===this)Q.closeModal()"><div class="modal">${html}</div></div>`; }
 
-/* ---------- local storage ---------- */
+/* ---------- connection UI ---------- */
+function setConn(c){
+  if(conn===c){ updateConnUI(); return; }
+  const prev=conn; conn=c; remote=(c==='online');
+  updateConnUI();
+  if(prev!=='online' && c==='online' && prev!=='boot') toast('☁️ عاد الاتصال بالخادم — المزامنة مباشرة');
+  if(c==='offline' && prev==='online') toast('⚠️ انقطع الاتصال بالخادم — ستُعاد المحاولة تلقائياً','warn');
+}
+function updateConnUI(){
+  const bar=$('offlineBar');
+  if(bar) bar.classList.toggle('show', conn==='offline');
+  document.documentElement.style.setProperty('--offbar-h', conn==='offline'?'42px':'0px');
+  patchConnBadges();
+}
+function patchConnBadges(){
+  const on=conn==='online';
+  document.querySelectorAll('.dot').forEach(d=>{ d.classList.toggle('on',on); d.classList.toggle('off',conn==='offline'); });
+  document.querySelectorAll('[data-conn-text]').forEach(e=>{
+    e.textContent = on ? e.dataset.connOnline : (conn==='offline' ? e.dataset.connOffline : (e.dataset.connBoot||'جارٍ الاتصال…'));
+  });
+}
+
+/* ---------- boot screen ---------- */
+function showBoot(msg,sub){
+  const bs=$('bootScreen'); bs.classList.remove('hide');
+  $('bootSpinner').style.display=''; $('bootRetry').style.display='none'; $('bootErr').style.display='none';
+  if(msg) $('bootMsg').textContent=msg;
+  if(sub!==undefined) $('bootSub').textContent=sub;
+}
+function errCode(e){ return e && (e.code || (e.message&&/permission-denied/i.test(e.message)?'permission-denied':'') || (e.message&&/unavailable/i.test(e.message)?'unavailable':'')); }
+function showBootError(){
+  $('bootSpinner').style.display='none';
+  $('bootMsg').textContent='تعذّر الاتصال بالخادم السحابي';
+  $('bootSub').textContent='لم نتمكّن من الوصول إلى السحابة بعد عدّة محاولات — التطبيق يعمل بالخادم فقط (لا حفظ محلي)، لذا نحتاج الاتصال ليعمل.';
+  const code=errCode(bootLastError);
+  const fileMode=isFileProtocol();
+  let head='', body='';
+  if(code==='permission-denied' || code==='failed-precondition'){
+    head='🔒 الخادم يرفض القراءة/الكتابة — قواعد Firestore مقفلة';
+    body=`السبب الأرجح أن قواعد قاعدة البيانات لا تسمح بالوصول بعد. افتح <b>Firebase Console → مشروع qismi-46d97 → Firestore Database → تبويب Rules</b>، الصق القواعد التالية ثم اضغط <b>Publish</b>، وبعدها أعد المحاولة:`;
+  } else if(code==='unavailable' || code==='timeout' || !navigator.onLine){
+    head='🌐 لا يمكن بلوغ السحابة الآن';
+    body='تحقّق من اتصال جهازك بالإنترنت، ومن أن قاعدة <b>Firestore</b> مُنشأة فعلاً في المشروع (زرّ <i>Create database</i> إن كانت فارغة). إن كنت متصلاً ومع ذلك يفشل، فالسبب غالباً قواعد مقفلة — انظر القواعد بالأسفل.';
+  } else {
+    head='⚠️ حدث خطأ أثناء الاتصال';
+    body='تعذّر إتمام الربط بالسحابة. إن تكرر الأمر تحقّق من الإنترنت ومن تهيئة Firestore، ومن القواعد بالأسفل.';
+  }
+  const fileWarn = fileMode
+    ? `<div style="margin-top:12px; padding:11px 13px; border-radius:10px; background:rgba(36,86,166,.16); border:1.4px dashed rgba(150,190,255,.55); color:#dbe8ff; text-align:right; line-height:1.9">
+        <b style="color:#fff">📁 ملاحظة مهمة:</b> أنت تفتح التطبيق من <b>ملفٍّ محلي</b> على جهازك (<span dir="ltr">file://</span>). هذا قد يُضعف الاتصال أو يعزل البيانات عن باقي الأجهزة. لكي يرى التلاميذ والأولياء كل جديدٍ أولاً بأول على هواتفهم، <b>انشر الملف على GitHub Pages</b> وافتحه من الرابط المنشور (<span dir="ltr">https://…</span>) على كل الأجهزة.</div>`
+    : '';
+  const rulesBlock =
+    `<div class="boot-rules"><b style="color:#fff">📋 قواعد Firestore الجاهزة (انسخها والصقها في Rules ثم Publish):</b>
+       <pre id="rulesPre">${esc(FIRESTORE_RULES)}</pre>
+       <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end">
+         <button class="btn btn-board btn-sm" onclick="Q.copyRules()">📋 نسخ القواعد</button>
+         <a class="btn btn-ghost btn-sm" style="color:var(--chalk); border-color:rgba(244,241,228,.4)" target="_blank" rel="noopener" href="https://console.firebase.google.com/project/qismi-46d97/firestore/rules">⚙️ فتح لوحة القواعد</a>
+       </div>
+       <p class="mini" style="color:var(--chalk-dim); margin-top:8px; text-align:right">قواعد مفتوحة مناسبة لبدء مشروعك (قسمٌ واحد، بيانات غير حسّاسة). يمكن تقييدها لاحقاً.</p>
+       </div>`;
+  const raw = bootLastError ? `<details style="margin-top:10px; text-align:right"><summary style="cursor:pointer; color:var(--chalk-dim); font-size:.78rem">تفاصيل الخطأ التقني</summary><div dir="ltr" style="font-size:.72rem; color:#cfe3d6; margin-top:6px; word-break:break-word">${esc((bootLastError.code?bootLastError.code+': ':'')+(bootLastError.message||bootLastError))}</div></details>` : '';
+  $('bootErr').style.display='block';
+  $('bootErr').innerHTML = `<div class="be-head">${head}</div>${body}${rulesBlock}${fileWarn}${raw}`;
+  $('bootRetry').style.display='inline-flex';
+}
+function hideBoot(){ $('bootScreen').classList.add('hide'); }
+
+/* ---------- local cache (للعرض السريع فقط) ---------- */
 const COLS=['students','weeklyTests','ccTests','events','announcements'];
 const defaultMeta = ()=>({ lastRefresh:null, prevRanks:{}, assignments:{'5':[],'6':[]}, period:null });
 function loadLocal(){
@@ -379,53 +507,106 @@ const saveLocalMeta = ()=> localStorage.setItem('qismi_meta', JSON.stringify(sta
 function scheduleRender(){ clearTimeout(renderTimer); renderTimer=setTimeout(render, 70); }
 
 /* ---------- firebase ---------- */
-async function initFirebase(){
+async function tryInitFirebase(){
   try{
-    const [{initializeApp}, fsMod] = await Promise.all([
-      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js')
-    ]);
-    const fbApp = initializeApp(firebaseConfig);
-    try{ const {getAnalytics} = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js'); getAnalytics(fbApp); }catch{}
-    db = fsMod.getFirestore(fbApp); FS = fsMod; remote = true;
-    attachRemote();
-    toast('☁️ تم الاتصال بالخادم — المزامنة فعلية');
-    scheduleRender();
-  }catch(e){ remote=false; scheduleRender(); }
+    if(!fbApp){
+      const [{initializeApp}, fsMod] = await Promise.all([
+        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'),
+        import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js')
+      ]);
+      fbApp = initializeApp(firebaseConfig);
+      try{ const {getAnalytics} = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js'); getAnalytics(fbApp); }catch{}
+      db = fsMod.getFirestore(fbApp); FS = fsMod;
+      try{ await FS.enableNetwork(db); }catch{}
+    }
+    await Promise.race([ FS.getDoc(FS.doc(db,'meta','app')), timeoutPromise(7000) ]);
+    if(!remoteAttached){ attachRemote(); remoteAttached=true; }
+    return true;
+  }catch(e){ bootLastError=e; console.warn('[qismi] اتصال:', e); return false; }
+}
+async function bootApp(){
+  showBoot('جارٍ الاتصال بالخادم السحابي…');
+  for(let i=1;i<=4;i++){
+    showBoot(`جارٍ الاتصال بالخادم السحابي… (المحاولة ${i}/4)`, 'نربط قسمك بالسحابة ليصل كل جديدٍ إلى تلاميذك وأوليائهم أولاً بأول.');
+    if(await tryInitFirebase()){ hideBoot(); setConn('online'); toast('☁️ تم الاتصال بالخادم — كل جديد يصل فوراً للجميع'); return; }
+    await sleep(1700);
+  }
+  setConn('offline'); showBootError();
+}
+async function pingServer(){
+  if(!FS||!db) return false;
+  try{ await Promise.race([ FS.getDoc(FS.doc(db,'meta','app')), timeoutPromise(4000) ]); return true; }
+  catch(e){ bootLastError=e; return false; }
+}
+async function checkConnection(){
+  if($('bootScreen') && !$('bootScreen').classList.contains('hide')) return;
+  if(!navigator.onLine){ setConn('offline'); return; }
+  const ok = await pingServer();
+  setConn(ok?'online':'offline');
+  if(ok) flushQueue();
 }
 function attachRemote(){
   COLS.forEach(c=>{
+    firstSnap[c]=true;
     FS.onSnapshot(FS.collection(db,c), snap=>{
       const arr=[]; snap.forEach(d=>arr.push({id:d.id, ...d.data()}));
+      if(firstSnap[c]){
+        firstSnap[c]=false;
+        if(arr.length===0){
+          let local=[]; try{ local=JSON.parse(localStorage.getItem('qismi_'+c)||'[]'); }catch{}
+          if(local.length){ local.forEach(o=>{ FS.setDoc(FS.doc(db,c,o.id),o).catch(()=>{}); }); state[c]=local; saveLocalCol(c); scheduleRender(); toast('☁️ رُفعت بياناتك المحلية السابقة إلى الخادم'); return; }
+        }
+      }
       state[c]=arr; saveLocalCol(c);
       if(!autoChecked){ autoChecked=true; checkAutoRefresh(); }
-      if(Date.now()>=(window.__qsup||0)) scheduleRender();
-    }, err=>{ remote=false; scheduleRender(); toast('⚠️ تعذر الاتصال بالخادم — حفظ محلي','warn'); });
+      scheduleRender();
+    }, err=>{ console.warn('[qismi] snapshot '+c, err); setConn('offline'); });
   });
   FS.onSnapshot(FS.doc(db,'meta','app'), snap=>{
+    if(!metaFirstDone){
+      metaFirstDone=true;
+      if(!snap.exists()){
+        const lm=localStorage.getItem('qismi_meta');
+        if(lm && lm!=='null'){ try{ const localMeta={...defaultMeta(), ...JSON.parse(lm), assignments:{...defaultMeta().assignments, ...(JSON.parse(lm).assignments||{})}}; FS.setDoc(FS.doc(db,'meta','app'),localMeta).catch(()=>{}); state.meta=localMeta; saveLocalMeta(); scheduleRender(); return; }catch{} }
+      }
+    }
     if(snap.exists()){
       const d=snap.data();
       state.meta={...defaultMeta(), ...d, assignments:{...defaultMeta().assignments, ...(d.assignments||{})}, prevRanks:{...(d.prevRanks||{})}};
       saveLocalMeta();
       if(!autoChecked){ autoChecked=true; checkAutoRefresh(); }
-      if(Date.now()>=(window.__qsup||0)) scheduleRender();
-    }else if(!autoChecked){ autoChecked=true; checkAutoRefresh(); }
-  }, ()=>{});
+      scheduleRender();
+    } else if(!autoChecked){ autoChecked=true; checkAutoRefresh(); }
+  }, err=>{ console.warn('[qismi] snapshot meta', err); setConn('offline'); });
+}
+
+/* ---------- remote write + queue ---------- */
+async function remoteWrite(fn){
+  if(conn!=='online'){ writeQueue.push(fn); toast('⏳ لا يوجد اتصال الآن — ستُنفَّذ العملية عند عودة الاتصال','warn'); return; }
+  try{ window.__qsup=Date.now()+1500; await fn(); }
+  catch(e){ console.warn('[qismi] write failed', e); writeQueue.push(fn); setConn('offline'); toast('⏳ تعذّر الحفظ على الخادم — ستُعاد المحاولة تلقائياً','warn'); }
+}
+async function flushQueue(){
+  if(!writeQueue.length || conn!=='online') return;
+  const q=writeQueue.splice(0);
+  for(const fn of q){ try{ window.__qsup=Date.now()+1500; await fn(); }catch{ writeQueue.push(fn); } }
+  if(writeQueue.length) toast('⚠️ بعض العمليات لم تُزامَن بعد — ستُعاد المحاولة','warn');
+  else toast('✔ تمت مزامنة كل العمليات المؤجلة بالخادم');
 }
 async function upsert(col,obj){
   const i=state[col].findIndex(x=>x.id===obj.id);
   if(i>=0) state[col][i]=obj; else state[col].push(obj);
   saveLocalCol(col); scheduleRender();
-  if(remote){ window.__qsup=Date.now()+1500; try{ await FS.setDoc(FS.doc(db,col,obj.id), obj); }catch{ toast('⚠️ حفظ محلي فقط (خطأ في الخادم)','warn'); } }
+  await remoteWrite(()=>FS.setDoc(FS.doc(db,col,obj.id),obj));
 }
 async function removeDoc(col,id){
   state[col]=state[col].filter(x=>x.id!==id);
   saveLocalCol(col); scheduleRender();
-  if(remote){ window.__qsup=Date.now()+1500; try{ await FS.deleteDoc(FS.doc(db,col,id)); }catch{} }
+  await remoteWrite(()=>FS.deleteDoc(FS.doc(db,col,id)));
 }
 async function saveMeta(){
   saveLocalMeta(); scheduleRender();
-  if(remote){ window.__qsup=Date.now()+1500; try{ await FS.setDoc(FS.doc(db,'meta','app'), state.meta); }catch{} }
+  await remoteWrite(()=>FS.setDoc(FS.doc(db,'meta','app'),state.meta));
 }
 
 /* ---------- computations ---------- */
@@ -610,7 +791,7 @@ function viewGate(){
       </svg>
       <div class="gate-title">
         <span class="qismi-title">قسمي</span> <span class="ver-chip">v1</span>
-        <p class="gate-tag">  ذ محمد الغمري </p>
+        <p class="gate-tag">فضاء خاص بي و بتلاميذي و بأولياء أمورهم — قسم واحد، مادّتان علميتان ولغة، ومستويان فقط.</p>
       </div>
       <div class="gate-date">
         <div class="chalk-clock" data-clock>--:--:--</div>
@@ -637,7 +818,7 @@ function viewGate(){
       <span class="knob"></span>
     </button>
     <button class="door door-notebook reveal" onclick="Q.toVisitorPick()">
-      <span class="door-ico">👨‍👩‍👧‍👦</span>
+      <span class="door-ico">👨‍‍👧👦</span>
       <span class="door-title">باب التلاميذ والأولياء</span>
       <span class="door-sub">فضاء اطلاع على النقط والرتب والمهام</span>
     </button>
@@ -656,7 +837,7 @@ function viewGate(){
 function viewVisitorPick(){
   if(!app.vlv){
     return `<div class="gate">
-      <div class="board dash-head reveal in"><h2>👨‍👩‍👧‍👦 فضاء التلاميذ والأولياء</h2><span class="d-date">اختر المستوى الدراسي للدخول</span></div>
+      <div class="board dash-head reveal in"><h2>👨‍👩‍‍👦 فضاء التلاميذ والأولياء</h2><span class="d-date">اختر المستوى الدراسي للدخول</span></div>
       <div class="wood-strip"></div>
       <div class="doors" style="margin-top:22px">
         ${LEVELS.map(l=>`<button class="door door-notebook reveal" style="background:linear-gradient(170deg, ${l.id==='5'?'#d9a521,#b3860e':'#2f63b8,#1c4487'})" onclick="Q.toVisitorPick('${l.id}')">
@@ -666,7 +847,6 @@ function viewVisitorPick(){
     </div>`;
   }
   const studs=state.students.filter(s=>s.level===app.vlv);
-  const ranked=rankListOf(app.vlv);
   return `<div class="gate">
     <div class="board dash-head reveal in"><h2>🎒 ${levelName(app.vlv)}</h2><span class="d-date">${studs.length} تلميذ(ة) — انقر لفتح الفضاء الخاص</span>
       <span class="spacer"></span><button class="btn btn-ghost" style="color:var(--chalk);border-color:rgba(244,241,228,.45)" onclick="Q.toVisitorPick()">تغيير المستوى</button></div>
@@ -711,7 +891,7 @@ function tabDash(){
   <div class="board dash-head reveal in">
     <div><h2>🖥️ مكتب الأستاذ(ة)</h2><span class="d-date">${todayLine()} · <span dir="ltr">${esc(adminEmail())}</span></span></div>
     <span class="spacer"></span>
-    <span class="status"><i class="dot ${remote?'on':''}"></i>${remote?'متصل بالخادم — مزامنة Firestore':'وضع محلي (بدون خادم)'}</span>
+    <span class="status"><i class="dot"></i><span data-conn-text data-conn-online="متصل بالخادم — مزامنة مباشرة وفورية" data-conn-offline="انقطع الاتصال — جارٍ إعادة المحاولة" data-conn-boot="جارٍ الاتصال…"></span></span>
   </div>
   <div class="stats">
     ${stat(st.length,'تلاميذ القسم',`5اب: ${st.filter(s=>s.level==='5').length} · 6اب: ${st.filter(s=>s.level==='6').length}`)}
@@ -829,7 +1009,7 @@ function tabTests(kind){
           <button class="btn btn-board btn-sm" onclick="Q.openGrades('${kind}','${t.id}')">✍️ مسك النقط</button>
           <button class="btn btn-ghost btn-sm" onclick="Q.askConfirm('حذف هذا الاختبار وجميع نقطه؟','Q.delTest(&quot;${kind}&quot;,&quot;${t.id}&quot;)')">🗑</button>
         </div>`;
-      }).join(''):empty(isW?'📝':'📗','لا اختبارات مبرمجة في هذا المستوى بعد.')}
+      }).join(''):empty(isW?'📝':'','لا اختبارات مبرمجة في هذا المستوى بعد.')}
     </div>
   </div>
   ${summaryRows.length?`<div class="card reveal">
@@ -904,7 +1084,7 @@ function viewAdmin(){
   <header class="appbar board">
     <div class="appbar-in">
       <span class="logo">قسمي<i class="ver">v1</i></span>
-      <span class="status"><i class="dot ${remote?'on':''}"></i>${remote?'متصل بالخادم':'حفظ محلي'}</span>
+      <span class="status"><i class="dot"></i><span data-conn-text data-conn-online="متصل بالخادم — مزامنة مباشرة" data-conn-offline="انقطع الاتصال — جارٍ إعادة المحاولة" data-conn-boot="جارٍ الاتصال…"></span></span>
       <span class="clock" data-clock>--:--:--</span>
       <span class="spacer"></span>
       <span class="who">👨‍🏫 ${esc(adminEmail())}</span>
@@ -984,7 +1164,7 @@ function viewStudent(){
       <input id="evNote" class="input" placeholder="ملاحظة (اختياري)">
       <button class="btn btn-red" onclick="Q.addEvent('${s.id}')">تسجيل ✔</button>
     </div>
-    <p class="mini muted" style="margin-bottom:12px">تُطبَّق الآثار على المعدلات تلقائيا فور التسجيل · 🚷🌪️📉 أحداث سرية لا تظهر للزوار · التبرير متاح خلال 3 أيام.</p>`:''}
+    <p class="mini muted" style="margin-bottom:12px">تُطبَّق الآثار على المعدلات تلقائيا فور التسجيل · 🚷️📉 أحداث سرية لا تظهر للزوار · التبرير متاح خلال 3 أيام.</p>`:''}
     ${eventRows(s.id, isAdmin)}
   </div>
   </div>`;
@@ -992,7 +1172,7 @@ function viewStudent(){
 
 /* ---------- render ---------- */
 function render(){
-  const root=document.getElementById('app');
+  const root=$('app');
   if(app.view==='gate') root.innerHTML=viewGate();
   else if(app.view==='vpick') root.innerHTML=viewVisitorPick();
   else if(app.view==='admin') root.innerHTML=viewAdmin();
@@ -1006,13 +1186,13 @@ function afterRender(){
     const to=parseFloat(el.dataset.to)||0, dec=+(el.dataset.dec||0), t0=performance.now(), dur=750;
     (function step(t){ const p=Math.min(1,(t-t0)/dur); el.textContent=(to*(1-Math.pow(1-p,3))).toFixed(dec); if(p<1) requestAnimationFrame(step); })(t0);
   });
-  tickClock(); updateCountdowns();
+  tickClock(); updateCountdowns(); patchConnBadges();
 }
 function tickClock(){
   const n=new Date();
   const s=p2(n.getHours())+':'+p2(n.getMinutes())+':'+p2(n.getSeconds());
   document.querySelectorAll('[data-clock]').forEach(e=>e.textContent=s);
-  const H=document.getElementById('wcH'), M=document.getElementById('wcM'), S=document.getElementById('wcS');
+  const H=$('wcH'), M=$('wcM'), S=$('wcS');
   if(H){ H.setAttribute('transform',`rotate(${(n.getHours()%12)*30+n.getMinutes()/2} 60 60)`);
          M.setAttribute('transform',`rotate(${n.getMinutes()*6+n.getSeconds()/10} 60 60)`);
          S.setAttribute('transform',`rotate(${n.getSeconds()*6} 60 60)`); }
@@ -1031,13 +1211,13 @@ function updateCountdowns(){
 /* ---------- Q handlers ---------- */
 const Q={};
 window.Q=Q;
-Q.closeModal=()=>{ document.getElementById('modalRoot').innerHTML=''; };
+Q.closeModal=()=>{ $('modalRoot').innerHTML=''; };
 Q.askConfirm=(msg,expr)=>{ openModal(`<div class="confirm-msg">${msg}</div><div class="modal-actions"><button class="btn btn-red" onclick="Q.closeModal();${expr}">نعم، تأكيد</button><button class="btn btn-ghost" onclick="Q.closeModal()">تراجع</button></div>`); };
-Q.toggleLogin=()=>{ app.loginOpen=!app.loginOpen; render(); if(app.loginOpen) setTimeout(()=>document.getElementById('adminEmail')?.focus(),60); };
+Q.toggleLogin=()=>{ app.loginOpen=!app.loginOpen; render(); if(app.loginOpen) setTimeout(()=>$('adminEmail')?.focus(),60); };
 Q.adminLogin=()=>{
-  const el=document.getElementById('adminEmail'); const v=(el.value||'').trim().toLowerCase();
+  const el=$('adminEmail'); const v=(el.value||'').trim().toLowerCase();
   if(ADMIN_EMAILS.includes(v)){ localStorage.setItem('qismi_admin',v); app.view='admin'; app.tab='dash'; render(); window.scrollTo(0,0); toast('👋 مرحبا بك أستاذ(ة) — دُخول حصري مؤكد'); }
-  else{ el.classList.add('err'); document.getElementById('loginCard').classList.add('shake'); setTimeout(()=>{el.classList.remove('err'); document.getElementById('loginCard')?.classList.remove('shake');},600); toast('⛔ هذا البريد غير مصرّح له بالدخول كأستاذ','warn'); }
+  else{ el.classList.add('err'); $('loginCard').classList.add('shake'); setTimeout(()=>{el.classList.remove('err'); $('loginCard')?.classList.remove('shake');},600); toast('⛔ هذا البريد غير مصرّح له بالدخول كأستاذ','warn'); }
 };
 Q.logout=()=>{ localStorage.removeItem('qismi_admin'); app.view='gate'; app.loginOpen=false; render(); toast('تم تسجيل الخروج — إلى اللقاء 👋'); };
 Q.toGate=()=>{ app.view='gate'; render(); window.scrollTo(0,0); };
@@ -1046,15 +1226,21 @@ Q.openStudent=(sid,mode)=>{ app.sid=sid; app.mode=mode; if(mode==='visitor' && !
 Q.toAdmin=tab=>{ app.view='admin'; app.tab=tab; render(); window.scrollTo(0,0); };
 Q.setLv=lv=>{ app.lv=lv; render(); };
 Q.filterStudents=q=>{ q=(q||'').trim(); document.querySelectorAll('.stu-row[data-q]').forEach(r=>{ r.style.display = (!q || r.dataset.q.includes(q)) ? '' : 'none'; }); };
+Q.retryBoot=()=>bootApp();
+Q.forceReconnect=async()=>{ toast('🔄 جارٍ فحص الاتصال…'); const ok=await pingServer(); if(ok){ setConn('online'); flushQueue(); toast('☁️ عاد الاتصال بالخادم'); } else { toast('⚠️ لا يزال الاتصال متعذّراً — سنعيد المحاولة','warn'); } };
+Q.copyRules=async()=>{
+  try{ await navigator.clipboard.writeText(FIRESTORE_RULES); toast('📋 نُسخت قواعد Firestore — الصقها في Rules ثم Publish'); }
+  catch{ const ta=document.createElement('textarea'); ta.value=FIRESTORE_RULES; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); toast('📋 نُسخت القواعد'); }catch{ toast('⚠️ تعذّر النسخ التلقائي — انسخها يدوياً','warn'); } ta.remove(); }
+};
 
 Q.addStudent=()=>{
-  const name=(document.getElementById('sName').value||'').trim();
+  const name=($('sName').value||'').trim();
   const gen=document.querySelector('input[name="sgen"]:checked')?.value||'ذكر';
   if(name.length<3){ toast('✍️ أدخل الاسم الكامل للتلميذ(ة)','warn'); return; }
   if(state.students.some(s=>s.level===app.lv && s.name.trim()===name)){ toast('⚠️ الاسم موجود مسبقا في هذا المستوى','warn'); return; }
   upsert('students',{id:uid(), name, gender:gen, level:app.lv, createdAt:new Date().toISOString()});
   toast('✔ أُضيف التلميذ(ة) إلى '+levelName(app.lv));
-  setTimeout(()=>{ const el=document.getElementById('sName'); if(el){ el.value=''; el.focus(); } },120);
+  setTimeout(()=>{ const el=$('sName'); if(el){ el.value=''; el.focus(); } },120);
 };
 Q.delStudent=async sid=>{
   const s=studentOf(sid); if(!s) return;
@@ -1066,9 +1252,9 @@ Q.delStudent=async sid=>{
 };
 
 Q.addTest=kind=>{
-  const subject=document.getElementById('tSubj').value;
-  const date=document.getElementById('tDate').value;
-  const title=(document.getElementById('tTitle').value||'').trim() || (kind==='weekly'?('اختبار '+subjOf(subject).name):('مراقبة '+subjOf(subject).name));
+  const subject=$('tSubj').value;
+  const date=$('tDate').value;
+  const title=($('tTitle').value||'').trim() || (kind==='weekly'?('اختبار '+subjOf(subject).name):('مراقبة '+subjOf(subject).name));
   if(!date){ toast('📅 حدد تاريخ الاختبار','warn'); return; }
   upsert(COLK[kind],{id:uid(), level:app.lv, subject, date, title, grades:{}, createdAt:new Date().toISOString()});
   toast('✔ بُرمج الاختبار في '+levelName(app.lv));
@@ -1104,16 +1290,16 @@ Q.saveGrades=(kind,id)=>{
 };
 
 Q.addAnn=()=>{
-  const text=(document.getElementById('annText').value||'').trim();
+  const text=($('annText').value||'').trim();
   if(!text){ toast('✍️ اكتب نص الإعلان','warn'); return; }
-  upsert('announcements',{id:uid(), text, level:document.getElementById('annLv').value, date:document.getElementById('annDate').value||todayISO()});
+  upsert('announcements',{id:uid(), text, level:$('annLv').value, date:$('annDate').value||todayISO()});
   toast('📢 نُشر الإعلان');
 };
 Q.delAnn=id=>{ removeDoc('announcements',id); toast('🗑 حُذف الإعلان'); };
 
 Q.addEvent=sid=>{
-  const type=document.getElementById('evType').value;
-  const note=(document.getElementById('evNote').value||'').trim();
+  const type=$('evType').value;
+  const note=($('evNote').value||'').trim();
   upsert('events',{id:uid(), studentId:sid, type, date:todayISO(), note, restored:false});
   const c=EVENT_TYPES[type];
   toast(`${c.icon} سُجل: ${c.label} — طُبقت الآثار تلقائيا`);
@@ -1129,7 +1315,7 @@ Q.doRefresh=()=>{ runMonthlyRefresh(true); };
 
 /* ---------- boot ---------- */
 function buildDoodles(){
-  const dood=document.getElementById('doodles');
+  const dood=$('doodles');
   const chars=['÷','×','√','+','=','أ','ب','★','✎','؟','%','∑'];
   for(let i=0;i<16;i++){
     const s=document.createElement('span');
@@ -1144,9 +1330,12 @@ function buildDoodles(){
 loadLocal();
 buildDoodles();
 render();
-initFirebase();
-setTimeout(()=>{ if(!autoChecked){ autoChecked=true; checkAutoRefresh(); } }, 3500);
+bootApp();
+window.addEventListener('online', ()=>{ setConn('online'); checkConnection(); });
+window.addEventListener('offline', ()=>setConn('offline'));
 setInterval(()=>{ tickClock(); updateCountdowns(); if(Date.now()>=nextTarget.getTime()) checkAutoRefresh(); },1000);
+setInterval(checkConnection, 8000);
+setTimeout(()=>{ if(!autoChecked){ autoChecked=true; checkAutoRefresh(); } }, 4000);
 </script>
 </body>
 </html>
