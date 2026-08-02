@@ -34,7 +34,6 @@ h1,h2,h3,h4{font-family:'Marhey',sans-serif;margin:0;line-height:1.25}
 button{font-family:inherit}
 a{color:inherit}
 
-/* ===== ambient background ===== */
 #bgBase{position:fixed;inset:0;z-index:0;background:
   radial-gradient(120% 90% at 80% -10%, #235041 0%, transparent 55%),
   radial-gradient(120% 90% at 0% 110%, #112a22 0%, transparent 55%),
@@ -52,7 +51,6 @@ a{color:inherit}
 .fd4{bottom:9%;right:11%;width:46px;animation-delay:1.2s}
 @keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(5deg)}}
 
-/* ===== shared atoms ===== */
 .btn{font-family:'Marhey',sans-serif;font-weight:600;font-size:.98rem;border:none;cursor:pointer;padding:.55rem 1.15rem;border-radius:13px;display:inline-flex;align-items:center;gap:.45rem;transition:transform .12s, box-shadow .12s, filter .12s;color:#3a2c08;letter-spacing:.2px}
 .btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
 .btn:active{transform:translateY(2px)}
@@ -113,7 +111,6 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease, transform .55s ease}
 .rv.on{opacity:1;transform:none}
 
-/* ===== LOGIN ===== */
 #login{position:relative;z-index:1;min-height:100vh;display:grid;place-items:center;padding:2.4rem 1.2rem;transition:opacity .4s, transform .4s}
 #login.gone{opacity:0;transform:scale(.97);pointer-events:none}
 .door-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;max-width:1040px;width:100%;align-items:center}
@@ -145,7 +142,6 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .shake{animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 
-/* ===== APP SHELL ===== */
 #app{display:none;grid-template-columns:256px 1fr;min-height:100vh;position:relative;z-index:1}
 #app.show{display:grid;animation:fadeIn .4s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -176,7 +172,6 @@ main{min-width:0;display:flex;flex-direction:column}
 
 #views{padding:1.5rem 1.3rem 3rem;max-width:1180px;width:100%;margin-inline:auto}
 
-/* grids */
 .grid{display:grid;gap:1.1rem}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:repeat(3,1fr)}
@@ -188,7 +183,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .sec-h h2{font-size:1.5rem}
 .sec-h .em{font-size:1.5rem}
 
-/* dashboard stickers */
 .stickers{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
 @media(max-width:880px){.stickers{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.stickers{grid-template-columns:1fr}}
@@ -202,14 +196,12 @@ main{min-width:0;display:flex;flex-direction:column}
 .stkr.s3{background:linear-gradient(140deg,#e07a5f,#c25a40);transform:rotate(-1deg)}
 .stkr.s4{background:linear-gradient(140deg,#8e7cc3,#6c5aa0);transform:rotate(1.4deg)}
 
-/* level tabs */
 .tabs{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
 .tab{cursor:pointer;padding:.45rem 1rem;border-radius:12px 12px 4px 4px;font-family:'Marhey';font-weight:600;color:var(--chalk-dim);background:var(--chalk-faint);border:none;transition:.15s;display:flex;align-items:center;gap:.4rem}
 .tab .badge{background:rgba(0,0,0,.25);color:#fff;border-radius:7px;padding:0 .4rem;font-size:.8rem}
 .tab.on{color:#4a3608;background:var(--yellow);box-shadow:0 4px 0 var(--yellow-d)}
 .tab.on .badge{background:#4a3608;color:var(--yellow)}
 
-/* student rows */
 .srow{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;padding:.7rem .9rem;border-radius:13px;background:var(--paper);color:var(--ink);box-shadow:0 6px 16px rgba(0,0,0,.28);margin-bottom:.7rem;transition:transform .15s, box-shadow .15s;position:relative}
 .srow:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(0,0,0,.36)}
 .srow .ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:1.4rem;background:#fff;box-shadow:inset 0 0 0 3px var(--yellow);flex:none}
@@ -221,7 +213,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .srow .cumwrap{margin-inline-start:auto;display:flex;flex-direction:column;align-items:center;gap:.25rem}
 .srow .cumwrap .rk{font-weight:800;color:var(--ink-soft);font-size:.82rem}
 
-/* ranking table */
 .rtable{background:var(--paper);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;color:var(--ink)}
 .rtable .rhead{display:grid;grid-template-columns:46px 1fr 78px 78px 86px;gap:.5rem;padding:.6rem .9rem;background:var(--board2);color:var(--chalk);font-family:'Marhey';font-weight:600;font-size:.9rem}
 .rtable .rrow{display:grid;grid-template-columns:46px 1fr 78px 78px 86px;gap:.5rem;padding:.55rem .9rem;align-items:center;border-top:2px dashed #ece4cf;cursor:pointer;transition:.12s}
@@ -232,7 +223,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .rtable .rrow .st{text-align:center}
 @media(max-width:560px){.rtable .rhead,.rtable .rrow{grid-template-columns:38px 1fr 64px 80px}.rtable .rhead .h-cc,.rtable .rrow .v-cc{display:none}}
 
-/* grade sheet & matrix */
 .scrollx{overflow-x:auto;border-radius:12px}
 .matrix{display:grid;grid-template-columns:170px repeat(5,72px) 92px;gap:6px;min-width:740px;padding:.4rem}
 .matrix .mh{font-family:'Marhey';font-weight:600;text-align:center;padding:.4rem .2rem;color:var(--ink);background:#fff3d0;border-radius:8px}
@@ -257,7 +247,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .gs-row .gn .g{font-size:1.1rem}
 .gs-row input{width:84px}
 
-/* tasks */
 .cd-card{padding:1.1rem 1.3rem;text-align:center}
 .cd-card .cd-l{color:var(--chalk-dim);font-weight:700}
 .cd-card .cd-big{font-family:'Marhey';font-size:clamp(1.4rem,4vw,2.2rem);color:var(--yellow);margin:.3rem 0}
@@ -277,7 +266,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .role-card.r5{background:linear-gradient(140deg,#8e7cc3,#6c5aa0)}
 .role-card.r6{background:linear-gradient(140deg,#ef8fa3,#cf6680)}
 
-/* announce */
 .note-chalk{padding:1.1rem 1.3rem;position:relative}
 .note-chalk .nc-h{display:flex;align-items:center;gap:.5rem;font-family:'Marhey';font-size:1.2rem;margin-bottom:.5rem}
 .note-chalk .nc-body{color:var(--chalk);font-weight:600;white-space:pre-wrap;line-height:1.7}
@@ -288,13 +276,11 @@ main{min-width:0;display:flex;flex-direction:column}
 .ann-item .ai-days{margin-inline-start:auto}
 .stamp-imp{font-family:'Marhey';color:var(--red);border:3px solid var(--red);border-radius:8px;padding:.05rem .5rem;transform:rotate(-6deg);font-size:.8rem}
 
-/* visitors */
 .vtable{width:100%;border-collapse:collapse;background:var(--paper);color:var(--ink);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
 .vtable th,.vtable td{padding:.55rem .8rem;text-align:start;border-top:2px dashed #ece4cf;font-size:.92rem}
 .vtable th{background:var(--board2);color:var(--chalk);font-family:'Marhey';font-weight:600}
 .vtable tr:hover td{background:#fff7df}
 
-/* my space */
 .my-hero{padding:1.3rem 1.4rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .my-hero .mh-ava{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-size:2.2rem;background:#fff;box-shadow:inset 0 0 0 4px var(--yellow);flex:none}
 .my-hero .mh-name{font-family:'Marhey';font-size:1.7rem;color:var(--ink)}
@@ -322,7 +308,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .ev-item .ev-d{font-size:.78rem;color:#9a9384;margin-top:.1rem}
 .ev-item .ev-right{margin-inline-start:auto;display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
 
-/* toasts */
 #toasts{position:fixed;bottom:18px;left:18px;z-index:80;display:flex;flex-direction:column;gap:.5rem;max-width:320px}
 .toast{background:var(--chalk);color:var(--board);font-weight:700;padding:.7rem 1rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.4);position:relative;animation:toastIn .3s;border-inline-start:6px solid var(--teal)}
 .toast.warn{border-inline-start-color:var(--yellow)}
@@ -330,7 +315,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .toast::after{content:"";position:absolute;top:50%;right:-9px;transform:translateY(-50%);border:8px solid transparent;border-left-color:var(--chalk)}
 @keyframes toastIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
 
-/* modal */
 #modalRoot{position:fixed;inset:0;z-index:90;display:none;place-items:center;background:rgba(8,22,17,.62);backdrop-filter:blur(3px);padding:1rem}
 #modalRoot.show{display:grid;animation:fadeIn .2s}
 .mcard{background:var(--paper);color:var(--ink);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.5);width:min(580px,94vw);max-height:88vh;overflow:auto;animation:pop .25s}
@@ -352,7 +336,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .rule .r-tx b{display:block;color:var(--ink);font-size:.95rem}
 .rule .r-tx small{color:var(--ink-soft);font-weight:600;font-size:.78rem}
 .rule .r-vis{margin-inline-start:auto;font-size:.7rem;font-weight:800;color:var(--ink-soft);white-space:nowrap}
-.rule.bad .r-ic{filter:none}
 .pick-row{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border-radius:10px;background:#fff;border:2px solid #ece4cf;margin-bottom:.5rem;cursor:pointer;transition:.12s}
 .pick-row:hover{border-color:var(--yellow);background:#fffbe9}
 
@@ -381,7 +364,6 @@ main{min-width:0;display:flex;flex-direction:column}
 <div class="fd fd3"><svg viewBox="0 0 24 24"><path d="M3 12h13l-4-4M16 12l-4 4"/></svg></div>
 <div class="fd fd4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/></svg></div>
 
-<!-- ============ LOGIN ============ -->
 <section id="login">
   <div class="door-wrap">
     <div class="wood-frame">
@@ -397,9 +379,9 @@ main{min-width:0;display:flex;flex-direction:column}
 
     <div class="paper login-card tape">
       <div class="ltabs">
-        <button class="ltab on" data-lt="teacher">👩‍🏫 الأستاذ(ة)</button>
-        <button class="ltab" data-lt="student">🎒 تلميذ(ة)</button>
-        <button class="ltab" data-lt="parent">👪 ولي(ة) أمر</button>
+        <button class="ltab on" data-lt="teacher" type="button">👩‍🏫 الأستاذ(ة)</button>
+        <button class="ltab" data-lt="student" type="button">🎒 تلميذ(ة)</button>
+        <button class="ltab" data-lt="parent" type="button">👪 ولي(ة) أمر</button>
       </div>
 
       <form class="lform on" id="formTeacher" autocomplete="off">
@@ -420,7 +402,6 @@ main{min-width:0;display:flex;flex-direction:column}
   <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1 • لا تُدمَج المستويات</p>
 </section>
 
-<!-- ============ APP ============ -->
 <div id="app">
   <aside>
     <div class="brand">
@@ -454,7 +435,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
 import { getFirestore, collection, doc, setDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-/* ---------- firebase ---------- */
 const firebaseConfig = {
   apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
   authDomain: "qismi-46d97.firebaseapp.com",
@@ -468,7 +448,6 @@ const app = initializeApp(firebaseConfig);
 let analytics = null; try { analytics = getAnalytics(app); } catch(e){}
 let db = null; try { db = getFirestore(app); } catch(e){}
 
-/* ---------- constants ---------- */
 const ADMIN_EMAILS = ["meg.code91@gmail.com","meg.taalim@gmail.com"];
 const SUBJECTS = {
   fr:   {name:"اللغة الفرنسية", icon:"📕", color:"#3a7ca5"},
@@ -498,7 +477,6 @@ const TASK_ROLES = [
 ];
 const TITLES = {"v-dash":"لوحة القسم","v-students":"ركن التلاميذ","v-weekly":"الاختبارات الأسبوعية","v-cc":"المراقبة المستمرة","v-tasks":"المهام الشهرية","v-announce":"إعلان هام","v-visitors":"سجل الزوار","v-my":"فضاء التلميذ(ة)"};
 
-/* ---------- state ---------- */
 let S = {students:{}, tests:{}, wgrades:{}, cc:{}, events:{}, visits:{}, meta:{}};
 let online = false;
 let SESSION = JSON.parse(sessionStorage.getItem("qismi_sess")||"null");
@@ -508,7 +486,6 @@ const UI = {level:5, ccLevel:5, ccSub:"fr", wLevel:5, grading:null, spaceSid:nul
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 
-/* ---------- utils ---------- */
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : "id"+Date.now().toString(36)+Math.random().toString(36).slice(2,8));
 const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
 const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
@@ -526,7 +503,6 @@ function roleLabel(role){ return role==="admin"?"👩‍🏫 أستاذ(ة)":rol
 function ruleFx(r){ let p=[]; if(r.dw) p.push((r.dw>0?"+":"")+r.dw+" في معدل الاختبارات"); if(r.dc) p.push((r.dc>0?"+":"")+r.dc+" في التراكمي"); return p.join(" و "); }
 function evFx(e){ let p=[]; if(e.dw) p.push((e.dw>0?"+":"")+fn(e.dw)+" معدل الاختبارات"); if(e.dc) p.push((e.dc>0?"+":"")+fn(e.dc)+" التراكمي"); return p.join(" • "); }
 
-/* ---------- storage ---------- */
 const LKEY = "qismi_v1_data";
 function persistLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){} }
 function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||"null"); if(d) S=d; }catch(e){} }
@@ -543,11 +519,9 @@ async function loadCloud(){
 function goOffline(){ if(online){ online=false; updateConn(); toast("⚠️ تعذّر الاتصال بالخادم — الوضع المحلي","warn"); } }
 function updateConn(){ const c=$("#connChip"); if(!c) return; c.classList.toggle("off",!online); $("#connTxt").textContent = online?"متصل بالخادم":"وضع محلي"; }
 
-/* ---------- meta ---------- */
 const metaGet = (k,d) => (S.meta[k]===undefined?d:S.meta[k]);
 function metaSet(k,v){ S.meta[k]=v; persistLocal(); fsWrite("meta",k,{value:v,at:Date.now()}); }
 
-/* ---------- compute ---------- */
 function computeAll(){
   const stats={}; const byLevel={5:[],6:[]};
   for(const sid in S.students){
@@ -575,7 +549,6 @@ function computeAll(){
 }
 function refresh(){ C=computeAll(); }
 
-/* ---------- data ops ---------- */
 function addStudent(name,gender,level){
   const id=uid(); const s={id, name:name.trim(), gender, level:Number(level), createdAt:Date.now()};
   S.students[id]=s; persistLocal(); fsWrite("students",id,s); return id;
@@ -609,13 +582,12 @@ function addEvent(sid,rule,note="",auto=false){
   S.events[id]=e; persistLocal(); fsWrite("events",id,e); return id;
 }
 function justifyAbsence(eid){
-  const e=S.events[eid]; if(!e) return; e.restored=true; fsWrite("events",eid,e);
+  const e=S.events[eid]; if(!e || e.restored) return; e.restored=true; fsWrite("events",eid,e);
   addEvent(e.sid,{key:"justif",label:"تبرير الغياب",icon:"✅",dw:0.3,dc:0,vis:true,tone:"good"},"تم التبرير داخل أجل 3 أيام");
   persistLocal(); toast("✅ تم تبرير الغياب، عادت النقطة","ok");
 }
 function logVisit(name,role,sid){ const id=uid(); const v={id, name, role, sid:sid||"", at:Date.now()}; S.visits[id]=v; persistLocal(); fsWrite("visits",id,v); }
 
-/* ---------- tasks engine ---------- */
 function mkRenewal(y,m){ const last=new Date(y,m+1,0).getDate(); return new Date(y,m,Math.min(30,last),20,0,0); }
 function renewalDeadline(){ const now=new Date(); const c=mkRenewal(now.getFullYear(),now.getMonth()); return now<c ? c : mkRenewal(now.getFullYear(),now.getMonth()+1); }
 function checkTasksAuto(){
@@ -658,35 +630,34 @@ function tasksFor(sid){
   return list.filter(x=>x.sid===sid).map(x=>{ const r=TASK_ROLES.find(t=>t.k===x.role); return {...r, sid:x.sid}; });
 }
 
-/* ---------- toasts ---------- */
 function toast(msg,kind=""){ const t=document.createElement("div"); t.className="toast "+kind; t.textContent=msg; $("#toasts").appendChild(t); setTimeout(()=>{ t.style.transition="opacity .3s, transform .3s"; t.style.opacity="0"; t.style.transform="translateX(-20px)"; setTimeout(()=>t.remove(),300); },2700); }
 
-/* ---------- modal ---------- */
 const modalRoot = $("#modalRoot");
 function openModal(html){ modalRoot.innerHTML='<div class="mcard">'+html+'</div>'; modalRoot.classList.add("show"); }
 function closeModal(){ modalRoot.classList.remove("show"); modalRoot.innerHTML=""; }
 modalRoot.addEventListener("click", e=>{
   if(e.target===modalRoot || e.target.closest("[data-mclose]")) closeModal();
-  const j=e.target.closest("[data-justif]"); if(j){ justifyAbsence(j.dataset.justify); closeModal(); refresh(); renderView(current); }
+  const j=e.target.closest("[data-justif]"); if(j){ justifyAbsence(j.dataset.justif); closeModal(); refresh(); renderView(current); }
   const p=e.target.closest("[data-pick]"); if(p){ const sid=p.dataset.pick; const st=S.students[sid]; enterApp({role:famRole, sid, name:st.name, level:st.level}); closeModal(); }
 });
 function confirmBox(msg, okLabel="تأكيد"){
   return new Promise(res=>{
-    openModal(`<div class="m-head"><h3>تأكيد</h3><button class="m-x" data-mclose>✕</button></div>
+    openModal(`<div class="m-head"><h3>تأكيد</h3><button class="m-x" data-mclose type="button">✕</button></div>
       <div class="m-body"><p style="font-weight:700;color:var(--ink);line-height:1.7">${msg}</p>
-      <div class="m-actions"><button class="btn btn-ghost" id="cfNo">إلغاء</button><button class="btn btn-r" id="cfYes">${okLabel}</button></div></div>`);
+      <div class="m-actions"><button class="btn btn-ghost" id="cfNo" type="button">إلغاء</button><button class="btn btn-r" id="cfYes" type="button">${okLabel}</button></div></div>`);
     $("#cfNo").onclick=()=>{ closeModal(); res(false); };
     $("#cfYes").onclick=()=>{ closeModal(); res(true); };
   });
 }
 
-/* ---------- reveal + countup ---------- */
 const io = new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add("on"); io.unobserve(x.target); } }),{threshold:.08});
-function watchReveals(root){ (root||document).querySelectorAll(".rv:not(.on)").forEach(el=>io.observe(el)); }
+function watchReveals(root){
+  const els=(root||document).querySelectorAll(".rv:not(.on)");
+  els.forEach(el=>io.observe(el));
+  setTimeout(()=>{ els.forEach(el=>{ if(!el.classList.contains("on")) el.classList.add("on"); }); }, 700);
+}
 function animateNum(el){ const to=parseFloat(el.dataset.to)||0; const t0=performance.now(); const dur=900; (function step(t){ const p=Math.min(1,(t-t0)/dur); const v=to*(1-Math.pow(1-p,3)); el.textContent=fn(v); if(p<1) requestAnimationFrame(step); })(t0); }
 
-/* ---------- shared renderers ---------- */
-function subChip(key,val){ const s=SUBJECTS[key]; return `<span class="chip" style="background:${s.color}22;color:${s.color}">${s.icon} ${fn(val)}</span>`; }
 function subBar(key,val){ const s=SUBJECTS[key]; return `<div class="sub-line"><div class="sl-top"><span>${s.icon} ${s.name}</span><span>${fn(val)}</span></div><div class="bar"><i style="width:${val*10}%;background:${s.color}"></i></div></div>`; }
 function starsRow(cum){ const n=Math.max(1,Math.min(5,Math.round(cum/2))); return "⭐".repeat(n)+"☆".repeat(5-n); }
 
@@ -697,16 +668,15 @@ function evRow(e, admin){
   return `<div class="ev-item ${e.tone}"><span class="ev-ic">${e.icon}</span>
     <div><div class="ev-t">${esc(e.label)}</div><div class="ev-fx">${evFx(e)}</div>
     ${e.note?`<div class="ev-d">«${esc(e.note)}»</div>`:""}<div class="ev-d">${fmtDT(e.at)}</div></div>
-    <div class="ev-right">${visTag}${canJust?`<button class="btn btn-t btn-sm" data-justif="${e.id}">تبرير ✔</button>`:""}</div></div>`;
+    <div class="ev-right">${visTag}${canJust?`<button class="btn btn-t btn-sm" data-justif="${e.id}" type="button">تبرير ✔</button>`:""}</div></div>`;
 }
 
-/* ---------- nav ---------- */
 function buildNav(){
   const admin = SESSION.role==="admin";
   const items = admin
     ? [["v-dash","🏠","لوحة القسم"],["v-students","🧑‍","ركن التلاميذ"],["v-weekly","📝","الاختبارات الأسبوعية"],["v-cc","📊","المراقبة المستمرة"],["v-tasks","🎖️","المهام الشهرية"],["v-announce","📢","إعلان هام"],["v-visitors","👀","سجل الزوار"]]
     : [["v-my","⭐","فضائي"],["v-tasks","🎖️","مهامي"],["v-announce","📢","إعلان هام"]];
-  $("#sideNav").innerHTML = items.map(([v,ic,lb])=>`<button class="navbtn" data-nav="${v}"><span class="ic">${ic}</span>${lb}</button>`).join("");
+  $("#sideNav").innerHTML = items.map(([v,ic,lb])=>`<button class="navbtn" data-nav="${v}" type="button"><span class="ic">${ic}</span>${lb}</button>`).join("");
 }
 function switchView(v){
   current=v;
@@ -722,7 +692,6 @@ function renderView(v){
   $$("#views .num-anim").forEach(animateNum);
 }
 
-/* ---------- dashboard ---------- */
 function renderDash(){
   const total=Object.keys(S.students).length;
   const n5=C.byLevel[5].length, n6=C.byLevel[6].length;
@@ -760,7 +729,6 @@ function renderDash(){
    </div>`;
 }
 
-/* ---------- students ---------- */
 function renderStudents(){
   const lv=UI.level; const list=C.byLevel[lv];
   const rows = list.map(sid=>{ const s=C.stats[sid]; return `<div class="srow rv">
@@ -768,7 +736,7 @@ function renderStudents(){
      <div class="grow"><div class="nm">${esc(s.st.name)}</div>
        <div class="meta"><span class="chip chip-soft">${s.st.gender==="M"?"ذكر":"أنثى"}</span><span class="chip" style="background:${LEVELS[lv].color}33;color:#7a4e27">${LEVELS[lv].name}</span></div></div>
      <div class="midchips"><span class="chip chip-y">📝 ${fn(s.weeklyFinal)}</span><span class="chip chip-t">📊 ${fn(s.ccBase)}</span></div>
-     <div class="acts"><button class="btn btn-b btn-sm" data-act="open-space:${sid}">📂 فضائي</button><button class="btn btn-y btn-sm" data-act="events:${sid}">⭐ أحداث</button><button class="btn btn-r btn-sm" data-act="del-student:${sid}">🗑</button></div>
+     <div class="acts"><button class="btn btn-b btn-sm" data-act="open-space:${sid}" type="button">📂 فضائي</button><button class="btn btn-y btn-sm" data-act="events:${sid}" type="button">⭐ أحداث</button><button class="btn btn-r btn-sm" data-act="del-student:${sid}" type="button">🗑</button></div>
      <div class="cumwrap"><span class="stamp">${fn(s.cum)}<small>تراكمي</small></span><span class="rk">${medal(s.rank)||""} #${s.rank}</span></div>
    </div>`; }).join("") || `<div class="empty-s">لا تلاميذ في هذا المستوى بعد — أضف أول تلميذ(ة) 🌱</div>`;
   $("#views").innerHTML = `
@@ -781,11 +749,10 @@ function renderStudents(){
        <button class="btn btn-t" type="submit">أضف ✏️</button>
      </form>
    </div>
-   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="level:${l}">${LEVELS[l].name} <span class="badge">${C.byLevel[l].length}</span></button>`).join("")}</div>
+   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="level:${l}" type="button">${LEVELS[l].name} <span class="badge">${C.byLevel[l].length}</span></button>`).join("")}</div>
    <div>${rows}</div>`;
 }
 
-/* ---------- weekly tests ---------- */
 function renderWeekly(){
   const lv=UI.wLevel;
   const tests=Object.values(S.tests).filter(t=>t.level===lv).sort((a,b)=>b.date.localeCompare(a.date));
@@ -800,7 +767,7 @@ function renderWeekly(){
       <div class="tc-top"><span class="tc-bar" style="background:${s.color}"></span>
         <div><div class="tc-t">${s.icon} ${esc(t.label||("اختبار "+s.name))}</div><div class="tc-sub">${fmtDate(t.date)} • معدل القسم: <b>${clAvg}</b></div></div>
         <div class="tc-acts">${up?`<span class="chip chip-r">📢 قادم • باقي ${dl} يوم</span>`:`<span class="chip chip-soft">منتهي</span>`}
-        <button class="btn btn-y btn-sm" data-act="grade:${t.id}">✍️ مسك النقط</button><button class="btn btn-r btn-sm" data-act="del-test:${t.id}">🗑</button></div>
+        <button class="btn btn-y btn-sm" data-act="grade:${t.id}" type="button">✍️ مسك النقط</button><button class="btn btn-r btn-sm" data-act="del-test:${t.id}" type="button">🗑</button></div>
       </div></div>`;
   }).join("") || `<div class="empty-s">لا اختبارات مبرمجة — برمج أول اختبار 📌</div>`;
   $("#views").innerHTML = `
@@ -813,7 +780,7 @@ function renderWeekly(){
        <button class="btn btn-t" type="submit">برمج 📌</button>
      </form>
    </div>
-   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="wlevel:${l}">${LEVELS[l].name} <span class="badge">${Object.values(S.tests).filter(t=>t.level===l).length}</span></button>`).join("")}</div>
+   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="wlevel:${l}" type="button">${LEVELS[l].name} <span class="badge">${Object.values(S.tests).filter(t=>t.level===l).length}</span></button>`).join("")}</div>
    ${ups.length?`<div class="chalk rv" style="padding:.7rem 1rem;margin-bottom:1rem"><b>📢 إعلان هام:</b> ${ups.length} اختبار(ات) مبرمجة مستقبلاً لهذا المستوى — تظهر أيضاً في ركن «إعلان هام».</div>`:""}
    ${sheet}
    <div class="sec-h"><span class="em">📝</span><h2>قائمة الاختبارات</h2></div>
@@ -831,14 +798,13 @@ function gradeSheet(tid){
        <span class="chip" style="background:${s.color};color:#fff">${s.icon} ${s.name}</span>
        <b style="color:var(--ink)">${esc(t.label||"اختبار")} — ${fmtDate(t.date)}</b>
        <span class="chip chip-soft" style="margin-inline-start:auto">الحفظ تلقائي ✔</span>
-       <button class="btn btn-ghost btn-sm" data-act="grade-close">إغلاق ✕</button>
+       <button class="btn btn-ghost btn-sm" data-act="grade-close" type="button">إغلاق ✕</button>
      </div>
      <div style="font-size:.82rem;color:var(--ink-soft);font-weight:700;margin-bottom:.4rem">اكتب النقطة مباشرة (من 0 إلى 10) — لا يظهر «/10».</div>
      ${rows}
    </div>`;
 }
 
-/* ---------- continuous assessment ---------- */
 function renderCC(){
   const lv=UI.ccLevel, sub=UI.ccSub, s=SUBJECTS[sub];
   const students=C.byLevel[lv];
@@ -853,12 +819,11 @@ function renderCC(){
    <div class="chalk rv" style="padding:.9rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap">
      <span style="font-size:1.5rem">📊</span><div><b>المراقبة المستمرة</b> — 5 مراحل لكل مادة، والمسك حسب المرحلة والمادة.<div style="color:var(--chalk-dim);font-size:.85rem">الحفظ تلقائي ✔ • اكتب النقطة مباشرة (من 10)</div></div>
    </div>
-   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="cclevel:${l}">${LEVELS[l].name}</button>`).join("")}</div>
-   <div class="tabs">${Object.entries(SUBJECTS).map(([k,v])=>`<button class="tab ${sub===k?"on":""}" data-tab="ccsub:${k}" style="${sub===k?`background:${v.color};color:#fff;box-shadow:0 4px 0 ${v.color}aa`:""}">${v.icon} ${v.name}</button>`).join("")}</div>
+   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="cclevel:${l}" type="button">${LEVELS[l].name}</button>`).join("")}</div>
+   <div class="tabs">${Object.entries(SUBJECTS).map(([k,v])=>`<button class="tab ${sub===k?"on":""}" data-tab="ccsub:${k}" type="button" style="${sub===k?`background:${v.color};color:#fff;box-shadow:0 4px 0 ${v.color}aa`:""}">${v.icon} ${v.name}</button>`).join("")}</div>
    <div class="paper rv" style="padding:.7rem"><div class="scrollx"><div class="matrix">${head}${cells || `<div class="empty-s" style="grid-column:1/-1">لا تلاميذ في هذا المستوى</div>`}</div></div></div>`;
 }
 
-/* ---------- tasks ---------- */
 function renderTasks(){
   const admin = SESSION.role==="admin";
   const snap = metaGet("tasks",null);
@@ -867,22 +832,14 @@ function renderTasks(){
   const blocks = levels.map(lv=>{
     const list = snap && snap.per ? (snap.per[lv]||[]) : [];
     const byRole = {}; list.forEach(x=>{ (byRole[x.role]||(byRole[x.role]=[])).push(x); });
-    const cards = TASK_ROLES.map((r,i)=>{ const names=byRole[r.k]||[]; if(!names.length && snap) return ""; return `<div class="role-card r${i} rv">
-       <div class="rc-ic">${r.icon}</div><div class="rc-t">${r.t}</div>
-       <div class="rc-names">${names.map(n=>{ const me = !admin && n.sid===SESSION.sid; return `<div class="rc-name ${me?"me":""}">${me?"⭐ أنت: ":""}${esc(n.name)}</div>`; }).join("") || `<div class="rc-name" style="opacity:.7">—</div>`}</div>
-     </div>`; }).join("");
-    return `<div class="sec-h"><span class="em" style="color:${LEVELS[lv].color}">🎖️</span><h2>${LEVELS[lv].name}</h2></div>
-      ${cards || `<div class="chalk empty-chalk rv"><img class="owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" style="width:80px;height:80px"><div>لم تُوزَّع المهام بعد — انتظر يوم 30 على 20:00 أو ولِّدها يدوياً.</div></div>`}
-      <div class="role-grid">${cards}</div>`.replace(`<div class="role-grid">${cards}</div>`,""); // placeholder fix below
-  });
-  // rebuild blocks cleanly
-  const blocksClean = levels.map(lv=>{
-    const list = snap && snap.per ? (snap.per[lv]||[]) : [];
-    const byRole = {}; list.forEach(x=>{ (byRole[x.role]||(byRole[x.role]=[])).push(x); });
-    const cards = TASK_ROLES.map((r,i)=>{ const names=byRole[r.k]||[]; if(!names.length && snap) return ""; return `<div class="role-card r${i} rv">
-       <div class="rc-ic">${r.icon}</div><div class="rc-t">${r.t}</div>
-       <div class="rc-names">${names.map(n=>{ const me = !admin && n.sid===SESSION.sid; return `<div class="rc-name ${me?"me":""}">${me?"⭐ أنت: ":""}${esc(n.name)}</div>`; }).join("") || `<div class="rc-name" style="opacity:.7">—</div>`}</div>
-     </div>`; }).join("");
+    const cards = TASK_ROLES.map((r,i)=>{
+      const names=byRole[r.k]||[];
+      if(!names.length && snap) return "";
+      return `<div class="role-card r${i} rv">
+         <div class="rc-ic">${r.icon}</div><div class="rc-t">${r.t}</div>
+         <div class="rc-names">${names.map(n=>{ const me = !admin && n.sid===SESSION.sid; return `<div class="rc-name ${me?"me":""}">${me?"⭐ أنت: ":""}${esc(n.name)}</div>`; }).join("") || `<div class="rc-name" style="opacity:.7">—</div>`}</div>
+       </div>`;
+    }).join("");
     const body = cards ? `<div class="role-grid">${cards}</div>` : `<div class="chalk empty-chalk rv"><img class="owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" style="width:80px;height:80px"><div>لم تُوزَّع المهام بعد.</div></div>`;
     return `<div class="sec-h"><span class="em">🎖️</span><h2>${LEVELS[lv].name}</h2></div>${body}`;
   }).join("");
@@ -892,17 +849,16 @@ function renderTasks(){
      <div class="cd-l">⏰ تتجدد المهام يوم 30 من كل شهر على 20:00</div>
      <div class="cd-big" id="cdBig">—</div>
      <div class="cd-date">التوليد القادم: ${new Intl.DateTimeFormat("ar-MA",{dateStyle:"full",timeStyle:"short"}).format(dl)} ${snap?"• آخر توليد: "+fmtDT(snap.at):""}</div>
-     ${admin?`<div style="margin-top:.8rem"><button class="btn btn-y" data-act="gen-tasks">🎲 احتساب الترتيب وتوزيع المهام الآن</button></div>`:""}
+     ${admin?`<div style="margin-top:.8rem"><button class="btn btn-y" data-act="gen-tasks" type="button">🎲 احتساب الترتيب وتوزيع المهام الآن</button></div>`:""}
    </div>
    ${snap?`<div class="chip chip-chalk rv" style="margin:1rem 0 0">📅 مهام شهر: <b style="margin-inline-start:.3rem">${esc(snap.period)}</b></div>`:""}
-   ${blocksClean}
+   ${blocks}
    <div class="chalk rv" style="padding:.9rem 1.1rem;margin-top:1.2rem;font-size:.9rem;line-height:1.9">
      <b>📜 قواعد التوزيع حسب الترتيب الشهري:</b><br>
      1) الرتبة الأولى عام = رئيس القسم • 2) الأول ذكور = رئيس شرطة القسم (والرتب 2–5 ذكور = شرطة) • 3) الرتبتان 2 و 3 = مراقبة الانضباط • 4) الرتبتان 4 و 5 = توزيع وجمع الدفاتر • 5) الرتب 1–2–3 = التأطير الخاص • 6) الأولى إناث + الأول ذكور = الخدمات الخارجية.
    </div>`;
 }
 
-/* ---------- announce ---------- */
 function renderAnnounce(){
   const admin = SESSION.role==="admin";
   const ann = metaGet("announce","");
@@ -926,7 +882,6 @@ function renderAnnounce(){
    ${items}`;
 }
 
-/* ---------- visitors ---------- */
 function renderVisitors(){
   if(SESSION.role!=="admin"){ switchView("v-dash"); return; }
   const vs = Object.values(S.visits).sort((a,b)=>b.at-b.at).slice(0,300);
@@ -936,7 +891,6 @@ function renderVisitors(){
    <div class="scrollx rv"><table class="vtable"><thead><tr><th>الدور</th><th>الاسم</th><th>الوقت</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
-/* ---------- my space ---------- */
 function renderMy(){
   const admin = SESSION.role==="admin";
   const sid = admin ? UI.spaceSid : SESSION.sid;
@@ -953,7 +907,7 @@ function renderMy(){
   const taskChips = myTasks.length ? myTasks.map(r=>`<span class="chip" style="background:#fff;color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,.15)">${r.icon} ${r.t}</span>`).join("") : `<span class="chip chip-soft">لم تُوزَّع المهام بعد</span>`;
   const upItems = ups.map(t=>{ const sb=SUBJECTS[t.subject]; const dl=daysLeft(t.date); return `<div class="ann-item rv"><span class="ai-ic">${sb.icon}</span><div><div class="ai-t">${esc(t.label||("اختبار "+sb.name))}</div><div class="ai-d">${fmtDate(t.date)}</div></div><div class="ai-days"><span class="chip ${dl<=2?"chip-r":"chip-y"}">باقي ${dl} يوم</span></div></div>`; }).join("") || `<div class="empty-s">لا اختبارات قادمة 🎉</div>`;
   const evList = visEvs.length ? visEvs.map(e=>evRow(e,admin)).join("") : `<div class="empty-s">لا ملاحظات بعد — استمر 💪</div>`;
-  const back = admin ? `<button class="btn btn-ghost btn-sm" data-act="back-students" style="margin-bottom:.8rem">← العودة للتلاميذ</button>` : "";
+  const back = admin ? `<button class="btn btn-ghost btn-sm" data-act="back-students" type="button" style="margin-bottom:.8rem">← العودة للتلاميذ</button>` : "";
   $("#views").innerHTML = `
    ${back}
    ${crown}
@@ -981,15 +935,14 @@ function renderMy(){
    </div>`;
 }
 
-/* ---------- events modal ---------- */
 function openEventsModal(sid){
   const st=S.students[sid]; const evs=Object.values(S.events).filter(e=>e.sid===sid).sort((a,b)=>b.at-b.at);
-  openModal(`<div class="m-head"><h3>⭐ سجل التحفيز والعقوبات — ${esc(st.name)}</h3><button class="m-x" data-mclose>✕</button></div>
+  openModal(`<div class="m-head"><h3>⭐ سجل التحفيز والعقوبات — ${esc(st.name)}</h3><button class="m-x" data-mclose type="button">✕</button></div>
    <div class="m-body">
      <p class="m-sub">اختر إجراءً ثم طبِّقه (تُحتسب التأثيرات تلقائياً):</p>
      <div class="rules">${RULES.map((r,i)=>`<button type="button" class="rule ${r.tone}" data-rule="${i}"><span class="r-ic">${r.icon}</span><span class="r-tx"><b>${r.label}</b><small>${ruleFx(r)}${r.desc?" • "+r.desc:""}</small></span><span class="r-vis">${r.vis?"👪 يظهر":"🔒 سرّي"}</span></button>`).join("")}</div>
      <input id="evNote" class="inp" placeholder="ملاحظة (اختياري)">
-     <div class="m-actions"><button class="btn btn-y" id="evApply">طبِّق ✔</button></div>
+     <div class="m-actions"><button class="btn btn-y" id="evApply" type="button">طبِّق ✔</button></div>
      <h4 class="m-h4">السجل الكامل (يظهر السرّي لك فقط)</h4>
      <div>${evs.map(e=>evRow(e,true)).join("") || `<p class="empty-s">لا شيء بعد</p>`}</div>
    </div>`);
@@ -997,7 +950,6 @@ function openEventsModal(sid){
   $("#evApply").onclick=()=>{ const sel=$("#modalRoot .rule.sel"); if(!sel){ toast("اختر إجراءً أولاً","warn"); return; } const r=RULES[+sel.dataset.rule]; addEvent(sid,r,($("#evNote").value||"").trim()); closeModal(); refresh(); toast(`${r.icon} طُبِّق: ${r.label}`,"ok"); renderView(current); };
 }
 
-/* ---------- delegation ---------- */
 const debMap={};
 function deb(key,fn2,ms=420){ clearTimeout(debMap[key]); debMap[key]=setTimeout(fn2,ms); }
 function flash(el){ el.classList.add("ok"); setTimeout(()=>el.classList.remove("ok"),800); }
@@ -1014,8 +966,23 @@ views.addEventListener("submit", e=>{
   else if(form==="addTest"){ addTest(UI.wLevel, fd.get("subject"), fd.get("date"), (fd.get("label")||"").trim()); toast("📌 بُرمج الاختبار","ok"); refresh(); renderView(current); }
   else if(form==="announce"){ metaSet("announce",(fd.get("text")||"").trim()); toast("تم حفظ الإعلان ✔","ok"); renderView(current); }
 });
+/* ✅ مُعالج النقر المُصلَح: التبويبات + تبرير الغياب + الأزرار */
 views.addEventListener("click", e=>{
-  const b=e.target.closest("[data-act]"); if(!b) return; const [act,arg]=b.dataset.act.split(":");
+  const tab=e.target.closest("[data-tab]");
+  if(tab){
+    const [g,v]=tab.dataset.tab.split(":");
+    if(g==="level")UI.level=+v;
+    else if(g==="wlevel")UI.wLevel=+v;
+    else if(g==="cclevel")UI.ccLevel=+v;
+    else if(g==="ccsub")UI.ccSub=v;
+    renderView(current);
+    return;
+  }
+  const j=e.target.closest("[data-justif]");
+  if(j){ justifyAbsence(j.dataset.justif); refresh(); renderView(current); return; }
+  const b=e.target.closest("[data-act]");
+  if(!b) return;
+  const [act,arg]=b.dataset.act.split(":");
   if(act==="open-space"){ UI.spaceSid=arg; switchView("v-my"); }
   else if(act==="events"){ openEventsModal(arg); }
   else if(act==="del-student"){ const sid=arg; confirmBox(`حذف <b>${esc(S.students[sid].name)}</b> وكل نقطه وأحداثه نهائياً؟`,"حذف 🗑").then(ok=>{ if(ok){ delStudent(sid); refresh(); toast("تم الحذف","warn"); renderView(current); } }); }
@@ -1024,11 +991,9 @@ views.addEventListener("click", e=>{
   else if(act==="grade-close"){ UI.grading=null; renderView(current); }
   else if(act==="gen-tasks"){ confirmBox("سيتم احتساب الترتيب وتوزيع المهام، وتطبيق خصومات التراجع في الرتب تلقائياً. متابعة؟","توليد 🎲").then(ok=>{ if(ok){ generateTasks(false); renderView(current); } }); }
   else if(act==="back-students"){ UI.spaceSid=null; switchView("v-students"); }
-  const tab=e.target.closest("[data-tab]"); if(tab){ const [g,v]=tab.dataset.tab.split(":"); if(g==="level")UI.level=+v; if(g==="wlevel")UI.wLevel=+v; if(g==="cclevel")UI.ccLevel=+v; if(g==="ccsub")UI.ccSub=v; renderView(current); }
 });
 $("#sideNav").addEventListener("click", e=>{ const b=e.target.closest("[data-nav]"); if(b) switchView(b.dataset.nav); });
 
-/* ---------- login ---------- */
 let famRole="student";
 function setLoginTab(t){
   $$(".ltab").forEach(x=>x.classList.toggle("on", x.dataset.lt===t));
@@ -1053,12 +1018,11 @@ $("#formFamily").addEventListener("submit", e=>{
   if(matches.length===1){ const sid=matches[0]; const st=S.students[sid]; logVisit(st.name, famRole, sid); enterApp({role:famRole, sid, name:st.name, level:st.level}); }
   else {
     loginMsg("وُجد أكثر من اسم مطابق — اختر:","ok");
-    openModal(`<div class="m-head"><h3>اختر التلميذ(ة)</h3><button class="m-x" data-mclose>✕</button></div>
-      <div class="m-body">${matches.map(sid=>{ const st=S.students[sid]; return `<div class="pick-row" data-pick="${sid}"><span style="font-size:1.4rem">${st.gender==="M"?"👦":""}</span><div><b style="color:var(--ink)">${esc(st.name)}</b><div style="font-size:.8rem;color:var(--ink-soft)">${LEVELS[st.level].name}</div></div></div>`; }).join("")}</div>`);
+    openModal(`<div class="m-head"><h3>اختر التلميذ(ة)</h3><button class="m-x" data-mclose type="button">✕</button></div>
+      <div class="m-body">${matches.map(sid=>{ const st=S.students[sid]; return `<div class="pick-row" data-pick="${sid}"><span style="font-size:1.4rem">${st.gender==="M"?"👦":"👧"}</span><div><b style="color:var(--ink)">${esc(st.name)}</b><div style="font-size:.8rem;color:var(--ink-soft)">${LEVELS[st.level].name}</div></div></div>`; }).join("")}</div>`);
   }
 });
 
-/* ---------- session / shell ---------- */
 function enterApp(sess){
   SESSION=sess; sessionStorage.setItem("qismi_sess", JSON.stringify(sess));
   $("#login").classList.add("gone");
@@ -1074,18 +1038,16 @@ function doLogout(){ sessionStorage.removeItem("qismi_sess"); SESSION=null; $("#
 $("#logoutBtn").onclick=doLogout;
 $("#connChip").onclick=()=>{ toast("إعادة محاولة الاتصال...","warn"); location.reload(); };
 
-/* ---------- countdown tick ---------- */
 function tick(){
   const el=$("#cdBig"); if(!el) return;
   const ms=renewalDeadline()-new Date();
-  const s=Math.max(0,Math.floor(ms/1000)); const d=Math.floor(s/86400), h=Math.floor(s%3600/60===0?s%3600/60:s%3600/60);
+  const s=Math.max(0,Math.floor(ms/1000)); const d=Math.floor(s/86400);
   const hh=String(Math.floor(s%86400/3600)).padStart(2,"0"), mm=String(Math.floor(s%3600/60)).padStart(2,"0"), ss=String(s%60).padStart(2,"0");
   el.textContent=`${d} يوماً و ${hh}:${mm}:${ss}`;
 }
 setInterval(tick,1000);
 setInterval(checkTasksAuto, 60000);
 
-/* ---------- boot ---------- */
 (async function boot(){
   try { await loadCloud(); online=true; }
   catch(e){ online=false; loadLocal(); }
@@ -1097,4 +1059,4 @@ setInterval(checkTasksAuto, 60000);
 })();
 </script>
 </body>
-</html
+</html>
