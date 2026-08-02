@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#173f2f">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>قسمي Qismi v1 — فضاء الأستاذ وتلاميذه وأوليائهم</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏫</text></svg>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/lalezar@latest/css">
@@ -54,6 +57,7 @@ button{font-family:inherit}
 .boot-card{padding:38px 30px; text-align:center; border:6px solid var(--wood); max-width:520px; width:100%; position:relative; z-index:2; margin:auto}
 .boot-logo{font-family:var(--f-disp); font-size:3.2rem; color:var(--chalk); text-shadow:0 0 16px rgba(244,241,228,.35), 2px 3px 0 rgba(0,0,0,.25); line-height:1}
 .boot-logo .ver-chip{font-size:1rem; vertical-align:middle}
+.boot-build{display:inline-block; margin-top:6px; font-size:.72rem; letter-spacing:.08em; color:var(--chalk-dim); border:1.2px dashed rgba(244,241,228,.35); border-radius:999px; padding:2px 12px; direction:ltr}
 .boot-spinner{width:56px; height:56px; margin:22px auto; border:5px solid rgba(244,241,228,.22); border-top-color:var(--yellow); border-radius:50%; animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .boot-msg{color:var(--chalk); font-weight:800; font-size:1.08rem}
@@ -104,8 +108,13 @@ button{font-family:inherit}
 .f-label{display:block; font-weight:700; font-size:.85rem; margin:10px 0 5px; color:#4c5a52}
 .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
 @media(max-width:820px){ .grid2{grid-template-columns:1fr} }
-.reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
-.reveal.in{opacity:1; transform:none}
+
+/* ====== الظهور: CSS فقط — مرئيٌ دائماً، والحركة تزيينٌ لا شرط وجود ====== */
+.reveal{ animation: revealIn .6s cubic-bezier(.2,.8,.3,1) both; }
+@keyframes revealIn{ from{ opacity:0; transform:translateY(14px) } to{ opacity:1; transform:none } }
+.reveal.in{ } /* لم يعد الظهور يعتمد على هذه الفئة — الظهور مضمونٌ بـ CSS وبأحزمة الأمان */
+@media (prefers-reduced-motion: reduce){ .reveal{ animation:none } }
+
 .empty{padding:26px 14px; text-align:center; color:var(--muted); border:1.6px dashed var(--line2); border-radius:12px; background:#fffef9}
 .empty b{display:block; font-size:2rem; margin-bottom:6px; filter:grayscale(.2)}
 
@@ -155,6 +164,7 @@ button{font-family:inherit}
 @keyframes shake{20%,60%{transform:translateX(7px)} 40%,80%{transform:translateX(-7px)}}
 @keyframes pop{from{opacity:0; transform:translateY(14px) scale(.97)} to{opacity:1; transform:none}}
 .gate-foot{text-align:center; color:var(--muted); font-size:.85rem; margin-top:26px}
+.gate-foot .build{display:inline-block; margin-top:6px; font-size:.7rem; letter-spacing:.08em; direction:ltr; opacity:.8}
 
 /* ====== app bar & admin layout ====== */
 .appbar{position:sticky; top:var(--offbar-h,0px); z-index:50; border-radius:0 0 12px 12px; box-shadow:0 8px 22px rgba(15,40,30,.28); transition:top .35s ease}
@@ -324,6 +334,7 @@ button{font-family:inherit}
     <span class="boot-gd" style="bottom:16px; left:20px; font-size:1.3rem; animation-delay:-3s">★</span>
     <span class="boot-gd" style="top:40%; left:10px; font-size:1.2rem; animation-delay:-5s">√</span>
     <div class="boot-logo">قسمي <span class="ver-chip">v1</span></div>
+    <div class="boot-build" id="bootBuild"></div>
     <div class="boot-spinner" id="bootSpinner"></div>
     <div class="boot-msg" id="bootMsg">جارٍ الاتصال بالخادم السحابي…</div>
     <div class="boot-sub" id="bootSub">نربط قسمك بالسحابة ليصل كل جديدٍ إلى تلاميذك وأوليائهم أولاً بأول، دون اعتماد على هذا الجهاز.</div>
@@ -335,7 +346,8 @@ button{font-family:inherit}
 </div>
 
 <script type="module">
-/* ================= Qismi v1 — always-online edition (reveal-fix) ================= */
+/* ================= Qismi v1 — always-online · reveal hardened (build 0802-C) ================= */
+const BUILD = 'v1 · build 0802-C';   /* بصمة البناء — إن لم ترها فالتطبيق يفتح نسخةً مخزّنةً قديمة */
 const firebaseConfig = {
   apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
   authDomain: "qismi-46d97.firebaseapp.com",
@@ -347,7 +359,7 @@ const firebaseConfig = {
 };
 const ADMIN_EMAILS = ["meg.code91@gmail.com","meg.taalim@gmail.com"];
 const SUBJECTS = [
-  {id:'fr',  name:'اللغة الفرنسية', icon:'🇫🇷', color:'#2456a6'},
+  {id:'fr',  name:'اللغة الفرنسية', icon:'🇫', color:'#2456a6'},
   {id:'math',name:'الرياضيات',      icon:'➗', color:'#c8372d'},
   {id:'sci', name:'النشاط العلمي',  icon:'🔬', color:'#1d7a4f'}
 ];
@@ -818,7 +830,7 @@ function viewGate(){
       <span class="knob"></span>
     </button>
     <button class="door door-notebook reveal" onclick="Q.toVisitorPick()">
-      <span class="door-ico">👨‍‍👧👦</span>
+      <span class="door-ico">👨‍👩‍‍👦</span>
       <span class="door-title">باب التلاميذ والأولياء</span>
       <span class="door-sub">فضاء اطلاع على النقط والرتب والمهام</span>
     </button>
@@ -830,14 +842,14 @@ function viewGate(){
       <button class="btn btn-red" onclick="Q.adminLogin()">دخول إلى مكتب الأستاذ ➜</button>
       <p class="mini muted" style="margin-top:10px">الدخول حصري للبريدين المهنيين المصرّح بهما من إدارة المشروع.</p>
   </div>` : ''}
-  <footer class="gate-foot">Qismi v1 · اللغة الفرنسية ✦ الرياضيات ✦ النشاط العلمي ✦ الخامس والسادس ابتدائي</footer>
+  <footer class="gate-foot">Qismi v1 · اللغة الفرنسية ✦ الرياضيات ✦ النشاط العلمي ✦ الخامس والسادس ابتدائي<br><span class="build">${esc(BUILD)}</span></footer>
   </div>`;
 }
 
 function viewVisitorPick(){
   if(!app.vlv){
     return `<div class="gate">
-      <div class="board dash-head reveal in"><h2>👨‍👩‍👧‍👦 فضاء التلاميذ والأولياء</h2><span class="d-date">اختر المستوى الدراسي للدخول</span></div>
+      <div class="board dash-head reveal in"><h2>👨‍👩‍👧‍ فضاء التلاميذ والأولياء</h2><span class="d-date">اختر المستوى الدراسي للدخول</span></div>
       <div class="wood-strip"></div>
       <div class="doors" style="margin-top:22px">
         ${LEVELS.map(l=>`<button class="door door-notebook reveal" style="background:linear-gradient(170deg, ${l.id==='5'?'#d9a521,#b3860e':'#2f63b8,#1c4487'})" onclick="Q.toVisitorPick('${l.id}')">
@@ -857,7 +869,7 @@ function viewVisitorPick(){
         return `<div class="stu-row reveal">
           <span class="rank-badge ${ri.entry?rankCls(ri.entry.rank):''}">${ri.entry?ri.entry.rank:'—'}</span>
           <span class="stu-grow"><span class="stu-name">${esc(s.name)}</span>
-            <span class="chip ${s.gender==='ذكر'?'ok':'good'}">${s.gender==='ذكر'?'👦':'👧'} ${s.gender}</span></span>
+            <span class="chip ${s.gender==='ذكر'?'ok':'good'}">${s.gender==='ذكر'?'👦':''} ${s.gender}</span></span>
           <button class="btn btn-board btn-sm" onclick="Q.openStudent('${s.id}','visitor')">فتح الفضاء ➜</button>
           <b class="avg-badge ${avgCls(cum)}" title="المعدل التراكمي الإجمالي">${f2(cum)}</b>
         </div>`;
@@ -959,7 +971,7 @@ function tabStudents(){
           <span class="rank-badge ${ri.entry?rankCls(ri.entry.rank):''}" title="الرتبة في القسم">${ri.entry?ri.entry.rank:'—'}</span>
           <span class="stu-grow">
             <span class="stu-name">${esc(s.name)}</span>
-            <span class="chip ${s.gender==='ذكر'?'ok':'good'}">${s.gender==='ذكر'?'👦':'👧'} ${s.gender}</span>
+            <span class="chip ${s.gender==='ذكر'?'ok':'good'}">${s.gender==='ذكر'?'👦':''} ${s.gender}</span>
             ${evN?`<span class="chip neutral" title="أحداث مسجلة">⚖️ ${evN}</span>`:''}
           </span>
           <button class="btn btn-board btn-sm" onclick="Q.openStudent('${s.id}','admin')">فضاء التلميذ ➜</button>
@@ -1087,7 +1099,7 @@ function viewAdmin(){
       <span class="status"><i class="dot"></i><span data-conn-text data-conn-online="متصل بالخادم — مزامنة مباشرة" data-conn-offline="انقطع الاتصال — جارٍ إعادة المحاولة" data-conn-boot="جارٍ الاتصال…"></span></span>
       <span class="clock" data-clock>--:--:--</span>
       <span class="spacer"></span>
-      <span class="who">👨‍🏫 ${esc(adminEmail())}</span>
+      <span class="who">👨‍ ${esc(adminEmail())}</span>
       <button class="btn btn-ghost btn-sm" onclick="Q.toGate()">🏠 الاستقبال</button>
       <button class="btn btn-ghost btn-sm" onclick="Q.logout()">خروج ⎋</button>
     </div>
@@ -1124,7 +1136,7 @@ function viewStudent(){
     <div>
       <div class="sp-name">${esc(s.name)}</div>
       <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap">
-        <span class="chip ${s.gender==='ذكر'?'ok':'good'}">${s.gender==='ذكر'?'👦':'👧'} ${s.gender}</span>
+        <span class="chip ${s.gender==='ذكر'?'ok':'good'}">${s.gender==='ذكر'?'👦':''} ${s.gender}</span>
         <span class="chip gold">🎒 ${levelName(s.level)}</span>
         <span class="rank-badge ${ri.entry?rankCls(ri.entry.rank):''}" style="border:none">الرتبة ${ri.entry?ri.entry.rank:'—'} / ${ri.total||0}</span>
       </div>
@@ -1164,7 +1176,7 @@ function viewStudent(){
       <input id="evNote" class="input" placeholder="ملاحظة (اختياري)">
       <button class="btn btn-red" onclick="Q.addEvent('${s.id}')">تسجيل ✔</button>
     </div>
-    <p class="mini muted" style="margin-bottom:12px">تُطبَّق الآثار على المعدلات تلقائيا فور التسجيل · 🚷🌪️📉 أحداث سرية لا تظهر للزوار · التبرير متاح خلال 3 أيام.</p>`:''}
+    <p class="mini muted" style="margin-bottom:12px">تُطبَّق الآثار على المعدلات تلقائيا فور التسجيل · 🚷️📉 أحداث سرية لا تظهر للزوار · التبرير متاح خلال 3 أيام.</p>`:''}
     ${eventRows(s.id, isAdmin)}
   </div>
   </div>`;
@@ -1179,18 +1191,14 @@ function render(){
   else if(app.view==='student') root.innerHTML=viewStudent();
   afterRender();
 }
-const io=new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }),{threshold:.07});
 function afterRender(){
-  /* إظهارٌ فوريٌّ متزامن لكل بطاقةٍ موجودةٍ في الشاشة الآن (لا ينتظر المراقب — يصلح WebToApp/WebView) */
-  const vh=window.innerHeight||document.documentElement.clientHeight;
-  document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
-    const r=el.getBoundingClientRect();
-    if(r.top < vh*0.95 && r.bottom > 0){ el.classList.add('in'); }
-    else { try{ io.observe(el); }catch{ el.classList.add('in'); } }
-  });
-  /* شبكة أمانٍ مطلقة: إن تعنّت المراقب في أي بيئة، أُظهر الكل بعد مهلةٍ قصيرة */
-  clearTimeout(window.__revFallback);
-  window.__revFallback=setTimeout(()=>{ document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')); }, 700);
+  /* الظهور مضمونٌ بـ CSS (animation على .reveal) ولا يعتمد على JS.
+     هذه الطبقات أحزمةُ أمانٍ إضافية فقط، لا شرطَ وجود: */
+  requestAnimationFrame(()=>{ document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')); });
+  clearTimeout(window.__revHard);
+  window.__revHard=setTimeout(()=>{
+    document.querySelectorAll('.reveal').forEach(el=>{ el.classList.add('in'); el.style.opacity='1'; el.style.transform='none'; });
+  }, 1200);
 
   document.querySelectorAll('[data-to]').forEach(el=>{
     const to=parseFloat(el.dataset.to)||0, dec=+(el.dataset.dec||0), t0=performance.now(), dur=750;
@@ -1339,6 +1347,7 @@ function buildDoodles(){
 }
 loadLocal();
 buildDoodles();
+try{ const bb=$('bootBuild'); if(bb) bb.textContent=BUILD; }catch{}
 render();
 bootApp();
 window.addEventListener('online', ()=>{ setConn('online'); checkConnection(); });
