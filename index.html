@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قسمي — Qismi v1.2 • فضاء القسم</title>
+<title>قسمي — Qismi v1.3 • فضاء القسم</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="88">🏫</text></svg>'>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-400-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-600-normal.css">
@@ -21,6 +21,7 @@
   --yellow:#f6c445; --yellow-d:#d29e18; --red:#d9534f; --red-d:#b23a36;
   --teal:#2a9d8f; --teal-d:#1f7a6f; --blue:#3a7ca5; --blue-d:#2c5f80;
   --pink:#ef8fa3; --pink-d:#cf6680; --good:#3f9e63; --bad:#c0504d; --violet:#8e7cc3; --violet-d:#6c5aa0;
+  --ember:#e07a5f; --ember-d:#c25a40;
   --shadow:0 12px 28px rgba(0,0,0,.38);
 }
 *{box-sizing:border-box}
@@ -314,6 +315,55 @@ main{min-width:0;display:flex;flex-direction:column}
 .nature-note{margin-top:.8rem;background:rgba(142,124,195,.12);border:2px dashed var(--violet);border-radius:11px;padding:.6rem .8rem;color:var(--ink);font-size:.85rem;font-weight:700;line-height:1.7}
 .nature-note b{color:var(--violet-d)}
 
+/* ===== ركن المنافسون — مضمار السباق ===== */
+.rivals-banner{width:100%;justify-content:center;margin-top:1rem;font-size:1.02rem;padding:.7rem 1rem;border-radius:14px;background:linear-gradient(120deg,var(--pink),var(--pink-d));color:#fff;box-shadow:0 5px 0 #b04f68, var(--shadow);position:relative;overflow:hidden}
+.rivals-banner::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.12) 0 8px,transparent 8px 20px);opacity:.5;pointer-events:none}
+.rivals-head{padding:1.3rem 1.4rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.rivals-head::before{content:"";position:absolute;left:-10px;bottom:-22px;font-size:7rem;opacity:.07;transform:rotate(-12deg)}
+.rivals-head .rh-rank{flex:none;width:96px;height:96px;border-radius:50%;display:grid;place-content:center;background:radial-gradient(circle at 35% 30%, #fff7df, var(--yellow));color:#4a3608;box-shadow:0 0 0 4px rgba(246,196,69,.35), 0 10px 24px rgba(0,0,0,.4);animation:youGlow 2.6s infinite}
+.rivals-head .rh-rank b{font-family:'Marhey';font-size:2.6rem;line-height:1}
+.rivals-head .rh-rank small{font-size:.72rem;font-weight:800}
+.rivals-head .rh-tx h2{font-size:clamp(1.4rem,4vw,2rem)}
+.rivals-head .rh-tx p{color:var(--chalk-dim);font-weight:600;margin:.3rem 0 0;max-width:520px;line-height:1.7}
+.rivals-head .rh-chips{margin-inline-start:auto;display:flex;gap:.4rem;flex-wrap:wrap}
+@keyframes youGlow{0%,100%{box-shadow:0 0 0 4px rgba(246,196,69,.3),0 10px 24px rgba(0,0,0,.4)}50%{box-shadow:0 0 0 9px rgba(246,196,69,.16),0 10px 24px rgba(0,0,0,.4)}}
+
+.race-wrap{margin-top:1.1rem;padding:1rem 1.2rem}
+.race-lab{display:flex;justify-content:space-between;font-weight:700;color:var(--chalk-dim);font-size:.82rem;margin-bottom:.45rem}
+.race-bar{position:relative;height:16px;border-radius:999px;direction:ltr;background:repeating-linear-gradient(90deg, rgba(255,255,255,.1) 0 2px, transparent 2px 22px), rgba(0,0,0,.28);box-shadow:inset 0 2px 6px rgba(0,0,0,.4)}
+.race-marker{position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:var(--yellow);border:3px solid #fff;transform:translate(-50%,-50%);box-shadow:0 3px 10px rgba(0,0,0,.5);transition:left 1.1s cubic-bezier(.2,.9,.2,1);display:grid;place-items:center;font-size:.8rem}
+.race-marker::after{content:"أنت";position:absolute;top:-22px;font-family:'Marhey';font-size:.7rem;color:var(--yellow);white-space:nowrap}
+.race-ends{display:flex;justify-content:space-between;direction:ltr;font-size:.74rem;color:var(--chalk-dim);font-weight:700;margin-top:.4rem}
+
+.ladder{display:flex;flex-direction:column;gap:.55rem;margin-top:1.3rem;position:relative}
+.ladder::before{content:"";position:absolute;top:18px;bottom:18px;right:34px;width:3px;background:linear-gradient(var(--chalk-faint),transparent);border-radius:3px}
+.rival-card{display:flex;align-items:center;gap:.9rem;padding:.85rem 1.1rem;border-radius:16px;color:#fff;position:relative;box-shadow:var(--shadow);transition:transform .18s, box-shadow .18s, filter .18s;overflow:hidden}
+.rival-card:hover{transform:translateX(-6px) scale(1.012);filter:brightness(1.05)}
+.rival-card::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(125deg,rgba(255,255,255,.08) 0 6px,transparent 6px 16px);opacity:.6;pointer-events:none}
+.rival-card .rc-rank{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.22);font-family:'Marhey';font-size:1.25rem;box-shadow:inset 0 0 0 2px rgba(255,255,255,.3)}
+.rival-card .rc-ava{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:1.3rem;background:rgba(255,255,255,.92)}
+.rival-card .rc-mid{flex:1;min-width:0}
+.rival-card .rc-name{font-family:'Marhey';font-size:1.18rem;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rival-card .rc-diff{font-size:.82rem;font-weight:700;opacity:.96;margin-top:.2rem}
+.rival-card .rc-bar{height:7px;border-radius:5px;background:rgba(0,0,0,.22);margin-top:.45rem;overflow:hidden}
+.rival-card .rc-bar>i{display:block;height:100%;border-radius:5px;background:rgba(255,255,255,.85);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.rival-card .rc-cum{flex:none;text-align:center;padding-inline-start:.4rem}
+.rival-card .rc-cum b{font-family:'Marhey';font-size:1.7rem;line-height:1;display:block;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.rival-card .rc-cum small{font-size:.66rem;font-weight:800;opacity:.85}
+.rival-card.ahead{background:linear-gradient(135deg,var(--ember),var(--ember-d))}
+.rival-card.behind{background:linear-gradient(135deg,var(--blue),var(--blue-d))}
+.rival-card.you{background:linear-gradient(135deg,var(--yellow),#e0a428);color:#4a3608;animation:youGlow 2.6s infinite;transform:scale(1.02)}
+.rival-card.you:hover{transform:translateX(-6px) scale(1.035)}
+.rival-card.you .rc-rank{background:rgba(74,54,8,.18);box-shadow:inset 0 0 0 2px rgba(74,54,8,.3)}
+.rival-card.you .rc-ava{box-shadow:0 0 0 3px #fff}
+.rival-card.you .rc-bar{background:rgba(74,54,8,.2)} .rival-card.you .rc-bar>i{background:#4a3608}
+.rival-card.you .rc-name{font-size:1.3rem}
+.rival-card.ghost{background:transparent;border:2px dashed var(--chalk-faint);color:var(--chalk-dim);box-shadow:none;justify-content:center;text-align:center;font-weight:700;padding:1rem}
+.rival-card.ghost:hover{transform:none;filter:none}
+.rival-card.ghost .gh-ic{font-size:1.6rem;margin-inline-end:.4rem}
+.arrow-sep{text-align:center;color:var(--chalk-faint);font-size:.95rem;line-height:.4;margin:-.1rem 0;position:relative;z-index:1}
+.arrow-sep span{background:var(--board2);padding:0 .5rem;border-radius:6px}
+
 #toasts{position:fixed;bottom:18px;left:18px;z-index:80;display:flex;flex-direction:column;gap:.5rem;max-width:320px}
 .toast{background:var(--chalk);color:var(--board);font-weight:700;padding:.7rem 1rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.4);position:relative;animation:toastIn .3s;border-inline-start:6px solid var(--teal)}
 .toast.warn{border-inline-start-color:var(--yellow)}
@@ -358,6 +408,9 @@ main{min-width:0;display:flex;flex-direction:column}
   .door-wrap{grid-template-columns:1fr}
   .my-hero .mh-rank{margin-inline-start:0;width:100%}
   .srow .cumwrap{margin-inline-start:0;flex-direction:row;gap:.6rem;width:100%;justify-content:flex-start;border-top:2px dashed #ece4cf;padding-top:.5rem}
+  .rivals-head .rh-chips{margin-inline-start:0;width:100%}
+  .rival-card .rc-cum b{font-size:1.4rem}
+  .rival-card .rc-name{font-size:1.05rem}
 }
 </style>
 </head>
@@ -375,7 +428,7 @@ main{min-width:0;display:flex;flex-direction:column}
     <div class="wood-frame">
       <div class="board">
         <img class="mascot owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="بومة الأستاذ">
-        <h1 class="logo-chalk">قِسمي<span class="v">v1.2</span></h1>
+        <h1 class="logo-chalk">قِسمي<span class="v">v1.3</span></h1>
         <svg class="squig" viewBox="0 0 300 10" preserveAspectRatio="none"><path d="M2 6 Q 20 1 38 6 T 74 6 T 110 6 T 146 6 T 182 6 T 218 6 T 254 6 T 290 6"/></svg>
         <p class="tag">فضاءٌ خاص بي و بتلاميذي و بأولياء أمورهم ✏️</p>
         <p class="subj-line">📕 الفرنسية •  الرياضيات • 🧪 النشاط العلمي — المستويان 5 و 6 ابتدائي</p>
@@ -405,19 +458,19 @@ main{min-width:0;display:flex;flex-direction:column}
       <div class="login-msg" id="loginMsg"></div>
     </div>
   </div>
-  <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1.2 • الرصيد الأولي = ثمرة اختبار تشخيصي عادل</p>
+  <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1.3 • دائرة المنافسة +2 / −2 للتلاميذ فقط</p>
 </section>
 
 <div id="app">
   <aside>
     <div class="brand">
       <img class="b-owl owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <div><h2>قِسمي</h2><small>Qismi v1.2</small></div>
+      <div><h2>قِسمي</h2><small>Qismi v1.3</small></div>
     </div>
     <nav id="sideNav"></nav>
     <div class="side-foot">
       <img class="owl-mini owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <span class="ver">الإصدار 1.2 • 2026</span>
+      <span class="ver">الإصدار 1.3 • 2026</span>
     </div>
   </aside>
   <main>
@@ -481,7 +534,7 @@ const TASK_ROLES = [
   {k:"mentoring",  t:"التأطير الخاص",         icon:"🧭"},
   {k:"services",   t:"الخدمات الخارجية",      icon:"🤝"}
 ];
-const TITLES = {"v-dash":"لوحة القسم","v-students":"ركن التلاميذ","v-init":"الاختبار الأولي","v-weekly":"الاختبارات الأسبوعية","v-cc":"المراقبة المستمرة","v-tasks":"المهام الشهرية","v-announce":"إعلان هام","v-visitors":"سجل الزوار","v-my":"فضاء التلميذ(ة)"};
+const TITLES = {"v-dash":"لوحة القسم","v-students":"ركن التلاميذ","v-init":"الاختبار الأولي","v-weekly":"الاختبارات الأسبوعية","v-cc":"المراقبة المستمرة","v-tasks":"المهام الشهرية","v-rivals":"المنافسون","v-announce":"إعلان هام","v-visitors":"سجل الزوار","v-my":"فضاء التلميذ(ة)"};
 
 const EMPTY = ()=>({students:{}, tests:{}, wgrades:{}, cc:{}, events:{}, visits:{}, meta:{}, initTests:{}, initGrades:{}});
 let S = EMPTY();
@@ -506,10 +559,11 @@ function fmtDate(iso){ try{ return new Intl.DateTimeFormat("ar-MA",{weekday:"lon
 function fmtDT(ts){ try{ return new Intl.DateTimeFormat("ar-MA",{dateStyle:"medium",timeStyle:"short"}).format(new Date(ts)); }catch(e){ return ""; } }
 function daysLeft(iso){ return Math.ceil((new Date(iso+"T00:00:00") - new Date(todayISO()+"T00:00:00"))/86400000); }
 function medal(r){ return r===1?"🥇":r===2?"🥈":r===3?"🥉":""; }
-function roleLabel(role){ return role==="admin"?"👩‍🏫 أستاذ(ة)":role==="parent"?"👪 ولي(ة) أمر":"🎒 تلميذ(ة)"; }
+function roleLabel(role){ return role==="admin"?"👩‍ أستاذ(ة)":role==="parent"?"👪 ولي(ة) أمر":"🎒 تلميذ(ة)"; }
 function ruleFx(r){ let p=[]; if(r.dw) p.push((r.dw>0?"+":"")+r.dw+" في معدل الاختبارات"); if(r.dc) p.push((r.dc>0?"+":"")+r.dc+" في التراكمي"); return p.join(" و "); }
 function evFx(e){ let p=[]; if(e.dw) p.push((e.dw>0?"+":"")+fn(e.dw)+" معدل الاختبارات"); if(e.dc) p.push((e.dc>0?"+":"")+fn(e.dc)+" التراكمي"); return p.join(" • "); }
-function gIcon(g){ return g==="M"?"👦":"👧"; }
+function gIcon(g){ return g==="M"?"👦":""; }
+function chaseVerb(g){ return g==="F"?"تلاحقك":"يلاحقك"; }
 
 const LKEY = "qismi_v1_data";
 function persistLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){} }
@@ -530,7 +584,6 @@ function updateConn(){ const c=$("#connChip"); if(!c) return; c.classList.toggle
 const metaGet = (k,d) => (S.meta[k]===undefined?d:S.meta[k]);
 function metaSet(k,v){ S.meta[k]=v; persistLocal(); fsWrite("meta",k,{value:v,at:Date.now()}); }
 
-/* ✅ الرصيد الأولي يُبنى من الاختبار الأولي (لا من الماضي) */
 function computeAll(){
   const stats={}; const byLevel={5:[],6:[]};
   for(const sid in S.students){
@@ -586,7 +639,6 @@ async function delTest(tid){
   for(const id in S.wgrades){ if(S.wgrades[id].tid===tid){ delete S.wgrades[id]; fsRemove("wgrades",id); } }
   delete S.tests[tid]; fsRemove("tests",tid); persistLocal();
 }
-/* ✅ اختبارات أولية (سرية) */
 function addInitTest(level,subject,date,label){
   const id=uid(); const t={id, level:Number(level), subject, date, label:label||"", createdAt:Date.now()};
   S.initTests[id]=t; persistLocal(); fsWrite("initTests",id,t); return id;
@@ -708,7 +760,6 @@ function evRow(e, admin){
     <div class="ev-right">${visTag}${canJust?`<button class="btn btn-t btn-sm" data-justif="${e.id}" type="button">تبرير ✔</button>`:""}</div></div>`;
 }
 
-/* ✅ تحديث حيّ دون فقدان التركيز */
 function patch(sid){
   const s=C.stats[sid]; if(!s) return;
   const row=document.querySelector('.srow[data-sid="'+sid+'"]');
@@ -728,9 +779,14 @@ function midChipsHTML(s){ return `<span class="chip chip-y">📝 ${fn(s.weeklyFi
 
 function buildNav(){
   const admin = SESSION.role==="admin";
-  const items = admin
-    ? [["v-dash","🏠","لوحة القسم"],["v-students","🧑‍","ركن التلاميذ"],["v-init","🔬","الاختبار الأولي"],["v-weekly","📝","الاختبارات الأسبوعية"],["v-cc","📊","المراقبة المستمرة"],["v-tasks","🎖️","المهام الشهرية"],["v-announce","📢","إعلان هام"],["v-visitors","👀","سجل الزوار"]]
-    : [["v-my","⭐","فضائي"],["v-tasks","🎖️","مهامي"],["v-announce","📢","إعلان هام"]];
+  let items;
+  if(admin){
+    items = [["v-dash","🏠","لوحة القسم"],["v-students","🧑‍🎓","ركن التلاميذ"],["v-init","🔬","الاختبار الأولي"],["v-weekly","📝","الاختبارات الأسبوعية"],["v-cc","📊","المراقبة المستمرة"],["v-tasks","🎖️","المهام الشهرية"],["v-announce","📢","إعلان هام"],["v-visitors","👀","سجل الزوار"]];
+  } else if(SESSION.role==="student"){
+    items = [["v-my","⭐","فضائي"],["v-rivals","🎯","المنافسون"],["v-tasks","🎖️","مهامي"],["v-announce","📢","إعلان هام"]];
+  } else {
+    items = [["v-my","⭐","فضائي"],["v-tasks","🎖️","مهامي"],["v-announce","📢","إعلان هام"]];
+  }
   $("#sideNav").innerHTML = items.map(([v,ic,lb])=>`<button class="navbtn" data-nav="${v}" type="button"><span class="ic">${ic}</span>${lb}</button>`).join("");
 }
 function switchView(v){
@@ -741,10 +797,12 @@ function switchView(v){
 }
 function renderView(v){
   refresh();
-  const fnMap={"v-dash":renderDash,"v-students":renderStudents,"v-init":renderInit,"v-weekly":renderWeekly,"v-cc":renderCC,"v-tasks":renderTasks,"v-announce":renderAnnounce,"v-visitors":renderVisitors,"v-my":renderMy};
+  const fnMap={"v-dash":renderDash,"v-students":renderStudents,"v-init":renderInit,"v-weekly":renderWeekly,"v-cc":renderCC,"v-tasks":renderTasks,"v-rivals":renderRivals,"v-announce":renderAnnounce,"v-visitors":renderVisitors,"v-my":renderMy};
   (fnMap[v]||renderDash)();
   watchReveals($("#views"));
   $$("#views .num-anim").forEach(animateNum);
+  // تحريك مؤشر المضمار بعد الرسم
+  const mk=$("#raceMarker"); if(mk){ const target=mk.dataset.pos; requestAnimationFrame(()=>requestAnimationFrame(()=>{ mk.style.left=target+"%"; })); }
 }
 
 function renderDash(){
@@ -780,7 +838,7 @@ function renderDash(){
      <div class="stkr s4 rv"><div class="s-ic">🎖️</div><div class="s-n" style="font-size:1.1rem">${snap?esc(snap.period):"—"}</div><div class="s-l">مهام الشهر</div><div class="s-sub">${snap?"موزَّعة ✔":"لم تُوزَّع بعد"}</div></div>
    </div>
    <div class="chalk rv" style="padding:.75rem 1rem;margin-top:1rem;font-size:.88rem;line-height:1.8">
-     🔬 <b>فلسفة الرصيد الأولي:</b> لا تبعاتَ للماضي هنا. يُبنى الرصيد الأولي من <b>اختبار تشخيصي</b> يجتازه التلميذ بنفسه في بداية السنة، ثم يُذاب سرّاً في معدله التراكمي. لم يجتز أحدٌ الاختبار؟ فالرصيد = 0 وبدايةٌ نظيفة وعادلة للجميع.
+     🎯 <b>دائرة المنافسة (+2 / −2):</b> يرى كل تلميذٍ في ركنه الخاص <b>اثنين يسبقانه واثنين يلاحقانه</b> بمعدلاتهم — لا لوحةَ كاملةَ تُحبط أو تُغرّ، بل سباقٌ قريبٌ عادل.
    </div>
    <div class="g2" style="margin-top:1.2rem">
      <div class="rv"><div class="sec-h"><span class="em">🥇</span><h2>ترتيب ${LEVELS[5].name}</h2>${t5?`<span class="chip chip-y" style="margin-inline-start:auto">${esc(t5.st.name)} • ${fn(t5.cum)}</span>`:""}</div>${rankTable(5)}</div>
@@ -813,7 +871,6 @@ function renderStudents(){
    <div>${rows}</div>`;
 }
 
-/* ✅ ركن الاختبار الأولي — للأستاذ فقط */
 function renderInit(){
   if(SESSION.role!=="admin"){ switchView("v-dash"); return; }
   const lv=UI.initLevel;
@@ -973,6 +1030,87 @@ function renderTasks(){
    </div>`;
 }
 
+/* ✅ ركن المنافسون — للتلاميذ فقط: +2 يسبقونني / −2 يلاحقونني */
+function renderRivals(){
+  if(SESSION.role!=="student"){ switchView("v-my"); return; }
+  const sid=SESSION.sid; const st=S.students[sid]; if(!st){ doLogout(); return; }
+  const s=C.stats[sid]; const lv=st.level; const order=C.byLevel[lv]; const total=order.length; const myRank=s.rank;
+  const noAhead = (myRank<=1);
+  const noBehind = (myRank>=total);
+  const from=Math.max(1,myRank-2), to=Math.min(total,myRank+2);
+  const totalAhead=myRank-1, totalBehind=total-myRank;
+  const pos = total>1 ? ((myRank-1)/(total-1))*100 : 50;
+
+  const cardHTML = (item)=>{
+    if(item.type==="you"){
+      return `<div class="rival-card you rv">
+        <div class="rc-rank">${medal(myRank)||"#"+myRank}</div>
+        <div class="rc-ava">${gIcon(st.gender)}</div>
+        <div class="rc-mid"><div class="rc-name">⭐ أنت هنا</div>
+          <div class="rc-diff">موقعك الحالي في سباق ${LEVELS[lv].name}</div>
+          <div class="rc-bar"><i style="width:${s.cum*10}%"></i></div></div>
+        <div class="rc-cum"><b class="num-anim" data-to="${s.cum}">0.00</b><small>التراكمي</small></div>
+      </div>`;
+    }
+    const ost=S.students[item.sid]; const os=C.stats[item.sid];
+    const diff=r2(Math.abs(os.cum - s.cum));
+    const name=esc(ost.name);
+    let diffTxt, tag;
+    if(item.type==="ahead"){
+      tag=`<span class="chip" style="background:rgba(0,0,0,.22);color:#fff">يسبقك بمرتبة ${myRank-item.rank}</span>`;
+      diffTxt=`🎯 يلزمك <b>+${fn(diff)}</b> لتتجاوز ${name}`;
+    } else {
+      tag=`<span class="chip" style="background:rgba(0,0,0,.22);color:#fff">خلفك بمرتبة ${item.rank-myRank}</span>`;
+      diffTxt=`🛡️ ${name} ${chaseVerb(ost.gender)} على بُعد <b>${fn(diff)}</b>`;
+    }
+    return `<div class="rival-card ${item.type} rv">
+      <div class="rc-rank">${medal(os.rank)||"#"+os.rank}</div>
+      <div class="rc-ava">${gIcon(ost.gender)}</div>
+      <div class="rc-mid"><div class="rc-name">${name} ${tag}</div>
+        <div class="rc-diff">${diffTxt}</div>
+        <div class="rc-bar"><i style="width:${os.cum*10}%"></i></div></div>
+      <div class="rc-cum"><b>${fn(os.cum)}</b><small>التراكمي</small></div>
+    </div>`;
+  };
+
+  const elems=[];
+  if(noAhead){
+    elems.push(`<div class="rival-card ghost rv"><span class="gh-ic">👑</span> لا أحد يسبقك — أنت في القمة! عيناك على من خلفك.</div>`);
+  }
+  for(let r=from;r<=to;r++){
+    if(r===myRank) elems.push(cardHTML({type:"you",rank:r}));
+    else elems.push(cardHTML({type:r<myRank?"ahead":"behind", rank:r, sid:order[r-1]}));
+  }
+  if(noBehind){
+    elems.push(`<div class="rival-card ghost rv"><span class="gh-ic">🔥</span> لا ملاحِق وراءك حالياً — لكن كل نقطةٍ ترفعك، فلا تتوقّف.</div>`);
+  }
+  const ladder = elems.join(`<div class="arrow-sep"><span>▼</span></div>`);
+
+  const mood = (total<=1) ? "🌟 أنت رائد هذا المستوى وحيداً — ثبّت أقدامك حتى ينضمّ المنافسون."
+    : noAhead ? "👑 أنت في القمة! لا تركن إليها — الفارق عن ملاحِقك قد يكون نقطةً واحدة."
+    : noBehind ? "🔥 المؤخرة ليست قدَرك. انظر لمن فوقك: أقربهم على بُعد خطوة، فاصعدها."
+    : "🎯 هذه دائرتك القريبة: تجاوز من فوقك درجةً درجة، وابْقَ بعيداً عمّن تحتك.";
+
+  $("#views").innerHTML = `
+   <div class="chalk rivals-head rv">
+     <div class="rh-rank"><b>${myRank}</b><small>من ${total}</small></div>
+     <div class="rh-tx"><h2>🎯 دائرة منافستك</h2><p>${mood}<br>ترى <b>اثنين يسبقانك</b> لتلحق بهما، و<b>اثنين يلاحقانك</b> لتبقى متيقّظاً — لا أكثر، كي يبقى السباقُ عادلاً ومُلهِماً.</p></div>
+     <div class="rh-chips"><span class="chip" style="background:var(--ember);color:#fff">⬆️ يسبقك ${totalAhead}</span><span class="chip" style="background:var(--blue);color:#fff">⬇️ يلاحقك ${totalBehind}</span></div>
+   </div>
+
+   <div class="chalk race-wrap rv">
+     <div class="race-lab"><span>موقعك في سباق ${LEVELS[lv].name}</span><span>${total>1?("الرتبة "+myRank+" / "+total):"وحيد"}</span></div>
+     <div class="race-bar"><div class="race-marker" id="raceMarker" data-pos="${pos}" style="left:0%">🏃</div></div>
+     <div class="race-ends"><span>🥇 القمة</span><span>خط النهاية</span></div>
+   </div>
+
+   <div class="ladder">${ladder}</div>
+
+   <div class="chalk rv" style="padding:.85rem 1.1rem;margin-top:1.3rem;font-size:.86rem;line-height:1.8">
+     💡 <b>كيف تقرأ السلّم؟</b> البطاقات البرتقالية = من يسبقك (هدفك التالي)، والذهبية = أنت، والزرقاء = من يلاحقك (ظلّك). الرقم بجانب الاسم هو الفارق الدقيق في المعدل التراكمي — هو ما عليك كسبه أو الحفاظ عليه.
+   </div>`;
+}
+
 function renderAnnounce(){
   const admin = SESSION.role==="admin";
   const ann = metaGet("announce","");
@@ -1022,9 +1160,10 @@ function renderMy(){
   const upItems = ups.map(t=>{ const sb=SUBJECTS[t.subject]; const dl=daysLeft(t.date); return `<div class="ann-item rv"><span class="ai-ic">${sb.icon}</span><div><div class="ai-t">${esc(t.label||("اختبار "+sb.name))}</div><div class="ai-d">${fmtDate(t.date)}</div></div><div class="ai-days"><span class="chip ${dl<=2?"chip-r":"chip-y"}">باقي ${dl} يوم</span></div></div>`; }).join("") || `<div class="empty-s">لا اختبارات قادمة 🎉</div>`;
   const evList = visEvs.length ? visEvs.map(e=>evRow(e,admin)).join("") : `<div class="empty-s">لا ملاحظات بعد — استمر 💪</div>`;
   const back = admin ? `<button class="btn btn-ghost btn-sm" data-act="back-students" type="button" style="margin-bottom:.8rem">← العودة للتلاميذ</button>` : "";
-  /* ✅ ملاحظة الطبيعة للأستاذ فقط — التلميذ/ولي الأمر لا يرون شيئاً عن الاختبار الأولي */
   const initBreak = s.hasInitial ? Object.entries(s.iSubAvg).map(([k,v])=>`${SUBJECTS[k].icon} ${fn(v)}`).join(" ، ") : "لم يجتز اختباراً أولياً بعد";
   const natureNote = admin ? `<div class="nature-note rv">🔒 <b>طبيعة التلميذ (سرية — لا يراها هو):</b> الرصيد الأولي = <b>${fn(s.initial)}</b> ${s.hasInitial?"(مبني من الاختبار الأولي: "+initBreak+")":"(بلا اختبار أولي = بداية نظيفة)"}.<br>التراكمي = متوسط[ ${s.comps.length?s.comps.join(" ، "):"— لا مكوّنات بعد —"} ] ${s.dc?`+ (${s.dc>0?"+":""}${fn(s.dc)}) تحفيز/عقوبات`:""} = <b>${fn(s.cum)}</b>.<br>💡 فلسفة: لا تبعات للماضي — الرصيد الأولي ثمرة اختبار تشخيصي يجتازه التلميذ بنفسه.</div>` : "";
+  /* ✅ بوابة لركن المنافسون — للتلميذ الحقيقي فقط */
+  const rivalsGate = (SESSION.role==="student") ? `<button class="btn rivals-banner rv" data-act="go-rivals" type="button">🎯 من يسبقك؟ من يلاحقك؟ &nbsp;افتح ركن «المنافسون» ←</button>` : "";
   $("#views").innerHTML = `
    ${back}
    ${crown}
@@ -1040,6 +1179,7 @@ function renderMy(){
      <div class="bc-stars">${starsRow(s.cum)}</div>
      <div class="bar bar-chalk" style="margin-top:.7rem"><i style="width:${s.cum*10}%"></i></div>
    </div>
+   ${rivalsGate}
    ${natureNote}
    <div class="g2" style="margin-top:1.1rem">
      <div class="paper sub-card rv"><h4>📝 معدل الاختبارات الأسبوعية <span class="chip chip-y" style="margin-inline-start:auto">${fn(s.weeklyFinal)}</span></h4>${wSub}
@@ -1058,7 +1198,7 @@ function openEventsModal(sid){
   openModal(`<div class="m-head"><h3>⭐ سجل التحفيز والعقوبات — ${esc(st.name)}</h3><button class="m-x" data-mclose type="button">✕</button></div>
    <div class="m-body">
      <p class="m-sub">اختر إجراءً ثم طبِّقه (تُحتسب التأثيرات تلقائياً):</p>
-     <div class="rules">${RULES.map((r,i)=>`<button type="button" class="rule ${r.tone}" data-rule="${i}"><span class="r-ic">${r.icon}</span><span class="r-tx"><b>${r.label}</b><small>${ruleFx(r)}${r.desc?" • "+r.desc:""}</small></span><span class="r-vis">${r.vis?"👪 يظهر":" سرّي"}</span></button>`).join("")}</div>
+     <div class="rules">${RULES.map((r,i)=>`<button type="button" class="rule ${r.tone}" data-rule="${i}"><span class="r-ic">${r.icon}</span><span class="r-tx"><b>${r.label}</b><small>${ruleFx(r)}${r.desc?" • "+r.desc:""}</small></span><span class="r-vis">${r.vis?"👪 يظهر":"🔒 سرّي"}</span></button>`).join("")}</div>
      <input id="evNote" class="inp" placeholder="ملاحظة (اختياري)">
      <div class="m-actions"><button class="btn btn-y" id="evApply" type="button">طبِّق ✔</button></div>
      <h4 class="m-h4">السجل الكامل (يظهر السرّي لك فقط)</h4>
@@ -1114,6 +1254,7 @@ views.addEventListener("click", e=>{
   else if(act==="grade-init-close"){ UI.gradingInit=null; renderView(current); }
   else if(act==="gen-tasks"){ confirmBox("سيتم احتساب الترتيب وتوزيع المهام، وتطبيق خصومات التراجع في الرتب تلقائياً. متابعة؟","توليد 🎲").then(ok=>{ if(ok){ generateTasks(false); renderView(current); } }); }
   else if(act==="back-students"){ UI.spaceSid=null; switchView("v-students"); }
+  else if(act==="go-rivals"){ switchView("v-rivals"); }
 });
 $("#sideNav").addEventListener("click", e=>{ const b=e.target.closest("[data-nav]"); if(b) switchView(b.dataset.nav); });
 
@@ -1151,7 +1292,7 @@ function enterApp(sess){
   $("#login").classList.add("gone");
   setTimeout(()=>{ $("#login").style.display="none"; }, 420);
   $("#app").classList.add("show");
-  $("#userChip").textContent = (sess.role==="admin"?"👩‍🏫 ":"") + (sess.role==="admin"? sess.name.split("@")[0] : sess.name);
+  $("#userChip").textContent = (sess.role==="admin"?"👩‍ ":"") + (sess.role==="admin"? sess.name.split("@")[0] : sess.name);
   buildNav();
   if(sess.role==="admin"){ UI.spaceSid=null; switchView("v-dash"); }
   else { switchView("v-my"); }
