@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قسمي — Qismi v1 • فضاء القسم</title>
+<title>قسمي — Qismi v1.2 • فضاء القسم</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="88">🏫</text></svg>'>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-400-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-600-normal.css">
@@ -20,7 +20,7 @@
   --paper:#fdfbf3; --line:#d8e6f5; --margin:#e2726b; --ink:#2c2a26; --ink-soft:#6b665c;
   --yellow:#f6c445; --yellow-d:#d29e18; --red:#d9534f; --red-d:#b23a36;
   --teal:#2a9d8f; --teal-d:#1f7a6f; --blue:#3a7ca5; --blue-d:#2c5f80;
-  --pink:#ef8fa3; --pink-d:#cf6680; --good:#3f9e63; --bad:#c0504d; --violet:#8e7cc3;
+  --pink:#ef8fa3; --pink-d:#cf6680; --good:#3f9e63; --bad:#c0504d; --violet:#8e7cc3; --violet-d:#6c5aa0;
   --shadow:0 12px 28px rgba(0,0,0,.38);
 }
 *{box-sizing:border-box}
@@ -91,10 +91,13 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .chip-p{background:var(--pink);color:#5a2030}
 .chip-r{background:var(--red);color:#fff}
 .chip-g{background:var(--good);color:#fff}
+.chip-v{background:var(--violet);color:#fff}
 .chip-chalk{background:var(--chalk-faint);color:var(--chalk)}
 
 .stamp{display:grid;place-items:center;width:62px;height:62px;border:3px solid var(--red);border-radius:50%;background:#fff;color:var(--red);font-family:'Marhey',sans-serif;font-size:1.35rem;transform:rotate(-9deg);box-shadow:0 4px 10px rgba(0,0,0,.25);line-height:1}
 .stamp small{font-size:.55rem;font-family:'Baloo Bhaijaan 2';font-weight:700;letter-spacing:.5px}
+.stamp.bump{animation:bump .42s}
+@keyframes bump{0%{transform:rotate(-9deg) scale(1)}35%{transform:rotate(-9deg) scale(1.22)}100%{transform:rotate(-9deg) scale(1)}}
 .medal{font-size:1.25rem;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
 
 .squig{display:block;width:100%;height:10px;margin-top:2px}
@@ -232,7 +235,8 @@ main{min-width:0;display:flex;flex-direction:column}
 .ginp{width:100%;text-align:center;font-family:'Marhey';font-size:1.05rem;padding:.4rem .2rem;border:2px dashed #d8b;border-radius:9px;background:#fff;color:var(--ink)}
 .ginp:focus{outline:none;border-style:solid;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(246,196,69,.25)}
 .ginp.ok{border-style:solid;border-color:var(--good)}
-.mavg{display:grid;place-items:center;font-family:'Marhey';font-weight:700;color:var(--red);background:#fff;border-radius:8px}
+.mavg{display:grid;place-items:center;font-family:'Marhey';font-weight:700;color:var(--red);background:#fff;border-radius:8px;transition:background .3s}
+.mavg.lit{background:#fff7df}
 
 .test-card{background:var(--paper);color:var(--ink);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:.8rem}
 .test-card .tc-top{display:flex;align-items:center;gap:.6rem;padding:.7rem .9rem;flex-wrap:wrap}
@@ -307,6 +311,8 @@ main{min-width:0;display:flex;flex-direction:column}
 .ev-item .ev-fx{font-size:.85rem;color:var(--ink-soft);font-weight:700}
 .ev-item .ev-d{font-size:.78rem;color:#9a9384;margin-top:.1rem}
 .ev-item .ev-right{margin-inline-start:auto;display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
+.nature-note{margin-top:.8rem;background:rgba(142,124,195,.12);border:2px dashed var(--violet);border-radius:11px;padding:.6rem .8rem;color:var(--ink);font-size:.85rem;font-weight:700;line-height:1.7}
+.nature-note b{color:var(--violet-d)}
 
 #toasts{position:fixed;bottom:18px;left:18px;z-index:80;display:flex;flex-direction:column;gap:.5rem;max-width:320px}
 .toast{background:var(--chalk);color:var(--board);font-weight:700;padding:.7rem 1rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.4);position:relative;animation:toastIn .3s;border-inline-start:6px solid var(--teal)}
@@ -369,9 +375,9 @@ main{min-width:0;display:flex;flex-direction:column}
     <div class="wood-frame">
       <div class="board">
         <img class="mascot owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="بومة الأستاذ">
-        <h1 class="logo-chalk">قِسمي<span class="v">v1</span></h1>
+        <h1 class="logo-chalk">قِسمي<span class="v">v1.2</span></h1>
         <svg class="squig" viewBox="0 0 300 10" preserveAspectRatio="none"><path d="M2 6 Q 20 1 38 6 T 74 6 T 110 6 T 146 6 T 182 6 T 218 6 T 254 6 T 290 6"/></svg>
-        <p class="tag">مدرسة ابن سينا الابتدائية ✏️</p>
+        <p class="tag">فضاءٌ خاص بي و بتلاميذي و بأولياء أمورهم ✏️</p>
         <p class="subj-line">📕 الفرنسية •  الرياضيات • 🧪 النشاط العلمي — المستويان 5 و 6 ابتدائي</p>
         <div class="tray"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="er"></i></div>
       </div>
@@ -385,7 +391,7 @@ main{min-width:0;display:flex;flex-direction:column}
       </div>
 
       <form class="lform on" id="formTeacher" autocomplete="off">
-        <div class="lhint">الدخول حصري للأستاذ(ة) .</div>
+        <div class="lhint">الدخول حصري للأستاذ(ة) عبر البريد الإلكتروني المعتمد.</div>
         <div><label class="lab">البريد الإلكتروني</label><input class="inp" id="teachEmail" type="email" placeholder="name@example.com" required></div>
         <button class="btn btn-y" type="submit">دخول الأستاذ(ة) 🔑</button>
       </form>
@@ -399,19 +405,19 @@ main{min-width:0;display:flex;flex-direction:column}
       <div class="login-msg" id="loginMsg"></div>
     </div>
   </div>
-  <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1 • النسخة الأولى </p>
+  <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1.2 • الرصيد الأولي = ثمرة اختبار تشخيصي عادل</p>
 </section>
 
 <div id="app">
   <aside>
     <div class="brand">
       <img class="b-owl owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <div><h2>قِسمي</h2><small>Qismi v1</small></div>
+      <div><h2>قِسمي</h2><small>Qismi v1.2</small></div>
     </div>
     <nav id="sideNav"></nav>
     <div class="side-foot">
       <img class="owl-mini owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <span class="ver">الإصدار 1 • 2026</span>
+      <span class="ver">الإصدار 1.2 • 2026</span>
     </div>
   </aside>
   <main>
@@ -475,14 +481,15 @@ const TASK_ROLES = [
   {k:"mentoring",  t:"التأطير الخاص",         icon:"🧭"},
   {k:"services",   t:"الخدمات الخارجية",      icon:"🤝"}
 ];
-const TITLES = {"v-dash":"لوحة القسم","v-students":"ركن التلاميذ","v-weekly":"الاختبارات الأسبوعية","v-cc":"المراقبة المستمرة","v-tasks":"المهام الشهرية","v-announce":"إعلان هام","v-visitors":"سجل الزوار","v-my":"فضاء التلميذ(ة)"};
+const TITLES = {"v-dash":"لوحة القسم","v-students":"ركن التلاميذ","v-init":"الاختبار الأولي","v-weekly":"الاختبارات الأسبوعية","v-cc":"المراقبة المستمرة","v-tasks":"المهام الشهرية","v-announce":"إعلان هام","v-visitors":"سجل الزوار","v-my":"فضاء التلميذ(ة)"};
 
-let S = {students:{}, tests:{}, wgrades:{}, cc:{}, events:{}, visits:{}, meta:{}};
+const EMPTY = ()=>({students:{}, tests:{}, wgrades:{}, cc:{}, events:{}, visits:{}, meta:{}, initTests:{}, initGrades:{}});
+let S = EMPTY();
 let online = false;
 let SESSION = JSON.parse(sessionStorage.getItem("qismi_sess")||"null");
 let current = "v-dash";
 let C = {stats:{}, byLevel:{5:[],6:[]}};
-const UI = {level:5, ccLevel:5, ccSub:"fr", wLevel:5, grading:null, spaceSid:null};
+const UI = {level:5, ccLevel:5, ccSub:"fr", wLevel:5, initLevel:5, grading:null, gradingInit:null, spaceSid:null};
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 
@@ -502,17 +509,18 @@ function medal(r){ return r===1?"🥇":r===2?"🥈":r===3?"🥉":""; }
 function roleLabel(role){ return role==="admin"?"👩‍🏫 أستاذ(ة)":role==="parent"?"👪 ولي(ة) أمر":"🎒 تلميذ(ة)"; }
 function ruleFx(r){ let p=[]; if(r.dw) p.push((r.dw>0?"+":"")+r.dw+" في معدل الاختبارات"); if(r.dc) p.push((r.dc>0?"+":"")+r.dc+" في التراكمي"); return p.join(" و "); }
 function evFx(e){ let p=[]; if(e.dw) p.push((e.dw>0?"+":"")+fn(e.dw)+" معدل الاختبارات"); if(e.dc) p.push((e.dc>0?"+":"")+fn(e.dc)+" التراكمي"); return p.join(" • "); }
+function gIcon(g){ return g==="M"?"👦":"👧"; }
 
 const LKEY = "qismi_v1_data";
 function persistLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){} }
-function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||"null"); if(d) S=d; }catch(e){} }
+function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||"null"); if(d) S=Object.assign(EMPTY(), d); }catch(e){} }
 async function fsWrite(col,id,data){ if(!db||!online) return; try{ await setDoc(doc(db,col,id), data); }catch(e){ goOffline(); } }
 async function fsRemove(col,id){ if(!db||!online) return; try{ await deleteDoc(doc(db,col,id)); }catch(e){ goOffline(); } }
 async function loadCloud(){
   if(!db) throw new Error("no db");
-  const cols=["students","tests","wgrades","cc","events","visits","meta"];
+  const cols=["students","tests","wgrades","cc","events","visits","meta","initTests","initGrades"];
   const snaps = await Promise.all(cols.map(c=>getDocs(collection(db,c))));
-  const fresh = {students:{},tests:{},wgrades:{},cc:{},events:{},visits:{},meta:{}};
+  const fresh = EMPTY();
   snaps.forEach((sn,i)=>{ const k=cols[i]; sn.forEach(d=>{ fresh[k][d.id] = (k==="meta") ? d.data().value : d.data(); }); });
   S = fresh;
 }
@@ -522,6 +530,7 @@ function updateConn(){ const c=$("#connChip"); if(!c) return; c.classList.toggle
 const metaGet = (k,d) => (S.meta[k]===undefined?d:S.meta[k]);
 function metaSet(k,v){ S.meta[k]=v; persistLocal(); fsWrite("meta",k,{value:v,at:Date.now()}); }
 
+/* ✅ الرصيد الأولي يُبنى من الاختبار الأولي (لا من الماضي) */
 function computeAll(){
   const stats={}; const byLevel={5:[],6:[]};
   for(const sid in S.students){
@@ -529,16 +538,28 @@ function computeAll(){
     const wSub={fr:[],math:[],sci:[]};
     for(const gid in S.wgrades){ const g=S.wgrades[gid]; if(g.sid!==sid) continue; const t=S.tests[g.tid]; if(!t) continue; (wSub[t.subject]||(wSub[t.subject]=[])).push(g.score); }
     const wSubAvg={}; for(const k in wSub) if(wSub[k].length) wSubAvg[k]=avg(wSub[k]);
-    const weeklyBase = Object.keys(wSubAvg).length ? avg(Object.values(wSubAvg)) : 0;
+    const hasWeekly = Object.values(wSub).some(a=>a.length>0);
+    const weeklyBase = hasWeekly ? avg(Object.values(wSubAvg)) : 0;
     const cSub={fr:[],math:[],sci:[]};
     for(const cid in S.cc){ const g=S.cc[cid]; if(g.sid!==sid) continue; (cSub[g.subject]||(cSub[g.subject]=[])).push(g.score); }
     const cSubAvg={}; for(const k in cSub) if(cSub[k].length) cSubAvg[k]=avg(cSub[k]);
-    const ccBase = Object.keys(cSubAvg).length ? avg(Object.values(cSubAvg)) : 0;
+    const hasCC = Object.values(cSub).some(a=>a.length>0);
+    const ccBase = hasCC ? avg(Object.values(cSubAvg)) : 0;
+    const iSub={fr:[],math:[],sci:[]};
+    for(const igid in S.initGrades){ const g=S.initGrades[igid]; if(g.sid!==sid) continue; (iSub[g.subject]||(iSub[g.subject]=[])).push(g.score); }
+    const iSubAvg={}; for(const k in iSub) if(iSub[k].length) iSubAvg[k]=avg(iSub[k]);
+    const hasInitial = Object.values(iSub).some(a=>a.length>0);
+    const initial = hasInitial ? avg(Object.values(iSubAvg)) : 0;
     let dw=0,dc=0; const evs=[];
     for(const eid in S.events){ const e=S.events[eid]; if(e.sid!==sid) continue; dw+=(e.dw||0); dc+=(e.dc||0); evs.push(e); }
     const weeklyFinal = clamp(weeklyBase+dw,0,10);
-    const cum = clamp((weeklyFinal+ccBase)/2 + dc, 0, 10);
-    stats[sid]={st, weeklyBase, weeklyFinal, wSubAvg, ccBase, cSubAvg, dw, dc, cum, evs};
+    const comps=[]; const compNames=[];
+    if(hasWeekly){ comps.push(weeklyFinal); compNames.push("📝 أسبوعي "+fn(weeklyFinal)); }
+    if(hasCC){ comps.push(ccBase); compNames.push("📊 مراقبة "+fn(ccBase)); }
+    if(hasInitial){ comps.push(initial); compNames.push("🔬 أولي "+fn(initial)); }
+    const yearCum = comps.length ? avg(comps) : 0;
+    const cum = clamp(yearCum+dc, 0, 10);
+    stats[sid]={st, weeklyBase, weeklyFinal, wSubAvg, ccBase, cSubAvg, dw, dc, cum, evs, initial, hasInitial, iSubAvg, comps:compNames, nComp:comps.length};
     byLevel[st.level].push(sid);
   }
   for(const lv of [5,6]){
@@ -554,7 +575,7 @@ function addStudent(name,gender,level){
   S.students[id]=s; persistLocal(); fsWrite("students",id,s); return id;
 }
 async function delStudent(sid){
-  for(const k of ["wgrades","cc","events"]){ for(const id in S[k]){ if(S[k][id].sid===sid){ delete S[k][id]; fsRemove(k,id); } } }
+  for(const k of ["wgrades","cc","events","initGrades"]){ for(const id in S[k]){ if(S[k][id].sid===sid){ delete S[k][id]; fsRemove(k,id); } } }
   delete S.students[sid]; fsRemove("students",sid); persistLocal();
 }
 function addTest(level,subject,date,label){
@@ -565,10 +586,26 @@ async function delTest(tid){
   for(const id in S.wgrades){ if(S.wgrades[id].tid===tid){ delete S.wgrades[id]; fsRemove("wgrades",id); } }
   delete S.tests[tid]; fsRemove("tests",tid); persistLocal();
 }
+/* ✅ اختبارات أولية (سرية) */
+function addInitTest(level,subject,date,label){
+  const id=uid(); const t={id, level:Number(level), subject, date, label:label||"", createdAt:Date.now()};
+  S.initTests[id]=t; persistLocal(); fsWrite("initTests",id,t); return id;
+}
+async function delInitTest(tid){
+  for(const id in S.initGrades){ if(S.initGrades[id].tid===tid){ delete S.initGrades[id]; fsRemove("initGrades",id); } }
+  delete S.initTests[tid]; fsRemove("initTests",tid); persistLocal();
+}
 function setWGrade(tid,sid,val){
   const id="w_"+tid+"_"+sid; const n=parseNum(val);
   if(n===null){ delete S.wgrades[id]; fsRemove("wgrades",id); }
   else { const g={id, tid, sid, score:n, at:Date.now()}; S.wgrades[id]=g; fsWrite("wgrades",id,g); }
+  persistLocal();
+}
+function setInitGrade(tid,sid,val){
+  const t=S.initTests[tid]; if(!t) return;
+  const id="ig_"+tid+"_"+sid; const n=parseNum(val);
+  if(n===null){ delete S.initGrades[id]; fsRemove("initGrades",id); }
+  else { const g={id, tid, sid, subject:t.subject, score:n, at:Date.now()}; S.initGrades[id]=g; fsWrite("initGrades",id,g); }
   persistLocal();
 }
 function setCC(sid,subject,phase,val){
@@ -671,10 +708,28 @@ function evRow(e, admin){
     <div class="ev-right">${visTag}${canJust?`<button class="btn btn-t btn-sm" data-justif="${e.id}" type="button">تبرير ✔</button>`:""}</div></div>`;
 }
 
+/* ✅ تحديث حيّ دون فقدان التركيز */
+function patch(sid){
+  const s=C.stats[sid]; if(!s) return;
+  const row=document.querySelector('.srow[data-sid="'+sid+'"]');
+  if(row){
+    const st=row.querySelector('.stamp');
+    if(st){ st.innerHTML=fn(s.cum)+'<small>تراكمي</small>'; st.classList.remove('bump'); void st.offsetWidth; st.classList.add('bump'); }
+    const rk=row.querySelector('.cumwrap .rk'); if(rk) rk.innerHTML=(medal(s.rank)||'')+' #'+s.rank;
+    const mc=row.querySelector('.midchips'); if(mc) mc.innerHTML=midChipsHTML(s);
+  }
+  for(const sub in SUBJECTS){
+    const m=document.getElementById('mavg-'+sid+'-'+sub);
+    if(m){ const vals=[1,2,3,4,5].map(ph=>{const g=S.cc['c_'+sid+'_'+sub+'_'+ph];return g?g.score:null;}).filter(v=>v!==null); m.textContent=vals.length?fn(avg(vals)):'—'; m.classList.add('lit'); setTimeout(()=>m.classList.remove('lit'),500); }
+  }
+}
+function patchTestAvg(tid){ const el=document.getElementById('tcavg-'+tid); if(!el) return; const isInit=!!S.initTests[tid]; const store=isInit?S.initGrades:S.wgrades; const gs=Object.values(store).filter(g=>g.tid===tid); el.textContent=gs.length?fn(avg(gs.map(g=>g.score))):'—'; }
+function midChipsHTML(s){ return `<span class="chip chip-y">📝 ${fn(s.weeklyFinal)}</span><span class="chip chip-t">📊 ${fn(s.ccBase)}</span>${s.hasInitial?`<span class="chip chip-v">🔬 ${fn(s.initial)}</span>`:`<span class="chip chip-soft">🔬 بلا أولي</span>`}`; }
+
 function buildNav(){
   const admin = SESSION.role==="admin";
   const items = admin
-    ? [["v-dash","🏠","لوحة القسم"],["v-students","🧑‍","ركن التلاميذ"],["v-weekly","📝","الاختبارات الأسبوعية"],["v-cc","📊","المراقبة المستمرة"],["v-tasks","🎖️","المهام الشهرية"],["v-announce","📢","إعلان هام"],["v-visitors","👀","سجل الزوار"]]
+    ? [["v-dash","🏠","لوحة القسم"],["v-students","🧑‍","ركن التلاميذ"],["v-init","🔬","الاختبار الأولي"],["v-weekly","📝","الاختبارات الأسبوعية"],["v-cc","📊","المراقبة المستمرة"],["v-tasks","🎖️","المهام الشهرية"],["v-announce","📢","إعلان هام"],["v-visitors","👀","سجل الزوار"]]
     : [["v-my","⭐","فضائي"],["v-tasks","🎖️","مهامي"],["v-announce","📢","إعلان هام"]];
   $("#sideNav").innerHTML = items.map(([v,ic,lb])=>`<button class="navbtn" data-nav="${v}" type="button"><span class="ic">${ic}</span>${lb}</button>`).join("");
 }
@@ -686,7 +741,7 @@ function switchView(v){
 }
 function renderView(v){
   refresh();
-  const fnMap={"v-dash":renderDash,"v-students":renderStudents,"v-weekly":renderWeekly,"v-cc":renderCC,"v-tasks":renderTasks,"v-announce":renderAnnounce,"v-visitors":renderVisitors,"v-my":renderMy};
+  const fnMap={"v-dash":renderDash,"v-students":renderStudents,"v-init":renderInit,"v-weekly":renderWeekly,"v-cc":renderCC,"v-tasks":renderTasks,"v-announce":renderAnnounce,"v-visitors":renderVisitors,"v-my":renderMy};
   (fnMap[v]||renderDash)();
   watchReveals($("#views"));
   $$("#views .num-anim").forEach(animateNum);
@@ -699,12 +754,13 @@ function renderDash(){
   const all=Object.values(C.stats);
   const classAvg = all.length? avg(all.map(x=>x.cum)) : 0;
   const snap=metaGet("tasks",null);
+  const initDone=Object.keys(S.initGrades).length;
   const topOf = lv => C.byLevel[lv][0] ? C.stats[C.byLevel[lv][0]] : null;
   const t5=topOf(5), t6=topOf(6);
   const rankTable = lv => {
     const rows = C.byLevel[lv].map(sid=>{ const s=C.stats[sid]; return `<div class="rrow" data-act="open-space:${sid}">
       <div class="rk">${medal(s.rank)||("#"+s.rank)}</div>
-      <div class="nm">${s.st.gender==="M"?"👦":"👧"} ${esc(s.st.name)}</div>
+      <div class="nm">${gIcon(s.st.gender)} ${esc(s.st.name)}</div>
       <div class="v">${fn(s.weeklyFinal)}</div>
       <div class="v v-cc">${fn(s.ccBase)}</div>
       <div class="st"><span class="stamp">${fn(s.cum)}<small>/10</small></span></div></div>`; }).join("") || `<div class="empty-s">لا تلاميذ بعد في هذا المستوى</div>`;
@@ -718,12 +774,15 @@ function renderDash(){
      ${!online?`<span class="chip chip-y" style="margin-inline-start:auto">⚠️ وضع محلي — تحقّق من قواعد Firestore</span>`:""}
    </div>
    <div class="stickers" style="margin-top:1.1rem">
-     <div class="stkr s1 rv"><div class="s-ic">🧑‍</div><div class="s-n">${total}</div><div class="s-l">تلاميذ القسم</div><div class="s-sub">5: ${n5} • 6: ${n6}</div></div>
-     <div class="stkr s2 rv"><div class="s-ic">📌</div><div class="s-n">${ups}</div><div class="s-l">اختبارات قادمة</div><div class="s-sub">في إعلان هام</div></div>
+     <div class="stkr s1 rv"><div class="s-ic">🧑‍🎓</div><div class="s-n">${total}</div><div class="s-l">تلاميذ القسم</div><div class="s-sub">5: ${n5} • 6: ${n6}</div></div>
+     <div class="stkr s2 rv"><div class="s-ic">🔬</div><div class="s-n">${initDone}</div><div class="s-l">نقط أولية ممسوكة</div><div class="s-sub">سرّية — تبني الرصيد</div></div>
      <div class="stkr s3 rv"><div class="s-ic">📈</div><div class="s-n">${fn(classAvg)}</div><div class="s-l">معدل القسم</div><div class="s-sub">التراكمي العام</div></div>
      <div class="stkr s4 rv"><div class="s-ic">🎖️</div><div class="s-n" style="font-size:1.1rem">${snap?esc(snap.period):"—"}</div><div class="s-l">مهام الشهر</div><div class="s-sub">${snap?"موزَّعة ✔":"لم تُوزَّع بعد"}</div></div>
    </div>
-   <div class="g2" style="margin-top:1.4rem">
+   <div class="chalk rv" style="padding:.75rem 1rem;margin-top:1rem;font-size:.88rem;line-height:1.8">
+     🔬 <b>فلسفة الرصيد الأولي:</b> لا تبعاتَ للماضي هنا. يُبنى الرصيد الأولي من <b>اختبار تشخيصي</b> يجتازه التلميذ بنفسه في بداية السنة، ثم يُذاب سرّاً في معدله التراكمي. لم يجتز أحدٌ الاختبار؟ فالرصيد = 0 وبدايةٌ نظيفة وعادلة للجميع.
+   </div>
+   <div class="g2" style="margin-top:1.2rem">
      <div class="rv"><div class="sec-h"><span class="em">🥇</span><h2>ترتيب ${LEVELS[5].name}</h2>${t5?`<span class="chip chip-y" style="margin-inline-start:auto">${esc(t5.st.name)} • ${fn(t5.cum)}</span>`:""}</div>${rankTable(5)}</div>
      <div class="rv"><div class="sec-h"><span class="em">🥇</span><h2>ترتيب ${LEVELS[6].name}</h2>${t6?`<span class="chip chip-p" style="margin-inline-start:auto">${esc(t6.st.name)} • ${fn(t6.cum)}</span>`:""}</div>${rankTable(6)}</div>
    </div>`;
@@ -731,26 +790,81 @@ function renderDash(){
 
 function renderStudents(){
   const lv=UI.level; const list=C.byLevel[lv];
-  const rows = list.map(sid=>{ const s=C.stats[sid]; return `<div class="srow rv">
-     <div class="ava">${s.st.gender==="M"?"👦":"👧"}</div>
+  const rows = list.map(sid=>{ const s=C.stats[sid]; return `<div class="srow rv" data-sid="${sid}">
+     <div class="ava">${gIcon(s.st.gender)}</div>
      <div class="grow"><div class="nm">${esc(s.st.name)}</div>
        <div class="meta"><span class="chip chip-soft">${s.st.gender==="M"?"ذكر":"أنثى"}</span><span class="chip" style="background:${LEVELS[lv].color}33;color:#7a4e27">${LEVELS[lv].name}</span></div></div>
-     <div class="midchips"><span class="chip chip-y">📝 ${fn(s.weeklyFinal)}</span><span class="chip chip-t">📊 ${fn(s.ccBase)}</span></div>
+     <div class="midchips">${midChipsHTML(s)}</div>
      <div class="acts"><button class="btn btn-b btn-sm" data-act="open-space:${sid}" type="button">📂 فضائي</button><button class="btn btn-y btn-sm" data-act="events:${sid}" type="button">⭐ أحداث</button><button class="btn btn-r btn-sm" data-act="del-student:${sid}" type="button">🗑</button></div>
      <div class="cumwrap"><span class="stamp">${fn(s.cum)}<small>تراكمي</small></span><span class="rk">${medal(s.rank)||""} #${s.rank}</span></div>
    </div>`; }).join("") || `<div class="empty-s">لا تلاميذ في هذا المستوى بعد — أضف أول تلميذ(ة) 🌱</div>`;
   $("#views").innerHTML = `
    <div class="paper paper-pad tape rv" style="margin-bottom:1.2rem">
      <h3 style="font-family:'Marhey';color:var(--ink);margin-bottom:.7rem">➕ إضافة تلميذ(ة)</h3>
-     <form data-form="addStudent" style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:.7rem;align-items:end">
-       <div><label class="lab">الاسم الكامل</label><input class="inp" name="name" required placeholder="الاسم الكامل"></div>
-       <div><label class="lab">الجنس</label><select class="inp" name="gender"><option value="M">ذكر 👦</option><option value="F">أنثى 👧</option></select></div>
-       <div><label class="lab">المستوى</label><select class="inp" name="level"><option value="5">الخامس ابتدائي</option><option value="6">السادس ابتدائي</option></select></div>
-       <button class="btn btn-t" type="submit">أضف ✏️</button>
+     <form data-form="addStudent" style="display:flex;flex-wrap:wrap;gap:.7rem;align-items:end">
+       <div style="flex:2 1 200px"><label class="lab">الاسم الكامل</label><input class="inp" name="name" required placeholder="الاسم الكامل"></div>
+       <div style="flex:1 1 120px"><label class="lab">الجنس</label><select class="inp" name="gender"><option value="M">ذكر 👦</option><option value="F">أنثى 👧</option></select></div>
+       <div style="flex:1 1 140px"><label class="lab">المستوى</label><select class="inp" name="level"><option value="5">الخامس ابتدائي</option><option value="6">السادس ابتدائي</option></select></div>
+       <div style="flex:0 0 auto"><button class="btn btn-t" type="submit">أضف ✏️</button></div>
      </form>
+     <div style="font-size:.8rem;color:var(--ink-soft);font-weight:700;margin-top:.5rem">💡 الرصيد الأولي لا يُدخل هنا — يُبنى تلقائياً من ركن «🔬 الاختبار الأولي» بعد أن يجتازه التلميذ.</div>
    </div>
    <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="level:${l}" type="button">${LEVELS[l].name} <span class="badge">${C.byLevel[l].length}</span></button>`).join("")}</div>
    <div>${rows}</div>`;
+}
+
+/* ✅ ركن الاختبار الأولي — للأستاذ فقط */
+function renderInit(){
+  if(SESSION.role!=="admin"){ switchView("v-dash"); return; }
+  const lv=UI.initLevel;
+  const tests=Object.values(S.initTests).filter(t=>t.level===lv).sort((a,b)=>(a.subject+a.date).localeCompare(b.subject+b.date));
+  const sheet = UI.gradingInit ? initGradeSheet(UI.gradingInit) : "";
+  const bySub={}; tests.forEach(t=>{(bySub[t.subject]||(bySub[t.subject]=[])).push(t);});
+  const subjStatus = Object.entries(SUBJECTS).map(([k,s])=>{ const arr=bySub[k]||[]; const done=arr.reduce((n,t)=>n+Object.values(S.initGrades).filter(g=>g.tid===t.id).length,0); return `<span class="chip ${arr.length?'chip-v':'chip-soft'}">${s.icon} ${s.name}: ${arr.length?("مبرمج ✔ • "+done+" نقطة"):"—"}</span>`; }).join("");
+  const cards = tests.map(t=>{ const s=SUBJECTS[t.subject]; const gs=Object.values(S.initGrades).filter(g=>g.tid===t.id); const clAvg=gs.length?fn(avg(gs.map(g=>g.score))):"—"; const total=C.byLevel[lv].length; return `<div class="test-card rv">
+      <div class="tc-top"><span class="tc-bar" style="background:${s.color}"></span>
+        <div><div class="tc-t">${s.icon} ${esc(t.label||("اختبار أولي "+s.name))}</div><div class="tc-sub">${fmtDate(t.date)} • معدل القسم: <b id="tcavg-${t.id}">${clAvg}</b> • ممسوك: ${gs.length}/${total}</div></div>
+        <div class="tc-acts"><span class="chip chip-v">🔒 سرّي</span>
+        <button class="btn btn-y btn-sm" data-act="grade-init:${t.id}" type="button">✍️ مسك النقط</button><button class="btn btn-r btn-sm" data-act="del-init:${t.id}" type="button">🗑</button></div>
+      </div></div>`;
+  }).join("") || `<div class="empty-s">لم تُبرمج اختبارات أولية بعد — برمج لكل مادة اختباراً تشخيصياً 🔬</div>`;
+  $("#views").innerHTML = `
+   <div class="chalk rv" style="padding:.95rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap">
+     <span style="font-size:1.7rem">🔬</span>
+     <div><b>الاختبار الأولي التشخيصي</b> — فرصة عادلة لكل تلميذ في بداية السنة.<div style="color:var(--chalk-dim);font-size:.85rem">نقطه <b>سرية تماماً</b>: لا يراها التلاميذ ولا أولياء الأمور إطلاقاً، بل تُذاب تلقائياً في «المعدل التراكمي» كرصيد أولي مبني على الأداء، لا على الماضي.</div></div>
+   </div>
+   <div class="paper paper-pad tape rv" style="margin-bottom:1.1rem">
+     <h3 style="font-family:'Marhey';color:var(--ink);margin-bottom:.7rem">🔬 برمجة اختبار أولي</h3>
+     <form data-form="addInit" style="display:flex;flex-wrap:wrap;gap:.7rem;align-items:end">
+       <div style="flex:1 1 160px"><label class="lab">المادة</label><select class="inp" name="subject">${Object.entries(SUBJECTS).map(([k,s])=>`<option value="${k}">${s.icon} ${s.name}</option>`).join("")}</select></div>
+       <div style="flex:1 1 150px"><label class="lab">تاريخ الإجراء</label><input class="inp" name="date" type="date" value="${todayISO()}" required></div>
+       <div style="flex:2 1 180px"><label class="lab">عنوان (اختياري)</label><input class="inp" name="label" placeholder="مثال: تشخيص مكتسبات الدخول"></div>
+       <div style="flex:0 0 auto"><button class="btn btn-p" type="submit">برمج 🔬</button></div>
+     </form>
+     <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.7rem">${subjStatus}</div>
+   </div>
+   <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="initlevel:${l}" type="button">${LEVELS[l].name} <span class="badge">${Object.values(S.initTests).filter(t=>t.level===l).length}</span></button>`).join("")}</div>
+   ${sheet}
+   <div class="sec-h"><span class="em">🔬</span><h2>اختبارات أولية مبرمجة</h2></div>
+   ${cards}`;
+}
+function initGradeSheet(tid){
+  const t=S.initTests[tid]; if(!t) return ""; const s=SUBJECTS[t.subject];
+  const students=C.byLevel[t.level];
+  const rows=students.map(sid=>{ const st=S.students[sid]; const g=S.initGrades["ig_"+tid+"_"+sid]; return `<div class="gs-row">
+     <div class="gn"><span class="g">${gIcon(st.gender)}</span>${esc(st.name)}</div>
+     <input class="ginp" type="number" min="0" max="10" step="0.25" inputmode="decimal" placeholder="النقطة" data-ig="${tid}|${sid}" value="${g?g.score:""}">
+   </div>`; }).join("") || `<div class="empty-s">لا تلاميذ في هذا المستوى</div>`;
+  return `<div class="paper grade-sheet rv" style="margin-bottom:1.1rem;border-inline-start:6px solid var(--violet)">
+     <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.6rem">
+       <span class="chip chip-v">🔬 ${s.icon} ${s.name}</span>
+       <b style="color:var(--ink)">${esc(t.label||"اختبار أولي")} — ${fmtDate(t.date)}</b>
+       <span class="chip chip-soft" style="margin-inline-start:auto">🔒 سرّي • حفظ تلقائي ✔</span>
+       <button class="btn btn-ghost btn-sm" data-act="grade-init-close" type="button">إغلاق ✕</button>
+     </div>
+     <div style="font-size:.82rem;color:var(--ink-soft);font-weight:700;margin-bottom:.4rem">اكتب النقطة مباشرة (من 0 إلى 10). لن يراها التلميذ — ستُبنى منها طبيعته العادلة.</div>
+     ${rows}
+   </div>`;
 }
 
 function renderWeekly(){
@@ -765,7 +879,7 @@ function renderWeekly(){
     const dl = up? daysLeft(t.date) : null;
     return `<div class="test-card rv">
       <div class="tc-top"><span class="tc-bar" style="background:${s.color}"></span>
-        <div><div class="tc-t">${s.icon} ${esc(t.label||("اختبار "+s.name))}</div><div class="tc-sub">${fmtDate(t.date)} • معدل القسم: <b>${clAvg}</b></div></div>
+        <div><div class="tc-t">${s.icon} ${esc(t.label||("اختبار "+s.name))}</div><div class="tc-sub">${fmtDate(t.date)} • معدل القسم: <b id="tcavg-${t.id}">${clAvg}</b></div></div>
         <div class="tc-acts">${up?`<span class="chip chip-r">📢 قادم • باقي ${dl} يوم</span>`:`<span class="chip chip-soft">منتهي</span>`}
         <button class="btn btn-y btn-sm" data-act="grade:${t.id}" type="button">✍️ مسك النقط</button><button class="btn btn-r btn-sm" data-act="del-test:${t.id}" type="button">🗑</button></div>
       </div></div>`;
@@ -773,11 +887,11 @@ function renderWeekly(){
   $("#views").innerHTML = `
    <div class="paper paper-pad tape rv" style="margin-bottom:1.1rem">
      <h3 style="font-family:'Marhey';color:var(--ink);margin-bottom:.7rem">📌 برمجة اختبار أسبوعي</h3>
-     <form data-form="addTest" style="display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:.7rem;align-items:end">
-       <div><label class="lab">المادة</label><select class="inp" name="subject">${Object.entries(SUBJECTS).map(([k,s])=>`<option value="${k}">${s.icon} ${s.name}</option>`).join("")}</select></div>
-       <div><label class="lab">التاريخ</label><input class="inp" name="date" type="date" value="${todayISO()}" required></div>
-       <div><label class="lab">عنوان (اختياري)</label><input class="inp" name="label" placeholder="مثال: الضرب"></div>
-       <button class="btn btn-t" type="submit">برمج 📌</button>
+     <form data-form="addTest" style="display:flex;flex-wrap:wrap;gap:.7rem;align-items:end">
+       <div style="flex:1 1 160px"><label class="lab">المادة</label><select class="inp" name="subject">${Object.entries(SUBJECTS).map(([k,s])=>`<option value="${k}">${s.icon} ${s.name}</option>`).join("")}</select></div>
+       <div style="flex:1 1 150px"><label class="lab">التاريخ</label><input class="inp" name="date" type="date" value="${todayISO()}" required></div>
+       <div style="flex:2 1 180px"><label class="lab">عنوان (اختياري)</label><input class="inp" name="label" placeholder="مثال: الضرب"></div>
+       <div style="flex:0 0 auto"><button class="btn btn-t" type="submit">برمج 📌</button></div>
      </form>
    </div>
    <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="wlevel:${l}" type="button">${LEVELS[l].name} <span class="badge">${Object.values(S.tests).filter(t=>t.level===l).length}</span></button>`).join("")}</div>
@@ -790,7 +904,7 @@ function gradeSheet(tid){
   const t=S.tests[tid]; if(!t) return ""; const s=SUBJECTS[t.subject];
   const students=C.byLevel[t.level];
   const rows=students.map(sid=>{ const st=S.students[sid]; const g=S.wgrades["w_"+tid+"_"+sid]; return `<div class="gs-row">
-     <div class="gn"><span class="g">${st.gender==="M"?"👦":"👧"}</span>${esc(st.name)}</div>
+     <div class="gn"><span class="g">${gIcon(st.gender)}</span>${esc(st.name)}</div>
      <input class="ginp" type="number" min="0" max="10" step="0.25" inputmode="decimal" placeholder="النقطة" data-wg="${tid}|${sid}" value="${g?g.score:""}">
    </div>`; }).join("") || `<div class="empty-s">لا تلاميذ في هذا المستوى</div>`;
   return `<div class="paper grade-sheet rv" style="margin-bottom:1.1rem">
@@ -812,7 +926,7 @@ function renderCC(){
     const ins=[1,2,3,4,5].map(ph=>{ const g=S.cc["c_"+sid+"_"+sub+"_"+ph]; return `<input class="ginp" type="number" min="0" max="10" step="0.25" inputmode="decimal" placeholder="—" data-cc="${sid}|${sub}|${ph}" value="${g?g.score:""}">`; }).join("");
     const vals=[1,2,3,4,5].map(ph=>{ const g=S.cc["c_"+sid+"_"+sub+"_"+ph]; return g?g.score:null; }).filter(v=>v!==null);
     const a = vals.length? fn(avg(vals)) : "—";
-    return `<div class="mname"><span class="g">${st.gender==="M"?"👦":"👧"}</span>${esc(st.name)}</div>${ins}<div class="mavg">${a}</div>`;
+    return `<div class="mname"><span class="g">${gIcon(st.gender)}</span>${esc(st.name)}</div>${ins}<div class="mavg" id="mavg-${sid}-${sub}">${a}</div>`;
   }).join("");
   const head = `<div class="mh name">التلميذ(ة)</div>${[1,2,3,4,5].map(p=>`<div class="mh">المرحلة ${p}</div>`).join("")}<div class="mh">المعدل</div>`;
   $("#views").innerHTML = `
@@ -908,11 +1022,14 @@ function renderMy(){
   const upItems = ups.map(t=>{ const sb=SUBJECTS[t.subject]; const dl=daysLeft(t.date); return `<div class="ann-item rv"><span class="ai-ic">${sb.icon}</span><div><div class="ai-t">${esc(t.label||("اختبار "+sb.name))}</div><div class="ai-d">${fmtDate(t.date)}</div></div><div class="ai-days"><span class="chip ${dl<=2?"chip-r":"chip-y"}">باقي ${dl} يوم</span></div></div>`; }).join("") || `<div class="empty-s">لا اختبارات قادمة 🎉</div>`;
   const evList = visEvs.length ? visEvs.map(e=>evRow(e,admin)).join("") : `<div class="empty-s">لا ملاحظات بعد — استمر 💪</div>`;
   const back = admin ? `<button class="btn btn-ghost btn-sm" data-act="back-students" type="button" style="margin-bottom:.8rem">← العودة للتلاميذ</button>` : "";
+  /* ✅ ملاحظة الطبيعة للأستاذ فقط — التلميذ/ولي الأمر لا يرون شيئاً عن الاختبار الأولي */
+  const initBreak = s.hasInitial ? Object.entries(s.iSubAvg).map(([k,v])=>`${SUBJECTS[k].icon} ${fn(v)}`).join(" ، ") : "لم يجتز اختباراً أولياً بعد";
+  const natureNote = admin ? `<div class="nature-note rv">🔒 <b>طبيعة التلميذ (سرية — لا يراها هو):</b> الرصيد الأولي = <b>${fn(s.initial)}</b> ${s.hasInitial?"(مبني من الاختبار الأولي: "+initBreak+")":"(بلا اختبار أولي = بداية نظيفة)"}.<br>التراكمي = متوسط[ ${s.comps.length?s.comps.join(" ، "):"— لا مكوّنات بعد —"} ] ${s.dc?`+ (${s.dc>0?"+":""}${fn(s.dc)}) تحفيز/عقوبات`:""} = <b>${fn(s.cum)}</b>.<br>💡 فلسفة: لا تبعات للماضي — الرصيد الأولي ثمرة اختبار تشخيصي يجتازه التلميذ بنفسه.</div>` : "";
   $("#views").innerHTML = `
    ${back}
    ${crown}
    <div class="paper my-hero rv" style="margin-top:${crown?".8rem":"0"}">
-     <div class="mh-ava">${st.gender==="M"?"👦":"👧"}</div>
+     <div class="mh-ava">${gIcon(st.gender)}</div>
      <div><div class="mh-name">${greet}</div>
        <div class="mh-meta"><span class="chip" style="background:${LEVELS[st.level].color}33;color:#7a4e27">${LEVELS[st.level].name}</span><span class="chip chip-soft">${st.gender==="M"?"ذكر":"أنثى"}</span></div></div>
      <div class="mh-rank"><div class="rk">${medal(s.rank)||"#"+s.rank}</div><div style="color:var(--ink-soft);font-weight:700;font-size:.85rem">الرتبة من ${s.total}</div></div>
@@ -923,6 +1040,7 @@ function renderMy(){
      <div class="bc-stars">${starsRow(s.cum)}</div>
      <div class="bar bar-chalk" style="margin-top:.7rem"><i style="width:${s.cum*10}%"></i></div>
    </div>
+   ${natureNote}
    <div class="g2" style="margin-top:1.1rem">
      <div class="paper sub-card rv"><h4>📝 معدل الاختبارات الأسبوعية <span class="chip chip-y" style="margin-inline-start:auto">${fn(s.weeklyFinal)}</span></h4>${wSub}
        <div style="font-size:.8rem;color:var(--ink-soft);font-weight:700;margin-top:.4rem">القاعدة = ${fn(s.weeklyBase)} ${s.dw?`(${s.dw>0?"+":""}${fn(s.dw)} تحفيز/عقوبات)`:""}</div></div>
@@ -940,7 +1058,7 @@ function openEventsModal(sid){
   openModal(`<div class="m-head"><h3>⭐ سجل التحفيز والعقوبات — ${esc(st.name)}</h3><button class="m-x" data-mclose type="button">✕</button></div>
    <div class="m-body">
      <p class="m-sub">اختر إجراءً ثم طبِّقه (تُحتسب التأثيرات تلقائياً):</p>
-     <div class="rules">${RULES.map((r,i)=>`<button type="button" class="rule ${r.tone}" data-rule="${i}"><span class="r-ic">${r.icon}</span><span class="r-tx"><b>${r.label}</b><small>${ruleFx(r)}${r.desc?" • "+r.desc:""}</small></span><span class="r-vis">${r.vis?"👪 يظهر":"🔒 سرّي"}</span></button>`).join("")}</div>
+     <div class="rules">${RULES.map((r,i)=>`<button type="button" class="rule ${r.tone}" data-rule="${i}"><span class="r-ic">${r.icon}</span><span class="r-tx"><b>${r.label}</b><small>${ruleFx(r)}${r.desc?" • "+r.desc:""}</small></span><span class="r-vis">${r.vis?"👪 يظهر":" سرّي"}</span></button>`).join("")}</div>
      <input id="evNote" class="inp" placeholder="ملاحظة (اختياري)">
      <div class="m-actions"><button class="btn btn-y" id="evApply" type="button">طبِّق ✔</button></div>
      <h4 class="m-h4">السجل الكامل (يظهر السرّي لك فقط)</h4>
@@ -957,22 +1075,24 @@ function flash(el){ el.classList.add("ok"); setTimeout(()=>el.classList.remove("
 const views=$("#views");
 views.addEventListener("input", e=>{
   const el=e.target;
-  if(el.dataset.wg){ const [tid,sid]=el.dataset.wg.split("|"); deb("wg"+el.dataset.wg, ()=>{ setWGrade(tid,sid,el.value); flash(el); refresh(); }); }
-  if(el.dataset.cc){ const [sid,sub,ph]=el.dataset.cc.split("|"); deb("cc"+el.dataset.cc, ()=>{ setCC(sid,sub,ph,el.value); flash(el); refresh(); }); }
+  if(el.dataset.wg){ const [tid,sid]=el.dataset.wg.split("|"); deb("wg"+el.dataset.wg, ()=>{ setWGrade(tid,sid,el.value); flash(el); refresh(); patch(sid); patchTestAvg(tid); }); }
+  if(el.dataset.cc){ const [sid,sub,ph]=el.dataset.cc.split("|"); deb("cc"+el.dataset.cc, ()=>{ setCC(sid,sub,ph,el.value); flash(el); refresh(); patch(sid); }); }
+  if(el.dataset.ig){ const [tid,sid]=el.dataset.ig.split("|"); deb("ig"+el.dataset.ig, ()=>{ setInitGrade(tid,sid,el.value); flash(el); refresh(); patch(sid); patchTestAvg(tid); }); }
 });
 views.addEventListener("submit", e=>{
   e.preventDefault(); const f=e.target; const form=f.dataset.form; const fd=new FormData(f);
   if(form==="addStudent"){ const name=(fd.get("name")||"").trim(); if(name.length<3){ toast("الاسم قصير جداً","warn"); return; } addStudent(name,fd.get("gender"),fd.get("level")); toast("🎉 تمت الإضافة","ok"); refresh(); renderView(current); }
   else if(form==="addTest"){ addTest(UI.wLevel, fd.get("subject"), fd.get("date"), (fd.get("label")||"").trim()); toast("📌 بُرمج الاختبار","ok"); refresh(); renderView(current); }
+  else if(form==="addInit"){ addInitTest(UI.initLevel, fd.get("subject"), fd.get("date"), (fd.get("label")||"").trim()); toast("🔬 بُرمج الاختبار الأولي","ok"); refresh(); renderView(current); }
   else if(form==="announce"){ metaSet("announce",(fd.get("text")||"").trim()); toast("تم حفظ الإعلان ✔","ok"); renderView(current); }
 });
-/* ✅ مُعالج النقر المُصلَح: التبويبات + تبرير الغياب + الأزرار */
 views.addEventListener("click", e=>{
   const tab=e.target.closest("[data-tab]");
   if(tab){
     const [g,v]=tab.dataset.tab.split(":");
     if(g==="level")UI.level=+v;
     else if(g==="wlevel")UI.wLevel=+v;
+    else if(g==="initlevel")UI.initLevel=+v;
     else if(g==="cclevel")UI.ccLevel=+v;
     else if(g==="ccsub")UI.ccSub=v;
     renderView(current);
@@ -985,10 +1105,13 @@ views.addEventListener("click", e=>{
   const [act,arg]=b.dataset.act.split(":");
   if(act==="open-space"){ UI.spaceSid=arg; switchView("v-my"); }
   else if(act==="events"){ openEventsModal(arg); }
-  else if(act==="del-student"){ const sid=arg; confirmBox(`حذف <b>${esc(S.students[sid].name)}</b> وكل نقطه وأحداثه نهائياً؟`,"حذف 🗑").then(ok=>{ if(ok){ delStudent(sid); refresh(); toast("تم الحذف","warn"); renderView(current); } }); }
+  else if(act==="del-student"){ const sid=arg; confirmBox(`حذف <b>${esc(S.students[sid].name)}</b> وكل نقطه وأحداثه واختباراته الأولية نهائياً؟`,"حذف 🗑").then(ok=>{ if(ok){ delStudent(sid); refresh(); toast("تم الحذف","warn"); renderView(current); } }); }
   else if(act==="del-test"){ const tid=arg; confirmBox("حذف هذا الاختبار وكل نقطه؟","حذف 🗑").then(ok=>{ if(ok){ delTest(tid); refresh(); renderView(current); } }); }
+  else if(act==="del-init"){ const tid=arg; confirmBox("حذف هذا الاختبار الأولي وكل نقطه السرّية؟","حذف 🗑").then(ok=>{ if(ok){ delInitTest(tid); refresh(); toast("تم الحذف","warn"); renderView(current); } }); }
   else if(act==="grade"){ UI.grading=arg; renderView(current); }
   else if(act==="grade-close"){ UI.grading=null; renderView(current); }
+  else if(act==="grade-init"){ UI.gradingInit=arg; renderView(current); }
+  else if(act==="grade-init-close"){ UI.gradingInit=null; renderView(current); }
   else if(act==="gen-tasks"){ confirmBox("سيتم احتساب الترتيب وتوزيع المهام، وتطبيق خصومات التراجع في الرتب تلقائياً. متابعة؟","توليد 🎲").then(ok=>{ if(ok){ generateTasks(false); renderView(current); } }); }
   else if(act==="back-students"){ UI.spaceSid=null; switchView("v-students"); }
 });
@@ -1019,7 +1142,7 @@ $("#formFamily").addEventListener("submit", e=>{
   else {
     loginMsg("وُجد أكثر من اسم مطابق — اختر:","ok");
     openModal(`<div class="m-head"><h3>اختر التلميذ(ة)</h3><button class="m-x" data-mclose type="button">✕</button></div>
-      <div class="m-body">${matches.map(sid=>{ const st=S.students[sid]; return `<div class="pick-row" data-pick="${sid}"><span style="font-size:1.4rem">${st.gender==="M"?"👦":"👧"}</span><div><b style="color:var(--ink)">${esc(st.name)}</b><div style="font-size:.8rem;color:var(--ink-soft)">${LEVELS[st.level].name}</div></div></div>`; }).join("")}</div>`);
+      <div class="m-body">${matches.map(sid=>{ const st=S.students[sid]; return `<div class="pick-row" data-pick="${sid}"><span style="font-size:1.4rem">${gIcon(st.gender)}</span><div><b style="color:var(--ink)">${esc(st.name)}</b><div style="font-size:.8rem;color:var(--ink-soft)">${LEVELS[st.level].name}</div></div></div>`; }).join("")}</div>`);
   }
 });
 
@@ -1028,7 +1151,7 @@ function enterApp(sess){
   $("#login").classList.add("gone");
   setTimeout(()=>{ $("#login").style.display="none"; }, 420);
   $("#app").classList.add("show");
-  $("#userChip").textContent = (sess.role==="admin"?"👩‍ ":"") + (sess.role==="admin"? sess.name.split("@")[0] : sess.name);
+  $("#userChip").textContent = (sess.role==="admin"?"👩‍🏫 ":"") + (sess.role==="admin"? sess.name.split("@")[0] : sess.name);
   buildNav();
   if(sess.role==="admin"){ UI.spaceSid=null; switchView("v-dash"); }
   else { switchView("v-my"); }
