@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قسمي — Qismi v1.4 • فضاء القسم</title>
+<title>قسمي — Qismi v1.5 • فضاء القسم</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="88">🏫</text></svg>'>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-400-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-600-normal.css">
@@ -146,7 +146,6 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .shake{animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
 
-/* ✅ لولوج التلميذ/ولي الأمر: مستوى + اسم + قن */
 .lvl-pick{display:flex;gap:.5rem}
 .lvl-pick button{flex:1;cursor:pointer;border:2px solid #e4dcc6;background:#fff;border-radius:12px;padding:.55rem .3rem;font-family:'Marhey';font-weight:700;color:var(--ink-soft);transition:.15s;display:flex;flex-direction:column;align-items:center;gap:.05rem}
 .lvl-pick button:hover{border-color:var(--yellow)}
@@ -231,13 +230,18 @@ main{min-width:0;display:flex;flex-direction:column}
 .srow .cumwrap{margin-inline-start:auto;display:flex;flex-direction:column;align-items:center;gap:.25rem}
 .srow .cumwrap .rk{font-weight:800;color:var(--ink-soft);font-size:.82rem}
 
-/* ✅ صندوق القن السري في بطاقة التلميذ (للأستاذ) */
 .pin-box{display:inline-flex;align-items:center;gap:.4rem;background:#fffaf0;border:2px dashed var(--yellow-d);border-radius:11px;padding:.28rem .5rem;font-size:.76rem;font-weight:800;color:#7a4e27;box-shadow:0 3px 0 rgba(210,158,24,.22)}
-.pin-box .pin-inp{width:88px;border:2px solid #ecd9a8;border-radius:8px;padding:.22rem .4rem;font-size:.95rem;font-family:'Marhey';text-align:center;color:var(--ink);background:#fff;letter-spacing:3px}
+.pin-box .pin-inp{width:84px;border:2px solid #ecd9a8;border-radius:8px;padding:.22rem .4rem;font-size:.95rem;font-family:'Marhey';text-align:center;color:var(--ink);background:#fff;letter-spacing:3px}
 .pin-box .pin-inp:focus{outline:none;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(246,196,69,.25)}
 .pin-box .pin-inp.ok{border-color:var(--good)!important;box-shadow:0 0 0 3px rgba(63,158,99,.22)!important}
 .pin-box .eye-btn{position:static;transform:none;font-size:.92rem;padding:.1rem .25rem}
 .pin-box .eye-btn:hover{background:rgba(122,78,39,.12)}
+.genbtn{background:var(--yellow);border:none;border-radius:8px;padding:.22rem .45rem;font-size:.82rem;cursor:pointer;font-family:'Marhey';font-weight:700;color:#4a3608;box-shadow:0 2px 0 var(--yellow-d);transition:transform .1s}
+.genbtn:hover{filter:brightness(1.05)} .genbtn:active{transform:translateY(1px);box-shadow:0 1px 0 var(--yellow-d)}
+.pin-readout{flex-basis:100%;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;font-size:.78rem;font-weight:700;color:var(--ink-soft);background:rgba(246,196,69,.1);border-radius:9px;padding:.35rem .6rem}
+.pin-plain{font-family:'Marhey';font-size:.92rem;color:#7a4e27;background:#fff;border:1px dashed #ecd9a8;border-radius:7px;padding:.1rem .5rem;letter-spacing:3px;direction:ltr;min-width:42px;text-align:center}
+.pin-state{font-size:.72rem;font-weight:800;color:var(--good);margin-inline-start:auto;transition:opacity .3s}
+.pin-state.saving{color:var(--yellow-d)}
 
 .rtable{background:var(--paper);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;color:var(--ink)}
 .rtable .rhead{display:grid;grid-template-columns:46px 1fr 78px 78px 86px;gap:.5rem;padding:.6rem .9rem;background:var(--board2);color:var(--chalk);font-family:'Marhey';font-weight:600;font-size:.9rem}
@@ -446,7 +450,7 @@ main{min-width:0;display:flex;flex-direction:column}
     <div class="wood-frame">
       <div class="board">
         <img class="mascot owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="بومة الأستاذ">
-        <h1 class="logo-chalk">قِسمي<span class="v">v1.4</span></h1>
+        <h1 class="logo-chalk">قِسمي<span class="v">v1.5</span></h1>
         <svg class="squig" viewBox="0 0 300 10" preserveAspectRatio="none"><path d="M2 6 Q 20 1 38 6 T 74 6 T 110 6 T 146 6 T 182 6 T 218 6 T 254 6 T 290 6"/></svg>
         <p class="tag">فضاءٌ خاص بي و بتلاميذي و بأولياء أمورهم ✏️</p>
         <p class="subj-line">📕 الفرنسية •  الرياضيات • 🧪 النشاط العلمي — المستويان 5 و 6 ابتدائي</p>
@@ -456,7 +460,7 @@ main{min-width:0;display:flex;flex-direction:column}
 
     <div class="paper login-card tape">
       <div class="ltabs">
-        <button class="ltab on" data-lt="teacher" type="button">👩‍ الأستاذ(ة)</button>
+        <button class="ltab on" data-lt="teacher" type="button">👩‍🏫 الأستاذ(ة)</button>
         <button class="ltab" data-lt="student" type="button">🎒 تلميذ(ة) / ولي(ة) أمر</button>
       </div>
 
@@ -486,19 +490,19 @@ main{min-width:0;display:flex;flex-direction:column}
       <div class="login-msg" id="loginMsg"></div>
     </div>
   </div>
-  <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1.4 • ولوجٌ بقنٍّ سريٍّ لكل تلميذ • بابٌ واحدٌ للعائلة</p>
+  <p class="login-foot">🔗 مرتبط بخادم Firebase • Qismi v1.5 • حفظٌ فوريٌّ + دمجٌ ذكيّ — لا يضيعُ قنٌّ بعد اليوم</p>
 </section>
 
 <div id="app">
   <aside>
     <div class="brand">
       <img class="b-owl owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <div><h2>قِسمي</h2><small>Qismi v1.4</small></div>
+      <div><h2>قِسمي</h2><small>Qismi v1.5</small></div>
     </div>
     <nav id="sideNav"></nav>
     <div class="side-foot">
       <img class="owl-mini owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <span class="ver">الإصدار 1.4 • 2026</span>
+      <span class="ver">الإصدار 1.5 • 2026</span>
     </div>
   </aside>
   <main>
@@ -563,8 +567,9 @@ const TASK_ROLES = [
   {k:"services",   t:"الخدمات الخارجية",      icon:"🤝"}
 ];
 const TITLES = {"v-dash":"لوحة القسم","v-students":"ركن التلاميذ","v-init":"الاختبار الأولي","v-weekly":"الاختبارات الأسبوعية","v-cc":"المراقبة المستمرة","v-tasks":"المهام الشهرية","v-rivals":"المنافسون","v-announce":"إعلان هام","v-visitors":"سجل الزوار","v-my":"فضاء التلميذ(ة)"};
+const DATA_COLS = ["students","tests","wgrades","cc","events","initGrades","initTests"];
 
-const EMPTY = ()=>({students:{}, tests:{}, wgrades:{}, cc:{}, events:{}, visits:{}, meta:{}, initTests:{}, initGrades:{}});
+const EMPTY = ()=>({students:{}, tests:{}, wgrades:{}, cc:{}, events:{}, visits:{}, meta:{}, initTests:{}, initGrades:{}, tombstones:{}});
 let S = EMPTY();
 let online = false;
 let SESSION = JSON.parse(sessionStorage.getItem("qismi_sess")||"null");
@@ -591,25 +596,62 @@ function ruleFx(r){ let p=[]; if(r.dw) p.push((r.dw>0?"+":"")+r.dw+" في معد
 function evFx(e){ let p=[]; if(e.dw) p.push((e.dw>0?"+":"")+fn(e.dw)+" معدل الاختبارات"); if(e.dc) p.push((e.dc>0?"+":"")+fn(e.dc)+" التراكمي"); return p.join(" • "); }
 function gIcon(g){ return g==="M"?"👦":""; }
 function chaseVerb(g){ return g==="F"?"تلاحقك":"يلاحقك"; }
+const stampOf = o => (o && (o.updatedAt||o.at||o.createdAt)) || 0;
+const randPin = () => String(Math.floor(1000+Math.random()*9000));
 
 const LKEY = "qismi_v1_data";
 function persistLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify(S)); }catch(e){} }
-function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||"null"); if(d) S=Object.assign(EMPTY(), d); }catch(e){} }
-async function fsWrite(col,id,data){ if(!db||!online) return; try{ await setDoc(doc(db,col,id), data); }catch(e){ goOffline(); } }
-async function fsRemove(col,id){ if(!db||!online) return; try{ await deleteDoc(doc(db,col,id)); }catch(e){ goOffline(); } }
-async function loadCloud(){
+function readLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||"null"); return d?Object.assign(EMPTY(),d):EMPTY(); }catch(e){ return EMPTY(); } }
+async function fsWrite(col,id,data){ if(!db||!online) return false; try{ await setDoc(doc(db,col,id), data); return true; }catch(e){ goOffline(); return false; } }
+async function fsRemove(col,id){ if(!db||!online) return false; try{ await deleteDoc(doc(db,col,id)); return true; }catch(e){ goOffline(); return false; } }
+async function readFirestoreAll(){
   if(!db) throw new Error("no db");
-  const cols=["students","tests","wgrades","cc","events","visits","meta","initTests","initGrades"];
+  const cols=[...DATA_COLS,"visits","meta","tombstones"];
   const snaps = await Promise.all(cols.map(c=>getDocs(collection(db,c))));
   const fresh = EMPTY();
-  snaps.forEach((sn,i)=>{ const k=cols[i]; sn.forEach(d=>{ fresh[k][d.id] = (k==="meta") ? d.data().value : d.data(); }); });
-  S = fresh;
+  snaps.forEach((sn,i)=>{ const k=cols[i]; sn.forEach(d=>{ if(k==="meta") fresh.meta[d.id]=d.data().value; else { (fresh[k]||(fresh[k]={}))[d.id]=d.data(); } }); });
+  return fresh;
 }
-function goOffline(){ if(online){ online=false; updateConn(); toast("⚠️ تعذّر الاتصال بالخادم — الوضع المحلي","warn"); } }
+function goOffline(){ if(online){ online=false; updateConn(); toast("⚠️ تعذّر الاتصال — الحفظ مستمرٌّ محليّاً ولن يضيع","warn"); } }
 function updateConn(){ const c=$("#connChip"); if(!c) return; c.classList.toggle("off",!online); $("#connTxt").textContent = online?"متصل بالخادم":"وضع محلي"; }
 
 const metaGet = (k,d) => (S.meta[k]===undefined?d:S.meta[k]);
 function metaSet(k,v){ S.meta[k]=v; persistLocal(); fsWrite("meta",k,{value:v,at:Date.now()}); }
+
+/* ===== شواهد الحذف + الدمج الذكي (لا يضيع كودٌ بعد اليوم) ===== */
+function addTomb(col,id){ const k=col+":"+id; S.tombstones[k]={col,id,at:Date.now()}; persistLocal(); fsWrite("tombstones",k,S.tombstones[k]); trimTombs(); }
+function trimTombs(){ const ks=Object.keys(S.tombstones); if(ks.length>1000){ ks.sort((a,b)=>stampOf(S.tombstones[a])-stampOf(S.tombstones[b])); for(let i=0;i<ks.length-1000;i++){ delete S.tombstones[ks[i]]; } persistLocal(); } }
+function mergeStores(L, C){
+  const T = {};
+  for(const k in (L.tombstones||{})) T[k]=L.tombstones[k];
+  for(const k in (C.tombstones||{})){ if(!T[k] || stampOf(C.tombstones[k])>stampOf(T[k])) T[k]=C.tombstones[k]; }
+  const delStudents=new Set(), delTests=new Set(), delInit=new Set();
+  for(const k in T){ const t=T[k]; if(t.col==="students") delStudents.add(t.id); else if(t.col==="tests") delTests.add(t.id); else if(t.col==="initTests") delInit.add(t.id); }
+  const out = EMPTY(); out.tombstones = T;
+  const isExcluded=(col,id,obj)=>{
+    if(T[col+":"+id]) return true;
+    if((col==="wgrades"||col==="cc"||col==="events"||col==="initGrades") && obj.sid && delStudents.has(obj.sid)) return true;
+    if(col==="wgrades" && obj.tid && delTests.has(obj.tid)) return true;
+    if(col==="initGrades" && obj.tid && delInit.has(obj.tid)) return true;
+    return false;
+  };
+  const winnersLocal=[], removeCloud=[];
+  for(const col of DATA_COLS){
+    const lc=L[col]||{}, cc=C[col]||{}; out[col]={};
+    const keys=new Set([...Object.keys(lc),...Object.keys(cc)]);
+    for(const id of keys){
+      const a=lc[id], b=cc[id];
+      const aEx = a && isExcluded(col,id,a), bEx = b && isExcluded(col,id,b);
+      if(aEx || bEx){ if(b && !bEx===false) {} if(b) removeCloud.push([col,id]); continue; }
+      if(a && b){ const sa=stampOf(a), sb=stampOf(b); if(sa>=sb){ out[col][id]=a; if(sa>sb) winnersLocal.push([col,id,a]); } else { out[col][id]=b; } }
+      else if(a){ out[col][id]=a; winnersLocal.push([col,id,a]); }
+      else if(b){ out[col][id]=b; }
+    }
+  }
+  out.meta = Object.assign({}, L.meta||{}, C.meta||{});
+  out.visits = Object.assign({}, C.visits||{}, L.visits||{});
+  return {out, winnersLocal, removeCloud};
+}
 
 function computeAll(){
   const stats={}; const byLevel={5:[],6:[]};
@@ -650,63 +692,60 @@ function computeAll(){
 }
 function refresh(){ C=computeAll(); }
 
-/* ✅ القن السري يُخزَّن مع التلميذ */
+/* ===== تحديث فوريّ في الذاكرة + رفعٌ متأخّر للخادم ===== */
 function addStudent(name,gender,level,pin){
-  const id=uid(); const s={id, name:name.trim(), gender, level:Number(level), pin:String(pin||"").trim(), createdAt:Date.now()};
+  const id=uid(); const now=Date.now();
+  const s={id, name:name.trim(), gender, level:Number(level), pin:String(pin||"").trim(), createdAt:now, updatedAt:now};
   S.students[id]=s; persistLocal(); fsWrite("students",id,s); return id;
 }
 async function delStudent(sid){
-  for(const k of ["wgrades","cc","events","initGrades"]){ for(const id in S[k]){ if(S[k][id].sid===sid){ delete S[k][id]; fsRemove(k,id); } } }
-  delete S.students[sid]; fsRemove("students",sid); persistLocal();
+  for(const k of ["wgrades","cc","events","initGrades"]){ for(const id in S[k]){ if(S[k][id].sid===sid){ addTomb(k,id); delete S[k][id]; fsRemove(k,id); } } }
+  addTomb("students",sid); delete S.students[sid]; fsRemove("students",sid); persistLocal();
 }
-function setPin(sid,val){
-  const st=S.students[sid]; if(!st) return;
-  st.pin = String(val==null?"":val);
-  persistLocal(); fsWrite("students",sid,st);
+function applyPin(sid,val){ const st=S.students[sid]; if(!st) return; st.pin=String(val==null?"":val); st.updatedAt=Date.now(); persistLocal(); }
+function pushStudent(sid){ const st=S.students[sid]; if(st) fsWrite("students",sid,st); }
+function applyWGrade(tid,sid,val){
+  const id="w_"+tid+"_"+sid; const n=parseNum(val);
+  if(n===null){ delete S.wgrades[id]; } else { S.wgrades[id]={id, tid, sid, score:n, at:Date.now()}; }
+  persistLocal();
 }
+function pushWGrade(tid,sid){ const id="w_"+tid+"_"+sid; const g=S.wgrades[id]; if(g) fsWrite("wgrades",id,g); else fsRemove("wgrades",id); }
+function applyInitGrade(tid,sid,val){
+  const t=S.initTests[tid]; if(!t) return; const id="ig_"+tid+"_"+sid; const n=parseNum(val);
+  if(n===null){ delete S.initGrades[id]; } else { S.initGrades[id]={id, tid, sid, subject:t.subject, score:n, at:Date.now()}; }
+  persistLocal();
+}
+function pushInitGrade(tid,sid){ const id="ig_"+tid+"_"+sid; const g=S.initGrades[id]; if(g) fsWrite("initGrades",id,g); else fsRemove("initGrades",id); }
+function applyCC(sid,subject,phase,val){
+  const id="c_"+sid+"_"+subject+"_"+phase; const n=parseNum(val); const level=S.students[sid]?S.students[sid].level:5;
+  if(n===null){ delete S.cc[id]; } else { S.cc[id]={id, sid, subject, phase:Number(phase), score:n, level, at:Date.now()}; }
+  persistLocal();
+}
+function pushCC(sid,subject,phase){ const id="c_"+sid+"_"+subject+"_"+phase; const g=S.cc[id]; if(g) fsWrite("cc",id,g); else fsRemove("cc",id); }
 function addTest(level,subject,date,label){
   const id=uid(); const t={id, level:Number(level), subject, date, label:label||"", createdAt:Date.now()};
   S.tests[id]=t; persistLocal(); fsWrite("tests",id,t); return id;
 }
 async function delTest(tid){
-  for(const id in S.wgrades){ if(S.wgrades[id].tid===tid){ delete S.wgrades[id]; fsRemove("wgrades",id); } }
-  delete S.tests[tid]; fsRemove("tests",tid); persistLocal();
+  for(const id in S.wgrades){ if(S.wgrades[id].tid===tid){ addTomb("wgrades",id); delete S.wgrades[id]; fsRemove("wgrades",id); } }
+  addTomb("tests",tid); delete S.tests[tid]; fsRemove("tests",tid); persistLocal();
 }
 function addInitTest(level,subject,date,label){
   const id=uid(); const t={id, level:Number(level), subject, date, label:label||"", createdAt:Date.now()};
   S.initTests[id]=t; persistLocal(); fsWrite("initTests",id,t); return id;
 }
 async function delInitTest(tid){
-  for(const id in S.initGrades){ if(S.initGrades[id].tid===tid){ delete S.initGrades[id]; fsRemove("initGrades",id); } }
-  delete S.initTests[tid]; fsRemove("initTests",tid); persistLocal();
-}
-function setWGrade(tid,sid,val){
-  const id="w_"+tid+"_"+sid; const n=parseNum(val);
-  if(n===null){ delete S.wgrades[id]; fsRemove("wgrades",id); }
-  else { const g={id, tid, sid, score:n, at:Date.now()}; S.wgrades[id]=g; fsWrite("wgrades",id,g); }
-  persistLocal();
-}
-function setInitGrade(tid,sid,val){
-  const t=S.initTests[tid]; if(!t) return;
-  const id="ig_"+tid+"_"+sid; const n=parseNum(val);
-  if(n===null){ delete S.initGrades[id]; fsRemove("initGrades",id); }
-  else { const g={id, tid, sid, subject:t.subject, score:n, at:Date.now()}; S.initGrades[id]=g; fsWrite("initGrades",id,g); }
-  persistLocal();
-}
-function setCC(sid,subject,phase,val){
-  const id="c_"+sid+"_"+subject+"_"+phase; const n=parseNum(val); const level=S.students[sid]?S.students[sid].level:5;
-  if(n===null){ delete S.cc[id]; fsRemove("cc",id); }
-  else { const g={id, sid, subject, phase:Number(phase), score:n, level, at:Date.now()}; S.cc[id]=g; fsWrite("cc",id,g); }
-  persistLocal();
+  for(const id in S.initGrades){ if(S.initGrades[id].tid===tid){ addTomb("initGrades",id); delete S.initGrades[id]; fsRemove("initGrades",id); } }
+  addTomb("initTests",tid); delete S.initTests[tid]; fsRemove("initTests",tid); persistLocal();
 }
 function addEvent(sid,rule,note="",auto=false){
   const id=uid(); const e={id, sid, key:rule.key, label:rule.label, icon:rule.icon||"⭐", dw:rule.dw||0, dc:rule.dc||0, vis:rule.vis!==false, tone:rule.tone||"good", note:note||"", auto, at:Date.now(), restored:false};
   S.events[id]=e; persistLocal(); fsWrite("events",id,e); return id;
 }
 function justifyAbsence(eid){
-  const e=S.events[eid]; if(!e || e.restored) return; e.restored=true; fsWrite("events",eid,e);
+  const e=S.events[eid]; if(!e || e.restored) return; e.restored=true; persistLocal(); fsWrite("events",eid,e);
   addEvent(e.sid,{key:"justif",label:"تبرير الغياب",icon:"✅",dw:0.3,dc:0,vis:true,tone:"good"},"تم التبرير داخل أجل 3 أيام");
-  persistLocal(); toast("✅ تم تبرير الغياب، عادت النقطة","ok");
+  toast("✅ تم تبرير الغياب، عادت النقطة","ok");
 }
 function logVisit(name,role,sid){ const id=uid(); const v={id, name, role, sid:sid||"", at:Date.now()}; S.visits[id]=v; persistLocal(); fsWrite("visits",id,v); }
 
@@ -785,7 +824,7 @@ function starsRow(cum){ const n=Math.max(1,Math.min(5,Math.round(cum/2))); retur
 function evRow(e, admin){
   const within3 = (Date.now()-e.at) < 3*86400000;
   const canJust = admin && e.key==="absence" && !e.restored && within3;
-  const visTag = admin ? `<span class="chip chip-soft" style="font-size:.68rem">${e.vis?"👪 يظهر":" سرّي"}</span>` : "";
+  const visTag = admin ? `<span class="chip chip-soft" style="font-size:.68rem">${e.vis?"👪 يظهر":"🔒 سرّي"}</span>` : "";
   return `<div class="ev-item ${e.tone}"><span class="ev-ic">${e.icon}</span>
     <div><div class="ev-t">${esc(e.label)}</div><div class="ev-fx">${evFx(e)}</div>
     ${e.note?`<div class="ev-d">«${esc(e.note)}»</div>`:""}<div class="ev-d">${fmtDT(e.at)}</div></div>
@@ -808,6 +847,7 @@ function patch(sid){
 }
 function patchTestAvg(tid){ const el=document.getElementById('tcavg-'+tid); if(!el) return; const isInit=!!S.initTests[tid]; const store=isInit?S.initGrades:S.wgrades; const gs=Object.values(store).filter(g=>g.tid===tid); el.textContent=gs.length?fn(avg(gs.map(g=>g.score))):'—'; }
 function midChipsHTML(s){ return `<span class="chip chip-y">📝 ${fn(s.weeklyFinal)}</span><span class="chip chip-t">📊 ${fn(s.ccBase)}</span>${s.hasInitial?`<span class="chip chip-v">🔬 ${fn(s.initial)}</span>`:`<span class="chip chip-soft">🔬 بلا أولي</span>`}`; }
+function setPinState(sid,txt,cls){ const el=document.getElementById('pstate-'+sid); if(el){ el.textContent=txt; el.className='pin-state'+(cls?(' '+cls):''); } }
 
 function buildNav(){
   const admin = SESSION.role==="admin";
@@ -856,16 +896,16 @@ function renderDash(){
      <img class="owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" style="width:74px;height:74px">
      <div><h2 style="font-size:1.6rem">أهلاً بك في قسمك! 🍎</h2>
      <div style="color:var(--chalk-dim);font-weight:600">${new Intl.DateTimeFormat("ar-MA",{dateStyle:"full"}).format(new Date())}</div></div>
-     ${!online?`<span class="chip chip-y" style="margin-inline-start:auto">⚠️ وضع محلي — تحقّق من قواعد Firestore</span>`:""}
+     ${!online?`<span class="chip chip-y" style="margin-inline-start:auto">⚠️ وضع محلي — كل ما تكتبه محفوظٌ في جهازك ولن يضيع</span>`:""}
    </div>
    <div class="stickers" style="margin-top:1.1rem">
-     <div class="stkr s1 rv"><div class="s-ic">🧑‍🎓</div><div class="s-n">${total}</div><div class="s-l">تلاميذ القسم</div><div class="s-sub">5: ${n5} • 6: ${n6}</div></div>
+     <div class="stkr s1 rv"><div class="s-ic">🧑‍</div><div class="s-n">${total}</div><div class="s-l">تلاميذ القسم</div><div class="s-sub">5: ${n5} • 6: ${n6}</div></div>
      <div class="stkr s2 rv"><div class="s-ic">🔑</div><div class="s-n">${withPin}</div><div class="s-l">أقنانٌ مُعيَّنة</div><div class="s-sub">من ${total} تلميذ(ة)</div></div>
      <div class="stkr s3 rv"><div class="s-ic">📈</div><div class="s-n">${fn(classAvg)}</div><div class="s-l">معدل القسم</div><div class="s-sub">التراكمي العام</div></div>
      <div class="stkr s4 rv"><div class="s-ic">🎖️</div><div class="s-n" style="font-size:1.1rem">${snap?esc(snap.period):"—"}</div><div class="s-l">مهام الشهر</div><div class="s-sub">${snap?"موزَّعة ✔":"لم تُوزَّع بعد"}</div></div>
    </div>
    <div class="chalk rv" style="padding:.75rem 1rem;margin-top:1rem;font-size:.88rem;line-height:1.8">
-     🔑 <b>ولوجٌ بقنٍّ سري:</b> كل تلميذٍ يدخل بمستواه واسمه من القائمة وقنِّه الذي تضعه أنت. وليُّ الأمر يدخل بالقنِّ نفسه من الباب ذاته. من لا قنَّ له بعد لا يستطيع الدخول — اذهب إلى «ركن التلاميذ» لتعيينه.
+     💾 <b>حفظٌ لا ينام:</b> كلُّ قنٍّ ونقطةٍ تُختَم في جهازك لحظةَ كتابتها، ثم تُرفعُ للخادمِ تلقائياً. وعند كلِّ فتحٍ يدمجُ التطبيقُ ما في جهازك وما في السحابة بذكاء — فلا يضيعُ كودٌ كُتب بلا إنترنت، ولا يعودُ ما حذفتَه.
    </div>
    <div class="g2" style="margin-top:1.2rem">
      <div class="rv"><div class="sec-h"><span class="em">🥇</span><h2>ترتيب ${LEVELS[5].name}</h2>${t5?`<span class="chip chip-y" style="margin-inline-start:auto">${esc(t5.st.name)} • ${fn(t5.cum)}</span>`:""}</div>${rankTable(5)}</div>
@@ -880,13 +920,15 @@ function renderStudents(){
      <div class="grow"><div class="nm">${esc(s.st.name)}</div>
        <div class="meta"><span class="chip chip-soft">${s.st.gender==="M"?"ذكر":"أنثى"}</span><span class="chip" style="background:${LEVELS[lv].color}33;color:#7a4e27">${LEVELS[lv].name}</span>${hasPin?`<span class="chip chip-g">🔑 قنٌّ مفعَّل</span>`:`<span class="chip chip-r">⚠️ بلا قنّ</span>`}</div></div>
      <div class="midchips">${midChipsHTML(s)}</div>
-     <div class="pin-box" title="القنّ السري لولوج التلميذ/ولي الأمر — اكتبه ثم يُحفظ تلقائياً">
-       <span>🔑</span><span>قن</span>
+     <div class="pin-box" title="القنّ السري — يُحفظ فوراً في جهازك ويُرفع للخادم">
+       <span>🔑</span>
        <input class="pin-inp" type="password" data-pin="${sid}" value="${esc(s.st.pin||"")}" placeholder="—" autocomplete="off">
        <button class="eye-btn" type="button" data-act="toggle-pinbox" title="إظهار/إخفاء">👁</button>
+       <button class="genbtn" type="button" data-act="gen-pin:${sid}" title="توليد قنّ عشوائي">🎲</button>
      </div>
      <div class="acts"><button class="btn btn-b btn-sm" data-act="open-space:${sid}" type="button">📂 فضائي</button><button class="btn btn-y btn-sm" data-act="events:${sid}" type="button">⭐ أحداث</button><button class="btn btn-r btn-sm" data-act="del-student:${sid}" type="button">🗑</button></div>
      <div class="cumwrap"><span class="stamp">${fn(s.cum)}<small>تراكمي</small></span><span class="rk">${medal(s.rank)||""} #${s.rank}</span></div>
+     <div class="pin-readout">🔑 القنّ الحالي: <span class="pin-plain">${hasPin?esc(s.st.pin):"—"}</span><span style="color:var(--ink-soft)">(يُسلَّم للتلميذ/ولي الأمر)</span><span class="pin-state" id="pstate-${sid}">✔ محفوظ</span></div>
    </div>`; }).join("") || `<div class="empty-s">لا تلاميذ في هذا المستوى بعد — أضف أول تلميذ(ة) 🌱</div>`;
   $("#views").innerHTML = `
    <div class="paper paper-pad tape rv" style="margin-bottom:1.2rem">
@@ -895,10 +937,10 @@ function renderStudents(){
        <div style="flex:2 1 200px"><label class="lab">الاسم الكامل</label><input class="inp" name="name" required placeholder="الاسم الكامل"></div>
        <div style="flex:1 1 120px"><label class="lab">الجنس</label><select class="inp" name="gender"><option value="M">ذكر 👦</option><option value="F">أنثى 👧</option></select></div>
        <div style="flex:1 1 140px"><label class="lab">المستوى</label><select class="inp" name="level"><option value="5">الخامس ابتدائي</option><option value="6">السادس ابتدائي</option></select></div>
-       <div style="flex:1 1 140px"><label class="lab">🔑 القنّ السري</label><input class="inp" name="pin" placeholder="مثال: 1234" autocomplete="off"></div>
+       <div style="flex:1 1 150px"><label class="lab">🔑 القنّ السري</label><div style="display:flex;gap:.4rem"><input class="inp" name="pin" placeholder="مثال: 1234" autocomplete="off"><button class="genbtn" type="button" data-act="gen-pin-new" title="توليد قنّ" style="flex:none">🎲</button></div></div>
        <div style="flex:0 0 auto"><button class="btn btn-t" type="submit">أضف ✏️</button></div>
      </form>
-     <div style="font-size:.8rem;color:var(--ink-soft);font-weight:700;margin-top:.5rem">🔑 القنّ هو مفتاح ولوج التلميذ ووليّ أمره. يمكنك تركه فارغاً الآن وتعيينه لاحقاً من بطاقة التلميذ (لكن بلا قنٍّ لن يستطيع الدخول).</div>
+     <div style="font-size:.8rem;color:var(--ink-soft);font-weight:700;margin-top:.5rem">🔑 القنّ هو مفتاح ولوج التلميذ ووليّ أمره. يُحفظ فوراً عند كتابته. بلا قنٍّ لن يستطيع الدخول.</div>
    </div>
    <div class="tabs">${[5,6].map(l=>`<button class="tab ${lv===l?"on":""}" data-tab="level:${l}" type="button">${LEVELS[l].name} <span class="badge">${C.byLevel[l].length}</span></button>`).join("")}</div>
    <div>${rows}</div>`;
@@ -1245,14 +1287,20 @@ function flash(el){ el.classList.add("ok"); setTimeout(()=>el.classList.remove("
 const views=$("#views");
 views.addEventListener("input", e=>{
   const el=e.target;
-  if(el.dataset.wg){ const [tid,sid]=el.dataset.wg.split("|"); deb("wg"+el.dataset.wg, ()=>{ setWGrade(tid,sid,el.value); flash(el); refresh(); patch(sid); patchTestAvg(tid); }); }
-  if(el.dataset.cc){ const [sid,sub,ph]=el.dataset.cc.split("|"); deb("cc"+el.dataset.cc, ()=>{ setCC(sid,sub,ph,el.value); flash(el); refresh(); patch(sid); }); }
-  if(el.dataset.ig){ const [tid,sid]=el.dataset.ig.split("|"); deb("ig"+el.dataset.ig, ()=>{ setInitGrade(tid,sid,el.value); flash(el); refresh(); patch(sid); patchTestAvg(tid); }); }
-  if(el.dataset.pin){ const sid=el.dataset.pin; deb("pin"+sid, ()=>{ setPin(sid, el.value); flash(el); }); }
+  if(el.dataset.wg){ const [tid,sid]=el.dataset.wg.split("|"); applyWGrade(tid,sid,el.value); flash(el); refresh(); patch(sid); patchTestAvg(tid); setPinState(sid,"",""); deb("wg"+el.dataset.wg,()=>pushWGrade(tid,sid)); }
+  else if(el.dataset.cc){ const [sid,sub,ph]=el.dataset.cc.split("|"); applyCC(sid,sub,ph,el.value); flash(el); refresh(); patch(sid); deb("cc"+el.dataset.cc,()=>pushCC(sid,sub,ph)); }
+  else if(el.dataset.ig){ const [tid,sid]=el.dataset.ig.split("|"); applyInitGrade(tid,sid,el.value); flash(el); refresh(); patch(sid); patchTestAvg(tid); deb("ig"+el.dataset.ig,()=>pushInitGrade(tid,sid)); }
+  else if(el.dataset.pin){
+    const sid=el.dataset.pin;
+    applyPin(sid,el.value); flash(el);
+    const pl=document.querySelector('.srow[data-sid="'+sid+'"] .pin-plain'); if(pl) pl.textContent=el.value||"—";
+    setPinState(sid,"💾 حفظ…","saving");
+    deb("pin"+sid,()=>{ pushStudent(sid); setPinState(sid,"✔ محفوظ",""); });
+  }
 });
 views.addEventListener("submit", e=>{
   e.preventDefault(); const f=e.target; const form=f.dataset.form; const fd=new FormData(f);
-  if(form==="addStudent"){ const name=(fd.get("name")||"").trim(); if(name.length<3){ toast("الاسم قصير جداً","warn"); return; } addStudent(name,fd.get("gender"),fd.get("level"),fd.get("pin")); toast("🎉 تمت الإضافة","ok"); refresh(); renderView(current); }
+  if(form==="addStudent"){ const name=(fd.get("name")||"").trim(); if(name.length<3){ toast("الاسم قصير جداً","warn"); return; } addStudent(name,fd.get("gender"),fd.get("level"),fd.get("pin")); toast("🎉 تمت الإضافة — القنّ محفوظ","ok"); refresh(); renderView(current); }
   else if(form==="addTest"){ addTest(UI.wLevel, fd.get("subject"), fd.get("date"), (fd.get("label")||"").trim()); toast("📌 بُرمج الاختبار","ok"); refresh(); renderView(current); }
   else if(form==="addInit"){ addInitTest(UI.initLevel, fd.get("subject"), fd.get("date"), (fd.get("label")||"").trim()); toast("🔬 بُرمج الاختبار الأولي","ok"); refresh(); renderView(current); }
   else if(form==="announce"){ metaSet("announce",(fd.get("text")||"").trim()); toast("تم حفظ الإعلان ✔","ok"); renderView(current); }
@@ -1287,10 +1335,12 @@ views.addEventListener("click", e=>{
   else if(act==="back-students"){ UI.spaceSid=null; switchView("v-students"); }
   else if(act==="go-rivals"){ switchView("v-rivals"); }
   else if(act==="toggle-pinbox"){ const box=b.closest('.pin-box'); const inp=box&&box.querySelector('input'); if(inp){ inp.type = inp.type==='password'?'text':'password'; inp.focus(); } }
+  else if(act==="gen-pin"){ const sid=arg; const code=randPin(); applyPin(sid,code); const inp=document.querySelector('.pin-box input[data-pin="'+sid+'"]'); if(inp){ inp.value=code; flash(inp); } const pl=document.querySelector('.srow[data-sid="'+sid+'"] .pin-plain'); if(pl) pl.textContent=code; setPinState(sid,"💾 حفظ…","saving"); deb("pin"+sid,()=>{ pushStudent(sid); setPinState(sid,"✔ محفوظ",""); }); refresh(); patch(sid); toast("🎲 قنٌّ جديد: "+code,"ok"); }
+  else if(act==="gen-pin-new"){ const f=b.closest('form'); const inp=f&&f.querySelector('input[name="pin"]'); if(inp){ inp.value=randPin(); inp.focus(); } }
 });
 $("#sideNav").addEventListener("click", e=>{ const b=e.target.closest("[data-nav]"); if(b) switchView(b.dataset.nav); });
 
-/* ===== منطق الولوج الجديد: مستوى + اسم + قن ===== */
+/* ===== منطق الولوج: مستوى + اسم + قن ===== */
 const famSelect=$("#famSelect"), famPin=$("#famPin");
 let loginLevel=null;
 function fillFamilyNames(lvl){
@@ -1349,11 +1399,12 @@ $("#formFamily").addEventListener("submit", e=>{
 });
 
 function enterApp(sess){
+  if(sess.role==="parent") sess.role="student";
   SESSION=sess; sessionStorage.setItem("qismi_sess", JSON.stringify(sess));
   $("#login").classList.add("gone");
   setTimeout(()=>{ $("#login").style.display="none"; }, 420);
   $("#app").classList.add("show");
-  $("#userChip").textContent = (sess.role==="admin"?"👩‍🏫 ":" ") + (sess.role==="admin"? sess.name.split("@")[0] : sess.name);
+  $("#userChip").textContent = (sess.role==="admin"?"👩‍🏫 ":"🎒 ") + (sess.role==="admin"? sess.name.split("@")[0] : sess.name);
   buildNav();
   if(sess.role==="admin"){ UI.spaceSid=null; switchView("v-dash"); }
   else { switchView("v-my"); }
@@ -1373,10 +1424,26 @@ function tick(){
 setInterval(tick,1000);
 setInterval(checkTasksAuto, 60000);
 
+/* ===== الإقلاع: دمجٌ ذكيٌّ بين جهازك والسحابة ===== */
 (async function boot(){
-  try { await loadCloud(); online=true; }
-  catch(e){ online=false; loadLocal(); }
+  const L = readLocal();
+  let C2 = EMPTY(); let cloudOk=false;
+  try { C2 = await readFirestoreAll(); cloudOk=true; online=true; } catch(e){ online=false; }
+  let merged, winnersLocal=[], removeCloud=[];
+  try {
+    const hasLocal = Object.keys(L.students||{}).length>0 || Object.keys(L.tombstones||{}).length>0;
+    const hasCloud = cloudOk && (Object.keys(C2.students||{}).length>0 || Object.keys(C2.tombstones||{}).length>0);
+    if(hasLocal && hasCloud){ const m=mergeStores(L,C2); merged=m.out; winnersLocal=m.winnersLocal; removeCloud=m.removeCloud; }
+    else if(hasLocal){ merged=L; }
+    else { merged=C2; }
+  } catch(e){ merged = (Object.keys(L.students||{}).length? L : C2); }
+  S = merged; persistLocal();
   updateConn();
+  if(online){
+    for(const [col,id,obj] of winnersLocal) fsWrite(col,id,obj);
+    for(const [col,id] of removeCloud) fsRemove(col,id);
+    for(const k in (L.tombstones||{})){ if(!(C2.tombstones&&C2.tombstones[k])) fsWrite("tombstones",k,S.tombstones[k]); }
+  }
   refresh();
   checkTasksAuto();
   tick();
