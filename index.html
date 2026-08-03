@@ -93,7 +93,6 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .bar > i{display:block;height:100%;border-radius:7px;transition:width .9s cubic-bezier(.2,.8,.2,1)}
 .rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease, transform .55s ease}
 .rv.on{opacity:1;transform:none}
-/* ======Dخول====== */
 #login{position:relative;z-index:1;min-height:100vh;display:grid;place-items:center;padding:2.4rem 1.2rem;transition:opacity .4s, transform .4s}
 #login.gone{opacity:0;transform:scale(.97);pointer-events:none}
 .door-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;max-width:1040px;width:100%;align-items:center}
@@ -135,7 +134,6 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .lock-ic{position:absolute;top:50%;transform:translateY(-50%);inset-inline-start:.75rem;font-size:1rem;pointer-events:none}
 .eye-btn{position:absolute;top:50%;transform:translateY(-50%);inset-inline-end:6px;background:transparent;border:none;cursor:pointer;font-size:1.05rem;padding:.2rem .3rem;border-radius:7px;color:var(--ink-soft);transition:.12s}
 .eye-btn:hover{background:rgba(0,0,0,.07)}
-/* ======التطبيق====== */
 #app{display:none;grid-template-columns:256px 1fr;min-height:100vh;position:relative;z-index:1}
 #app.show{display:grid;animation:fadeIn .4s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -339,7 +337,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .rival-card.ghost .gh-ic{font-size:1.6rem;margin-inline-end:.4rem}
 .arrow-sep{text-align:center;color:var(--chalk-faint);font-size:.95rem;line-height:.4;margin:-.1rem 0;position:relative;z-index:1}
 .arrow-sep span{background:var(--board2);padding:0 .5rem;border-radius:6px}
-/* ======الرسائل v2.0====== */
 .msg-grid{display:grid;grid-template-columns:320px 1fr;gap:1rem;align-items:start}
 @media(max-width:880px){.msg-grid{grid-template-columns:1fr}}
 .conv-list{padding:.7rem;max-height:660px;overflow-y:auto}
@@ -369,7 +366,6 @@ main{min-width:0;display:flex;flex-direction:column}
 .qchip:hover{background:var(--yellow);border-style:solid}
 .crow{display:flex;gap:.5rem;align-items:flex-end}
 .crow textarea{flex:1}
-/* ======عام====== */
 #toasts{position:fixed;bottom:18px;left:18px;z-index:80;display:flex;flex-direction:column;gap:.5rem;max-width:320px}
 .toast{background:var(--chalk);color:var(--board);font-weight:700;padding:.7rem 1rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.4);position:relative;animation:toastIn .3s;border-inline-start:6px solid var(--teal)}
 .toast.warn{border-inline-start-color:var(--yellow)}
@@ -423,7 +419,6 @@ main{min-width:0;display:flex;flex-direction:column}
 <div class="fd fd3"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h12"/></svg></div>
 <div class="fd fd4"><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.2 6-5.5-3-5.5 3 1.2-6L3.2 9.4l6.1-.8z"/></svg></div>
 
-<!-- ==================== شاشة الدخول ==================== -->
 <section id="login">
   <div class="door-wrap">
     <div class="wood-frame">
@@ -470,7 +465,6 @@ main{min-width:0;display:flex;flex-direction:column}
   </div>
 </section>
 
-<!-- ==================== التطبيق ==================== -->
 <div id="app">
   <aside id="sideNav">
     <div class="brand">
@@ -500,17 +494,15 @@ main{min-width:0;display:flex;flex-direction:column}
 <div id="modalRoot"></div>
 
 <script>
-/* ============================================================
-   قِسمي — Qismi v2.0
-   جديد الإصدار 2.0: 💬 قناة تواصل مباشرة بين التلميذ/ولي الأمر والأستاذ
-   ============================================================ */
-
-/* ✏️ مهم: ضع بريدك الإلكتروني هنا. القيمة '*' تعني السماح بأي بريد (للتجربة). */
 const ADMIN_EMAILS = ['*'];
-
-/* ✏️ اختياري: إعدادات Firebase للمزامنة الفعلية بين الأجهزة.
-   اتركها فارغة ليعمل التطبيق محلياً على جهازك بكامل ميزاته. */
-const FIREBASE_CONFIG = { apiKey:'', authDomain:'', projectId:'', storageBucket:'', messagingSenderId:'', appId:'' };
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
+  authDomain: "qismi-46d97.firebaseapp.com",
+  projectId: "qismi-46d97",
+  storageBucket: "qismi-46d97.firebasestorage.app",
+  messagingSenderId: "647622297258",
+  appId: "1:647622297258:web:a8e87c115588f3b718f2d3"
+};
 
 const OWL = 'https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png';
 const $  = s => document.querySelector(s);
@@ -550,7 +542,6 @@ const RULES = [
   {icon:'🧠', label:'دفعة تحفيز سرية',  fx:{c:+0.25}, vis:false, desc:'لا يراها التلميذ ولا الولي'},
   {icon:'🔒', label:'ملاحظة سرية',      fx:{},        vis:false, desc:'للتوثيق فقط بلا تأثير رقمي'}
 ];
-/* 💬 قوالب جاهزة — جديد v2.0 */
 const QUICK_STUDENT = ['🙋 أحتاج مساعدة في فهم الدرس','❓ عندي سؤال عن الاختبار القادم','🤒 أعتذر عن الغياب لأسباب صحية','📚 نسيت دفتري اليوم','🙏 شكراً أستاذ على الدعم'];
 const QUICK_TEACHER = ['👍 أحسنت، واصل!','📖 راجع الدرس وسأساعدك غداً','⏰ احضر غداً مبكراً لنشرح معاً','🙏 شكراً لتواصلك معي','💪 أثق في قدرتك على التحسن'];
 
@@ -560,7 +551,6 @@ let C = {byLevel:{5:[],6:[]}, stats:{}};
 let SESSION = null, online = false, db = null, current = 'v-dash';
 const UI = {level:5, wLevel:5, initLevel:5, ccLevel:5, ccSub:'fr', grading:null, gradingInit:null, spaceSid:null, msgSid:null, msgFilter:'all'};
 
-/* ==================== أدوات ==================== */
 const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
@@ -583,7 +573,6 @@ function parseScore(v){ if(v===''||v==null) return null; let n=parseFloat(v); if
 const debMap={}; function deb(key,f,ms=420){ clearTimeout(debMap[key]); debMap[key]=setTimeout(f,ms); }
 function flash(el){ el.classList.add('ok'); setTimeout(()=>el.classList.remove('ok'),800); }
 
-/* ==================== تخزين محلي + سحابة ==================== */
 function readLocal(){ try{ const p=JSON.parse(localStorage.getItem('qismi_v2')||'null'); return p? {...EMPTY(), ...p} : EMPTY(); }catch(e){ return EMPTY(); } }
 function persistLocal(){ try{ localStorage.setItem('qismi_v2', JSON.stringify(S)); }catch(e){} }
 function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('load')); document.head.appendChild(s); }); }
@@ -628,7 +617,6 @@ function mergeStores(L,Cc){
   return {out, winnersLocal, removeCloud};
 }
 
-/* ==================== الحسابات ==================== */
 function refresh(){
   C = {byLevel:{5:[],6:[]}, stats:{}};
   for(const st of Object.values(S.students)) if(C.byLevel[st.level]) C.byLevel[st.level].push(st.id);
@@ -663,7 +651,6 @@ function refresh(){
   updateMsgBadge();
 }
 
-/* ==================== 💬 الرسائل — جديد v2.0 ==================== */
 function sendMsg(sid, text, from){
   text=(text||'').trim(); if(!text) return false;
   const id='m_'+uid();
@@ -700,7 +687,6 @@ async function pullMessages(){
   }catch(e){}
 }
 
-/* ==================== عمليات ==================== */
 function addStudent(name,gender,level,pin){
   const id='st_'+uid();
   S.students[id]={id,name,gender,level:+level,pin:(pin||'').trim(),createdAt:Date.now(),updatedAt:Date.now()};
@@ -763,7 +749,6 @@ function logVisit(name,role,sid){
   persistLocal(); push('visits',id);
 }
 
-/* ==================== مهام الشهر ==================== */
 function tasksFor(sid){
   const snap=metaGet('tasks',null); if(!snap||!snap.per) return [];
   const out=[];
@@ -805,7 +790,6 @@ function checkTasksAuto(){
   if(!snap||snap.key!==pk.key) generateTasks();
 }
 
-/* ==================== واجهة عامة ==================== */
 function toast(msg,kind){
   const t=document.createElement('div'); t.className='toast'+(kind&&kind!=='ok'?' '+kind:'');
   t.textContent=msg; $('#toasts').appendChild(t);
@@ -827,7 +811,7 @@ function confirmBox(msg,label){
 function updateConn(){
   const foot=$('#connFoot');
   if(online){ $('#connChip').classList.remove('off'); $('#connTxt').textContent='متصل بالخادم'; foot.innerHTML='🔗 مرتبط بخادم Firebase • Qismi v2.0 • حفظٌ فوريٌّ + دمجٌ ذكيّ'; }
-  else { $('#connChip').classList.add('off'); $('#connTxt').textContent='وضع محلي'; foot.innerHTML='💾 وضع محلي — كل ما تكتبه محفوظ في جهازك. (لتفعيل المزامنة بين الأجهزة أضف إعدادات Firebase أعلى الكود)'; }
+  else { $('#connChip').classList.add('off'); $('#connTxt').textContent='وضع محلي'; foot.innerHTML='💾 وضع محلي — كل ما تكتبه محفوظ في جهازك. (لتفعيل المزامنة بين الأجهزة تأكد من إعدادات Firebase)'; }
 }
 const NAV_ADMIN=[['v-dash','🏠','لوحة القسم'],['v-students','🎒','التلاميذ'],['v-init','🔬','الاختبار الأولي'],['v-weekly','📝','الاختبارات الأسبوعية'],['v-cc','📊','المراقبة المستمرة'],['v-tasks','🎖️','مهام الشهر'],['v-announce','📢','إعلان هام'],['v-messages','💬','الرسائل',true],['v-visitors','👀','سجل الزوار']];
 const NAV_STUDENT=[['v-my','⭐','فضائي'],['v-rivals','🎯','المنافسون'],['v-tasks','🎖️','مهام الشهر'],['v-announce','📢','إعلان هام'],['v-messages','💬','مراسلة الأستاذ',true]];
@@ -891,7 +875,6 @@ function evRow(e,showAll){
   return '<div class="ev-item '+(good?'good':'bad')+'"><span class="ev-ic">'+r.icon+'</span><div><div class="ev-t">'+r.label+' '+visTag+justTag+'</div><div class="ev-fx">'+ruleFx(r)+(e.note?' • '+esc(e.note):'')+'</div><div class="ev-d">'+fmtDT(e.at)+'</div></div><div class="ev-right">'+justBtn+'</div></div>';
 }
 
-/* ==================== العروض ==================== */
 RENDER['v-dash']=function(){
   const total=Object.keys(S.students).length;
   const n5=C.byLevel[5].length, n6=C.byLevel[6].length;
@@ -1170,7 +1153,6 @@ RENDER['v-my']=function(){
   +'<div class="paper sub-card rv" style="margin-top:1.1rem"><h4>📒 ملاحظاتي '+(admin?'<span class="chip chip-v">عرض الأستاذ الكامل</span>':'')+'</h4>'+evList+'</div>';
 };
 
-/* ====== 💬 عرض الرسائل — جديد v2.0 ====== */
 function chatHTML(sid, admin){
   const st=S.students[sid]; if(!st) return '';
   const msgs=Object.values(S.messages).filter(m=>m.sid===sid).sort((a,b)=>a.at-b.at);
@@ -1218,7 +1200,6 @@ RENDER['v-messages']=function(){
   if(mt) mt.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); const b=document.querySelector('[data-act="send-msg"]'); if(b) b.click(); } });
 };
 
-/* ==================== أحداث: تحفيز وعقوبات ==================== */
 function openEventsModal(sid){
   const st=S.students[sid];
   const evs=Object.values(S.events).filter(e=>e.sid===sid).sort((a,b)=>b.at-a.at);
@@ -1241,7 +1222,6 @@ function openEventsModal(sid){
   };
 }
 
-/* ==================== مستمعو الأحداث ==================== */
 const views=$('#views');
 views.addEventListener('input', e=>{
   const el=e.target;
@@ -1328,7 +1308,6 @@ views.addEventListener('click', e=>{
 });
 $('#navList').addEventListener('click', e=>{ const b=e.target.closest('[data-nav]'); if(b) switchView(b.dataset.nav); });
 
-/* ==================== الدخول ==================== */
 let loginLevel=null;
 function loginMsg(txt,kind){ const m=$('#loginMsg'); m.textContent=txt; m.className='login-msg '+(kind||''); }
 function fillFamilyNames(lvl){
@@ -1406,7 +1385,6 @@ function doLogout(){
 $('#logoutBtn').onclick=doLogout;
 $('#connChip').onclick=()=>{ toast('إعادة محاولة الاتصال…','warn'); location.reload(); };
 
-/* ==================== الساعة + الإقلاع ==================== */
 function tick(){
   document.querySelectorAll('[data-cd]').forEach(el=>{
     let d=+el.dataset.cd-Date.now();
