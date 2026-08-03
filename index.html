@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قسمي — Qismi v2.0 • فضاء القسم</title>
+<title>قسمي — Qismi v3.0 • النسخة الجبّارة</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="88">🏫</text></svg>'>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-400-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/marhey@latest/arabic-600-normal.css">
@@ -20,6 +20,7 @@
   --teal:#2a9d8f; --teal-d:#1f7a6f; --blue:#3a7ca5; --blue-d:#2c5f80;
   --pink:#ef8fa3; --pink-d:#cf6680; --good:#3f9e63; --bad:#c0504d; --violet:#8e7cc3; --violet-d:#6c5aa0;
   --ember:#e07a5f; --ember-d:#c25a40;
+  --orange:#f39c12; --orange-d:#d68910;
   --shadow:0 12px 28px rgba(0,0,0,.38);
 }
 *{box-sizing:border-box}
@@ -58,6 +59,7 @@ a{color:inherit}
 .btn-b{background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-d)} .btn-b:active{box-shadow:0 1px 0 var(--blue-d)}
 .btn-p{background:var(--pink);color:#5a2030;box-shadow:0 4px 0 var(--pink-d)} .btn-p:active{box-shadow:0 1px 0 var(--pink-d)}
 .btn-c{background:var(--chalk);color:var(--board);box-shadow:0 4px 0 #c9c3ad} .btn-c:active{box-shadow:0 1px 0 #c9c3ad}
+.btn-o{background:var(--orange);color:#fff;box-shadow:0 4px 0 var(--orange-d)} .btn-o:active{box-shadow:0 1px 0 var(--orange-d)}
 .btn-ghost{background:transparent;color:var(--chalk-dim);box-shadow:inset 0 0 0 2px var(--chalk-faint)}
 .btn-ghost:hover{color:var(--chalk)}
 .btn-sm{padding:.35rem .8rem;font-size:.85rem;border-radius:10px}
@@ -82,6 +84,7 @@ label.lab{display:block;font-weight:700;color:var(--ink-soft);font-size:.86rem;m
 .chip-b{background:var(--blue);color:#fff} .chip-p{background:var(--pink);color:#5a2030}
 .chip-r{background:var(--red);color:#fff} .chip-g{background:var(--good);color:#fff}
 .chip-v{background:var(--violet);color:#fff}
+.chip-o{background:var(--orange);color:#fff}
 .chip-chalk{background:var(--chalk-faint);color:var(--chalk)}
 .stamp{display:grid;place-items:center;width:62px;height:62px;border:3px solid var(--red);border-radius:50%;background:#fff;color:var(--red);font-family:'Marhey',sans-serif;font-size:1.35rem;transform:rotate(-9deg);box-shadow:0 4px 10px rgba(0,0,0,.25);line-height:1}
 .stamp small{font-size:.55rem;font-family:'Baloo Bhaijaan 2';font-weight:700;letter-spacing:.5px}
@@ -366,6 +369,44 @@ main{min-width:0;display:flex;flex-direction:column}
 .qchip:hover{background:var(--yellow);border-style:solid}
 .crow{display:flex;gap:.5rem;align-items:flex-end}
 .crow textarea{flex:1}
+/* ====== 💎 Bilingue v3.0 ====== */
+.fr-card{background:var(--paper);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:1rem;position:relative;color:var(--ink)}
+.fr-head{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;background:linear-gradient(120deg,#3a7ca5,#2c5f80);color:#fff}
+.fr-head.fr-easy{background:linear-gradient(120deg,#3f9e63,#2c7647)}
+.fr-head.fr-med{background:linear-gradient(120deg,#f39c12,#d68910)}
+.fr-head.fr-hard{background:linear-gradient(120deg,#e07a5f,#c25a40)}
+.fr-head.fr-expert{background:linear-gradient(120deg,#8e7cc3,#6c5aa0)}
+.fr-head .fh-stars{font-size:1.3rem;letter-spacing:2px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
+.fr-head .fh-title{font-family:'Marhey';font-size:1.15rem;flex:1;min-width:180px}
+.fr-head .fh-chips{display:flex;gap:.3rem;flex-wrap:wrap}
+.fr-body{padding:1.2rem 1.3rem;position:relative}
+.fr-text{font-family:'Baloo Bhaijaan 2',sans-serif;font-size:1.45rem;line-height:2.1;color:var(--ink);font-weight:500;white-space:pre-wrap;direction:ltr;text-align:start;letter-spacing:.3px;padding:1rem 1.2rem;background:#fff;border:2px dashed #e4dcc6;border-radius:12px;box-shadow:inset 0 2px 8px rgba(0,0,0,.04);position:relative}
+.fr-text .highlight{background:var(--yellow);color:#4a3608;border-radius:4px;padding:0 .2rem;transition:background .3s}
+.fr-text.reading{border-color:var(--orange);background:#fffaef}
+.fr-text.reading::before{content:"🔊 جارٍ القراءة…";position:absolute;top:-12px;inset-inline-start:14px;background:var(--orange);color:#fff;font-size:.75rem;padding:.15rem .6rem;border-radius:999px;font-family:'Marhey';font-weight:700}
+.fr-voice{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;padding:.8rem 1rem;background:#fff7df;border-radius:12px;margin-bottom:.8rem}
+.fr-voice .vl{font-weight:800;color:var(--ink-soft);font-size:.88rem}
+.voice-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem .9rem;border:3px solid transparent;border-radius:12px;cursor:pointer;background:#fff;color:var(--ink);font-weight:700;font-family:'Marhey';font-size:.95rem;transition:.15s;box-shadow:0 3px 8px rgba(0,0,0,.1)}
+.voice-btn:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.voice-btn.on{border-color:var(--orange);background:#fff7df;color:#8a4a0a}
+.voice-btn .va{font-size:1.3rem}
+.fr-controls{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;padding:.7rem 1rem;background:rgba(243,156,18,.08);border-radius:12px;margin-top:.7rem}
+.fr-controls .spc{flex:1;min-width:80px;display:flex;align-items:center;gap:.4rem;font-weight:700;color:var(--ink-soft);font-size:.88rem}
+.fr-controls input[type=range]{flex:1;min-width:90px;accent-color:var(--orange)}
+.fr-admin{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem;padding-top:.8rem;border-top:2px dashed #ece4cf}
+.fr-admin .rate-row{display:flex;align-items:center;gap:.3rem}
+.rate-star{cursor:pointer;font-size:1.4rem;transition:transform .12s;filter:drop-shadow(0 1px 2px rgba(0,0,0,.15))}
+.rate-star:hover{transform:scale(1.15) rotate(-8deg)}
+.rate-star.on{filter:drop-shadow(0 1px 3px rgba(243,156,18,.6))}
+.fr-new-form{padding:1.2rem;margin-bottom:1.2rem}
+.fr-new-form h3{margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+.fr-new-form textarea{min-height:110px;direction:ltr;text-align:start;font-size:1.05rem;line-height:1.7}
+.fr-filter{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.bilingual-hero{padding:1.4rem;text-align:center;background:linear-gradient(140deg,#3a7ca5,#8e7cc3);color:#fff;border-radius:18px;box-shadow:var(--shadow);margin-bottom:1.2rem;position:relative;overflow:hidden}
+.bilingual-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.08) 0 6px,transparent 6px 18px);opacity:.5;pointer-events:none}
+.bilingual-hero h2{font-size:clamp(1.5rem,4vw,2.2rem);position:relative}
+.bilingual-hero p{color:rgba(255,255,255,.9);font-weight:600;margin:.4rem 0 0;position:relative;line-height:1.8}
+.bilingual-hero .flags{font-size:2rem;margin:.5rem 0;position:relative;letter-spacing:4px}
 #toasts{position:fixed;bottom:18px;left:18px;z-index:80;display:flex;flex-direction:column;gap:.5rem;max-width:320px}
 .toast{background:var(--chalk);color:var(--board);font-weight:700;padding:.7rem 1rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.4);position:relative;animation:toastIn .3s;border-inline-start:6px solid var(--teal)}
 .toast.warn{border-inline-start-color:var(--yellow)}
@@ -424,9 +465,9 @@ main{min-width:0;display:flex;flex-direction:column}
     <div class="wood-frame">
       <div class="board">
         <img class="mascot" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="بومة قسمي">
-        <h1 class="logo-chalk">قِسمي <span class="v">v2.0</span></h1>
-        <p class="tag">فضاءٌ خاص بي وبتلاميذي وأولياء أمورهم ✏️</p>
-        <div class="subj-line">📕 الفرنسية • 📐 الرياضيات • 🧪 النشاط العلمي — المستويان 5 و6 ابتدائي</div>
+        <h1 class="logo-chalk">قِسمي <span class="v">v3.0</span></h1>
+        <p class="tag">النسخة الجبّارة — فضاءٌ خاص بي وبتلاميذي ✏️</p>
+        <div class="subj-line">📕 الفرنسية • 📐 الرياضيات • 🧪 العلمي • 🗣️ الطلاقة — المستويان 5 و6</div>
         <div class="tray"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="er"></i></div>
       </div>
     </div>
@@ -469,12 +510,12 @@ main{min-width:0;display:flex;flex-direction:column}
   <aside id="sideNav">
     <div class="brand">
       <img class="b-owl" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <div><h2>قِسمي</h2><small>Qismi v2.0</small></div>
+      <div><h2>قِسمي</h2><small>Qismi v3.0 🚀</small></div>
     </div>
     <div id="navList"></div>
     <div class="side-foot">
       <img class="owl-mini" src="https://image.qwenlm.ai/public_source/e4bbb364-018f-471d-8a6c-d1dc61f66f0e/1d74f89b1-6b15-421e-b710-c0112786fda1.png" alt="">
-      <span class="ver">الإصدار 2.0 • 2026</span>
+      <span class="ver">الإصدار 3.0 • الجبّارة</span>
     </div>
   </aside>
   <main>
@@ -494,6 +535,14 @@ main{min-width:0;display:flex;flex-direction:column}
 <div id="modalRoot"></div>
 
 <script>
+/* ============================================================
+   قِسمي — Qismi v3.0 الجبّارة 🚀
+   جديد: ركن "bilingue: التدرب على الطلاقة la fluidité"
+   - إضافة يدوية للنصوص الفرنسية من الأستاذ
+   - تقييم 5 نجوم لتحديد الصعوبة
+   - قراءة صوتية بطفل مجد أو طفلة ندى
+   ============================================================ */
+
 const ADMIN_EMAILS = ['*'];
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyDi010BcJlXCMWNi4b9IgDvSfgm4q4A-6o",
@@ -545,11 +594,19 @@ const RULES = [
 const QUICK_STUDENT = ['🙋 أحتاج مساعدة في فهم الدرس','❓ عندي سؤال عن الاختبار القادم','🤒 أعتذر عن الغياب لأسباب صحية','📚 نسيت دفتري اليوم','🙏 شكراً أستاذ على الدعم'];
 const QUICK_TEACHER = ['👍 أحسنت، واصل!','📖 راجع الدرس وسأساعدك غداً','⏰ احضر غداً مبكراً لنشرح معاً','🙏 شكراً لتواصلك معي','💪 أثق في قدرتك على التحسن'];
 
-const EMPTY = () => ({students:{},tests:{},wgrades:{},initTests:{},initGrades:{},cc:{},events:{},visits:{},tombstones:{},meta:{},messages:{}});
+/* 💎 نصوص فرنسية افتراضية (يمكن للأستاذ التعديل/الإضافة) */
+const DEFAULT_FRTEXTS = [
+  {id:'fr_default_1', title:'Bonjour les amis!', text:"Bonjour les amis! Aujourd'hui, nous allons apprendre de nouveaux mots en français. C'est très amusant!", stars:2, level:5, by:'admin', at:Date.now(), updatedAt:Date.now()},
+  {id:'fr_default_2', title:"L'école est belle", text:"L'école est belle et grande. J'aime jouer avec mes amis dans la cour. La maîtresse nous apprend beaucoup de choses.", stars:3, level:5, by:'admin', at:Date.now(), updatedAt:Date.now()},
+  {id:'fr_default_3', title:"Le chat et le chien", text:"Le chat noir dort sur le canapé. Le chien blanc court dans le jardin. Ils sont très gentils tous les deux.", stars:2, level:6, by:'admin', at:Date.now(), updatedAt:Date.now()},
+  {id:'fr_default_4', title:"Les quatre saisons", text:"Au printemps, les fleurs poussent. En été, il fait très chaud. En automne, les feuilles tombent. En hiver, il neige souvent.", stars:4, level:6, by:'admin', at:Date.now(), updatedAt:Date.now()}
+];
+
+const EMPTY = () => ({students:{},tests:{},wgrades:{},initTests:{},initGrades:{},cc:{},events:{},visits:{},tombstones:{},meta:{},messages:{},frtexts:{}});
 let S = EMPTY();
 let C = {byLevel:{5:[],6:[]}, stats:{}};
 let SESSION = null, online = false, db = null, current = 'v-dash';
-const UI = {level:5, wLevel:5, initLevel:5, ccLevel:5, ccSub:'fr', grading:null, gradingInit:null, spaceSid:null, msgSid:null, msgFilter:'all'};
+const UI = {level:5, wLevel:5, initLevel:5, ccLevel:5, ccSub:'fr', grading:null, gradingInit:null, spaceSid:null, msgSid:null, msgFilter:'all', frFilter:'all', frVoice:'m', frRate:1.0, frReading:null};
 
 const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -573,8 +630,42 @@ function parseScore(v){ if(v===''||v==null) return null; let n=parseFloat(v); if
 const debMap={}; function deb(key,f,ms=420){ clearTimeout(debMap[key]); debMap[key]=setTimeout(f,ms); }
 function flash(el){ el.classList.add('ok'); setTimeout(()=>el.classList.remove('ok'),800); }
 
-function readLocal(){ try{ const p=JSON.parse(localStorage.getItem('qismi_v2')||'null'); return p? {...EMPTY(), ...p} : EMPTY(); }catch(e){ return EMPTY(); } }
-function persistLocal(){ try{ localStorage.setItem('qismi_v2', JSON.stringify(S)); }catch(e){} }
+/* ====== 💎 نظام الأصوات للطلاقة ====== */
+const VOICES = {m:[], f:[]};
+let voicesReady = false;
+function loadVoices(){
+  if(!window.speechSynthesis) return;
+  const all = speechSynthesis.getVoices();
+  if(!all.length) return;
+  const frVoices = all.filter(v => /fr/i.test(v.lang));
+  const preferred = frVoices.length ? frVoices : all;
+  VOICES.m = preferred.filter(v => /male|homme|thomas|nicolas|paul|daniel/i.test(v.name));
+  VOICES.f = preferred.filter(v => /female|femme|amélie|marie|amelie|virginie|audrey/i.test(v.name));
+  if(!VOICES.m.length) VOICES.m = preferred;
+  if(!VOICES.f.length) VOICES.f = preferred;
+  voicesReady = true;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+function speakText(text, voiceType='m', rate=1.0, onEnd){
+  if(!window.speechSynthesis){ toast('المتصفح لا يدعم القراءة الصوتية','err'); return; }
+  speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'fr-FR';
+  utt.rate = rate;
+  utt.pitch = voiceType==='m' ? 1.35 : 1.65; // صوت طفولي
+  utt.volume = 1.0;
+  const pool = VOICES[voiceType] || VOICES.m;
+  if(pool.length) utt.voice = pool[Math.floor(Math.random()*pool.length)];
+  if(onEnd) utt.onend = onEnd;
+  speechSynthesis.speak(utt);
+}
+function stopSpeaking(){ if(window.speechSynthesis) speechSynthesis.cancel(); UI.frReading=null; }
+
+function readLocal(){ try{ const p=JSON.parse(localStorage.getItem('qismi_v3')||'null'); return p? {...EMPTY(), ...p} : EMPTY(); }catch(e){ return EMPTY(); } }
+function persistLocal(){ try{ localStorage.setItem('qismi_v3', JSON.stringify(S)); }catch(e){} }
 function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('load')); document.head.appendChild(s); }); }
 async function initFire(){
   if(!FIREBASE_CONFIG.projectId) throw new Error('local-only');
@@ -583,7 +674,7 @@ async function initFire(){
   firebase.initializeApp(FIREBASE_CONFIG);
   db = firebase.firestore();
 }
-const COLS = ['students','tests','wgrades','initTests','initGrades','cc','events','visits','tombstones','meta','messages'];
+const COLS = ['students','tests','wgrades','initTests','initGrades','cc','events','visits','tombstones','meta','messages','frtexts'];
 async function readFirestoreAll(){
   const out = EMPTY();
   await Promise.all(COLS.map(async c => { const sn = await db.collection(c).get(); sn.forEach(d => out[c][d.id] = d.data()); }));
@@ -685,6 +776,54 @@ async function pullMessages(){
       if(incoming){ toast(SESSION.role==='admin'?'💬 رسالة جديدة من تلميذ/ولي أمر':'💬 الأستاذ ردّ عليك!','ok'); if(current==='v-messages') renderView(current); }
     }
   }catch(e){}
+}
+
+/* ====== 💎 عمليات النصوص الفرنسية ====== */
+function addFrText(title, text, level, stars){
+  const id='fr_'+uid();
+  S.frtexts[id]={id, title:title.trim(), text:text.trim(), level:+level, stars:+stars, by:SESSION?SESSION.name:'admin', at:Date.now(), updatedAt:Date.now()};
+  persistLocal(); push('frtexts',id);
+}
+function delFrText(fid){
+  delete S.frtexts[fid]; tomb('frtexts',fid); persistLocal(); refresh();
+}
+function rateFrText(fid, stars){
+  const t=S.frtexts[fid]; if(!t) return;
+  t.stars=Math.max(1,Math.min(5,+stars));
+  t.updatedAt=Date.now();
+  persistLocal(); push('frtexts',fid);
+}
+function updateFrText(fid, title, text, level){
+  const t=S.frtexts[fid]; if(!t) return;
+  t.title=title.trim(); t.text=text.trim(); t.level=+level;
+  t.updatedAt=Date.now();
+  persistLocal(); push('frtexts',fid);
+}
+function diffClass(stars){
+  if(stars<=1) return 'fr-easy';
+  if(stars<=2) return 'fr-easy';
+  if(stars<=3) return 'fr-med';
+  if(stars<=4) return 'fr-hard';
+  return 'fr-expert';
+}
+function diffLabel(stars){
+  if(stars<=1) return 'سهل جداً';
+  if(stars<=2) return 'سهل';
+  if(stars<=3) return 'متوسط';
+  if(stars<=4) return 'صعب';
+  return 'خبير';
+}
+function starsHTML(n, interactive=false, fid=''){
+  let h='';
+  for(let i=1;i<=5;i++){
+    const on=i<=n;
+    if(interactive){
+      h+='<span class="rate-star'+(on?' on':'')+'" data-rate-star="'+fid+'|'+i+'" title="تقييم '+i+'">'+(on?'⭐':'☆')+'</span>';
+    } else {
+      h+=on?'⭐':'☆';
+    }
+  }
+  return h;
 }
 
 function addStudent(name,gender,level,pin){
@@ -810,12 +949,12 @@ function confirmBox(msg,label){
 }
 function updateConn(){
   const foot=$('#connFoot');
-  if(online){ $('#connChip').classList.remove('off'); $('#connTxt').textContent='متصل بالخادم'; foot.innerHTML='🔗 مرتبط بخادم Firebase • Qismi v2.0 • حفظٌ فوريٌّ + دمجٌ ذكيّ'; }
+  if(online){ $('#connChip').classList.remove('off'); $('#connTxt').textContent='متصل بالخادم'; foot.innerHTML='🔗 مرتبط بخادم Firebase • Qismi v3.0 الجبّارة • حفظٌ فوريٌّ + دمجٌ ذكيّ'; }
   else { $('#connChip').classList.add('off'); $('#connTxt').textContent='وضع محلي'; foot.innerHTML='💾 وضع محلي — كل ما تكتبه محفوظ في جهازك. (لتفعيل المزامنة بين الأجهزة تأكد من إعدادات Firebase)'; }
 }
-const NAV_ADMIN=[['v-dash','🏠','لوحة القسم'],['v-students','🎒','التلاميذ'],['v-init','🔬','الاختبار الأولي'],['v-weekly','📝','الاختبارات الأسبوعية'],['v-cc','📊','المراقبة المستمرة'],['v-tasks','🎖️','مهام الشهر'],['v-announce','📢','إعلان هام'],['v-messages','💬','الرسائل',true],['v-visitors','👀','سجل الزوار']];
-const NAV_STUDENT=[['v-my','⭐','فضائي'],['v-rivals','🎯','المنافسون'],['v-tasks','🎖️','مهام الشهر'],['v-announce','📢','إعلان هام'],['v-messages','💬','مراسلة الأستاذ',true]];
-const TITLES={'v-dash':'لوحة القسم','v-students':'التلاميذ','v-init':'الاختبار الأولي','v-weekly':'الاختبارات الأسبوعية','v-cc':'المراقبة المستمرة','v-tasks':'مهام الشهر','v-announce':'إعلان هام','v-messages':'الرسائل','v-visitors':'سجل الزوار','v-my':'فضائي','v-rivals':'المنافسون'};
+const NAV_ADMIN=[['v-dash','🏠','لوحة القسم'],['v-students','🎒','التلاميذ'],['v-init','🔬','الاختبار الأولي'],['v-weekly','📝','الاختبارات الأسبوعية'],['v-cc','📊','المراقبة المستمرة'],['v-bilingue','🗣️','الطلاقة bilingue'],['v-tasks','🎖️','مهام الشهر'],['v-announce','📢','إعلان هام'],['v-messages','💬','الرسائل',true],['v-visitors','👀','سجل الزوار']];
+const NAV_STUDENT=[['v-my','⭐','فضائي'],['v-rivals','🎯','المنافسون'],['v-bilingue','🗣️','الطلاقة bilingue'],['v-tasks','🎖️','مهام الشهر'],['v-announce','📢','إعلان هام'],['v-messages','💬','مراسلة الأستاذ',true]];
+const TITLES={'v-dash':'لوحة القسم','v-students':'التلاميذ','v-init':'الاختبار الأولي','v-weekly':'الاختبارات الأسبوعية','v-cc':'المراقبة المستمرة','v-bilingue':'bilingue: التدرب على الطلاقة la fluidité','v-tasks':'مهام الشهر','v-announce':'إعلان هام','v-messages':'الرسائل','v-visitors':'سجل الزوار','v-my':'فضائي','v-rivals':'المنافسون'};
 function buildNav(){
   if(!SESSION) return;
   const items = SESSION.role==='admin'? NAV_ADMIN : NAV_STUDENT;
@@ -829,10 +968,11 @@ function updateMsgBadge(){
 }
 function switchView(v){
   const admin=SESSION&&SESSION.role==='admin';
-  const okA=['v-dash','v-students','v-init','v-weekly','v-cc','v-tasks','v-announce','v-messages','v-visitors','v-my'];
-  const okS=['v-my','v-rivals','v-tasks','v-announce','v-messages'];
+  const okA=['v-dash','v-students','v-init','v-weekly','v-cc','v-bilingue','v-tasks','v-announce','v-messages','v-visitors','v-my'];
+  const okS=['v-my','v-rivals','v-bilingue','v-tasks','v-announce','v-messages'];
   if(!admin&&!okS.includes(v)) v='v-my';
   if(admin&&!okA.includes(v)) v='v-dash';
+  stopSpeaking();
   current=v; buildNav(); $('#topTitle').textContent=TITLES[v]||''; renderView(v); window.scrollTo({top:0});
 }
 const RENDER={};
@@ -883,6 +1023,7 @@ RENDER['v-dash']=function(){
   const snap=metaGet('tasks',null);
   const withPin=Object.values(S.students).filter(s=>s.pin&&s.pin.trim()).length;
   const un=unreadTeacher();
+  const frTotal=Object.keys(S.frtexts).length;
   const rankTable=lv=>{
     const rows=C.byLevel[lv].map(sid=>{
       const s=C.stats[sid];
@@ -893,15 +1034,15 @@ RENDER['v-dash']=function(){
   const t5=C.byLevel[5][0]?C.stats[C.byLevel[5][0]]:null;
   const t6=C.byLevel[6][0]?C.stats[C.byLevel[6][0]]:null;
   $('#views').innerHTML =
-  '<div class="sec-h"><span class="em">🍎</span><h2>أهلاً بك في قسمك أستاذ!</h2><span class="chip chip-chalk">'+new Intl.DateTimeFormat('ar-MA',{dateStyle:'full'}).format(new Date())+'</span></div>'
+  '<div class="sec-h"><span class="em">🚀</span><h2>أهلاً بك في النسخة الجبّارة أستاذ!</h2><span class="chip chip-chalk">'+new Intl.DateTimeFormat('ar-MA',{dateStyle:'full'}).format(new Date())+'</span></div>'
   +(!online?'<div class="chalk rv" style="padding:.7rem 1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">⚠️ وضع محلي — كل ما تكتبه محفوظٌ في جهازك ولن يضيع.</div>':'')
   +'<div class="stickers">'
   +'<div class="stkr s1 rv"><div class="s-ic">🧑‍🎓</div><div class="s-n">'+total+'</div><div class="s-l">تلاميذ القسم</div><div class="s-sub">5: '+n5+' • 6: '+n6+'</div></div>'
-  +'<div class="stkr s2 rv"><div class="s-ic">🔑</div><div class="s-n">'+withPin+'</div><div class="s-l">أقنانٌ مفعَّلة</div><div class="s-sub">من أصل '+total+' تلميذ(ة)</div></div>'
+  +'<div class="stkr s2 rv"><div class="s-ic">🗣️</div><div class="s-n">'+frTotal+'</div><div class="s-l">نصوص الطلاقة</div><div class="s-sub">bilingue • la fluidité</div></div>'
   +'<div class="stkr s3 rv"><div class="s-ic">📈</div><div class="s-n">'+fn(classAvg)+'</div><div class="s-l">المعدل التراكمي العام</div><div class="s-sub">معدل كل تلاميذ القسم</div></div>'
   +'<div class="stkr s4 rv"><div class="s-ic">💬</div><div class="s-n">'+un+'</div><div class="s-l">رسائل غير مقروءة</div><div class="s-sub"><button class="btn btn-c btn-sm" data-act="go-msgs" type="button" style="margin-top:.3rem">افتح الصندوق ✉️</button></div></div>'
   +'</div>'
-  +'<div class="chalk rv" style="padding:.8rem 1.1rem;margin-top:1rem;font-weight:600;color:var(--chalk-dim)">🎖️ مهام الشهر: '+(snap?esc(snap.period)+' — موزَّعة ✔':'لم تُوزَّع بعد')+' &nbsp;•&nbsp; 💾 حفظٌ لا ينام: كل نقطةٍ تُختَم في جهازك لحظةَ كتابتها ثم تُرفع للخادم تلقائياً، وعند كلِّ فتحٍ يدمجُ التطبيقُ المحليَّ والسحابيَّ بذكاء.</div>'
+  +'<div class="chalk rv" style="padding:.8rem 1.1rem;margin-top:1rem;font-weight:600;color:var(--chalk-dim)">💎 <b>جديد v3.0</b>: ركن «bilingue: التدرب على الطلاقة» — أضف نصوصاً فرنسية يدوياً، قيّم صعوبتها بالنجوم، واستمع إليها بصوت الطفل مجد أو الطفلة ندى! 🎙️</div>'
   +'<div class="grid g2" style="margin-top:1.2rem">'
   +'<div><div class="sec-h" style="margin-top:.3rem"><span class="em">🥇</span><h2>ترتيب '+LEVELS[5].name+'</h2></div>'+(t5?'<div class="chip chip-y rv" style="margin-bottom:.5rem">👑 '+esc(t5.st.name)+' • '+fn(t5.cum)+'</div>':'')+rankTable(5)+'</div>'
   +'<div><div class="sec-h" style="margin-top:.3rem"><span class="em">🥇</span><h2>ترتيب '+LEVELS[6].name+'</h2></div>'+(t6?'<div class="chip chip-y rv" style="margin-bottom:.5rem">👑 '+esc(t6.st.name)+' • '+fn(t6.cum)+'</div>':'')+rankTable(6)+'</div>'
@@ -931,7 +1072,6 @@ RENDER['v-students']=function(){
   +'<div><label class="lab">المستوى</label><select class="inp" name="level"><option value="5"'+(lv===5?' selected':'')+'>الخامس ابتدائي</option><option value="6"'+(lv===6?' selected':'')+'>السادس ابتدائي</option></select></div>'
   +'<div><label class="lab">🔑 القنّ السري</label><div style="display:flex;gap:.4rem"><input class="inp" name="pin" placeholder="••••"><button class="btn btn-y btn-sm" type="button" data-act="gen-pin-new">🎲</button></div></div>'
   +'</div><div style="margin-top:.8rem"><button class="btn btn-t" type="submit">أضف ✏️</button></div>'
-  +'<div class="lhint" style="margin-top:.7rem">🔑 القنّ هو مفتاح ولوج التلميذ ووليّ أمره — وبه أيضاً يراسلانك في «الرسائل» 💬. بلا قنٍّ لا دخول.</div>'
   +'</div></form>'
   +'<div class="tabs">'+[5,6].map(l=>'<button class="tab '+(UI.level===l?'on':'')+'" data-tab="level:'+l+'" type="button">'+LEVELS[l].name+' <span class="badge">'+C.byLevel[l].length+'</span></button>').join('')+'</div>'
   +rows;
@@ -972,7 +1112,7 @@ RENDER['v-init']=function(){
   }).join('')||'<div class="empty-s">لم تُبرمج اختبارات أولية بعد — برمج لكل مادة اختباراً تشخيصياً 🔬</div>';
   const subjOpts=Object.entries(SUBJECTS).map(([k,s])=>'<option value="'+k+'">'+s.icon+' '+s.name+'</option>').join('');
   $('#views').innerHTML =
-  '<div class="chalk rv" style="padding:.9rem 1.1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">🔬 الاختبار الأولي التشخيصي — فرصة عادلة لكل تلميذ في بداية السنة. نقطه سرية تماماً: لا يراها التلاميذ ولا الأولياء إطلاقاً، بل تذوب تلقائياً في «المعدل التراكمي» كرصيد أولي مبني على الأداء لا على الماضي.</div>'
+  '<div class="chalk rv" style="padding:.9rem 1.1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">🔬 الاختبار الأولي التشخيصي — فرصة عادلة لكل تلميذ في بداية السنة. نقطه سرية تماماً.</div>'
   +sheet
   +'<form data-form="addInit" class="paper tape rv" style="margin-bottom:1rem"><div class="paper-pad"><h3 style="margin-bottom:.7rem">🔬 برمجة اختبار أولي</h3><div class="grid g4" style="align-items:end"><div><label class="lab">المادة</label><select class="inp" name="subject">'+subjOpts+'</select></div><div><label class="lab">تاريخ الإجراء</label><input class="inp" type="date" name="date" required value="'+todayISO()+'"></div><div><label class="lab">عنوان (اختياري)</label><input class="inp" name="label" placeholder="تشخيص الفرنسية…"></div><div><button class="btn btn-t" type="submit">برمج 🔬</button></div></div></div></form>'
   +'<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem">'+subjStatus+'</div>'
@@ -998,7 +1138,7 @@ RENDER['v-weekly']=function(){
   sheet
   +'<form data-form="addTest" class="paper tape rv" style="margin-bottom:1rem"><div class="paper-pad"><h3 style="margin-bottom:.7rem">📌 برمجة اختبار أسبوعي</h3><div class="grid g4" style="align-items:end"><div><label class="lab">المادة</label><select class="inp" name="subject">'+subjOpts+'</select></div><div><label class="lab">التاريخ</label><input class="inp" type="date" name="date" required value="'+todayISO()+'"></div><div><label class="lab">عنوان (اختياري)</label><input class="inp" name="label" placeholder="اختبار الأسبوع 3…"></div><div><button class="btn btn-t" type="submit">برمج 📌</button></div></div></div></form>'
   +'<div class="tabs">'+[5,6].map(l=>'<button class="tab '+(UI.wLevel===l?'on':'')+'" data-tab="wlevel:'+l+'" type="button">'+LEVELS[l].name+' <span class="badge">'+Object.values(S.tests).filter(t=>t.level===l).length+'</span></button>').join('')+'</div>'
-  +(ups.length?'<div class="chip chip-r rv" style="margin-bottom:.8rem">📢 '+ups.length+' اختبار(ات) مبرمجة مستقبلاً — تظهر أيضاً في «إعلان هام».</div>':'')
+  +(ups.length?'<div class="chip chip-r rv" style="margin-bottom:.8rem">📢 '+ups.length+' اختبار(ات) مبرمجة مستقبلاً.</div>':'')
   +'<div class="sec-h"><span class="em">📝</span><h2>قائمة الاختبارات</h2></div>'+cards;
 };
 
@@ -1018,7 +1158,7 @@ RENDER['v-cc']=function(){
   }).join('');
   const head='<div class="mh name">التلميذ(ة)</div>'+[1,2,3,4,5].map(p=>'<div class="mh">المرحلة '+p+'</div>').join('')+'<div class="mh">المعدل</div>';
   $('#views').innerHTML =
-  '<div class="chalk rv" style="padding:.8rem 1.1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">📊 المراقبة المستمرة — 5 مراحل لكل مادة. الحفظ تلقائي ✔ • اكتب النقطة مباشرة (من 10)</div>'
+  '<div class="chalk rv" style="padding:.8rem 1.1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">📊 المراقبة المستمرة — 5 مراحل لكل مادة. الحفظ تلقائي ✔</div>'
   +'<div class="tabs">'+[5,6].map(l=>'<button class="tab '+(UI.ccLevel===l?'on':'')+'" data-tab="cclevel:'+l+'" type="button">'+LEVELS[l].name+'</button>').join('')
   +Object.entries(SUBJECTS).map(([k,v])=>'<button class="tab '+(UI.ccSub===k?'on':'')+'" data-tab="ccsub:'+k+'" type="button">'+v.icon+' '+v.name+'</button>').join('')+'</div>'
   +'<div class="paper rv"><div class="scrollx"><div class="matrix">'+head+(cells||'<div class="empty-s" style="grid-column:1/-1">لا تلاميذ في هذا المستوى</div>')+'</div></div></div>';
@@ -1071,19 +1211,18 @@ RENDER['v-rivals']=function(){
     return '<div class="rival-card '+item.type+' rv"><div class="rc-rank">'+(medal(os.rank)||os.rank)+'</div><div class="rc-ava">'+gIcon(ost.gender)+'</div><div class="rc-mid"><div class="rc-name">'+name+' '+tag+'</div><div class="rc-diff">'+diffTxt+'</div><div class="rc-bar"><i style="width:'+(os.cum*10)+'%"></i></div></div><div class="rc-cum"><b>'+fn(os.cum)+'</b><small>التراكمي</small></div></div>';
   };
   const elems=[];
-  if(noAhead) elems.push('<div class="rival-card ghost rv"><span class="gh-ic">👑</span> لا أحد يسبقك — أنت في القمة! عيناك على من خلفك.</div>');
+  if(noAhead) elems.push('<div class="rival-card ghost rv"><span class="gh-ic">👑</span> لا أحد يسبقك — أنت في القمة!</div>');
   for(let r=from;r<=to;r++){ if(r===myRank) elems.push(cardHTML({type:'you',rank:r})); else elems.push(cardHTML({type:r<myRank?'ahead':'behind',rank:r,sid:order[r-1]})); }
   if(noBehind) elems.push('<div class="rival-card ghost rv"><span class="gh-ic">🔥</span> لا ملاحِق وراءك حالياً — لكن كل نقطةٍ ترفعك، فلا تتوقف.</div>');
   const ladder=elems.join('<div class="arrow-sep"><span>▼</span></div>');
-  const mood=(total<=1)?'🌟 أنت رائد هذا المستوى وحيداً — ثبّت أقدامك حتى ينضم المنافسون.'
-    : noAhead?'👑 أنت في القمة! لا تركن إليها — الفارق عن ملاحِقك قد يكون نقطة واحدة.'
-    : noBehind?'🔥 المؤخرة ليست قدَرك. انظر لمن فوقك: أقربهم على بُعد خطوة، فاصعدها.'
-    : '🎯 هذه دائرتك القريبة: تجاوز من فوقك درجة درجة، وابْقَ بعيداً عمن تحتك.';
+  const mood=(total<=1)?'🌟 أنت رائد هذا المستوى وحيداً.'
+    : noAhead?'👑 أنت في القمة! لا تركن إليها.'
+    : noBehind?'🔥 المؤخرة ليست قدَرك. انظر لمن فوقك.'
+    : '🎯 هذه دائرتك القريبة: تجاوز من فوقك درجة درجة.';
   $('#views').innerHTML =
-  '<div class="chalk rivals-head rv"><div class="rh-rank"><b>'+myRank+'</b><small>من '+total+'</small></div><div class="rh-tx"><h2>🎯 دائرة منافستك</h2><p>'+mood+'<br>ترى اثنين يسبقانك لتلحق بهما، واثنين يلاحقانك لتبقى متيقظاً — لا أكثر، كي يبقى السباق عادلاً وملهماً.</p></div><div class="rh-chips"><span class="chip chip-chalk">⬆️ يسبقك '+totalAhead+'</span><span class="chip chip-chalk">⬇️ يلاحقك '+totalBehind+'</span></div></div>'
-  +'<div class="chalk race-wrap rv"><div class="race-lab"><span>🏁 خط البداية</span><span>موقعك في سباق '+LEVELS[lv].name+'</span><span>🥇 القمة</span></div><div class="race-bar"><div class="race-marker" style="left:'+pos+'%">🏃</div></div><div class="race-ends"><span>'+(total>1?'الرتبة '+myRank+' / '+total:'وحيد')+'</span></div></div>'
-  +'<div class="ladder">'+ladder+'</div>'
-  +'<div class="chalk rv" style="padding:.9rem 1.1rem;margin-top:1.2rem;color:var(--chalk-dim);font-weight:600">💡 كيف تقرأ السلّم؟ البطاقات البرتقالية = من يسبقك (هدفك التالي)، والذهبية = أنت، والزرقاء = من يلاحقك (ظلّك). الرقم بجانب الاسم هو الفارق الدقيق في المعدل التراكمي.</div>';
+  '<div class="chalk rivals-head rv"><div class="rh-rank"><b>'+myRank+'</b><small>من '+total+'</small></div><div class="rh-tx"><h2>🎯 دائرة منافستك</h2><p>'+mood+'</p></div><div class="rh-chips"><span class="chip chip-chalk">⬆️ يسبقك '+totalAhead+'</span><span class="chip chip-chalk">⬇️ يلاحقك '+totalBehind+'</span></div></div>'
+  +'<div class="chalk race-wrap rv"><div class="race-lab"><span>🏁 خط البداية</span><span>موقعك</span><span>🥇 القمة</span></div><div class="race-bar"><div class="race-marker" style="left:'+pos+'%">🏃</div></div></div>'
+  +'<div class="ladder">'+ladder+'</div>';
 };
 
 RENDER['v-announce']=function(){
@@ -1106,8 +1245,98 @@ RENDER['v-visitors']=function(){
   const vs=Object.values(S.visits).sort((a,b)=>b.at-b.at).slice(0,300);
   const rows=vs.map(v=>'<tr><td>'+roleLabel(v.role)+'</td><td>'+esc(v.name)+'</td><td>'+fmtDT(v.at)+'</td></tr>').join('')||'<tr><td colspan="3" class="empty-s">لا زيارات بعد</td></tr>';
   $('#views').innerHTML =
-  '<div class="chalk rv" style="padding:.9rem 1.1rem;margin-bottom:1rem">👀 سجل الزوار — لا يراه أحد سواك. <span class="chip chip-chalk" style="margin-inline-start:auto">'+Object.keys(S.visits).length+' زيارة</span></div>'
+  '<div class="chalk rv" style="padding:.9rem 1.1rem;margin-bottom:1rem">👀 سجل الزوار — لا يراه أحد سواك.</div>'
   +'<div class="rv"><table class="vtable"><thead><tr><th>الدور</th><th>الاسم</th><th>الوقت</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+};
+
+/* ====== 💎 ركن الطلاقة Bilingue v3.0 ====== */
+RENDER['v-bilingue']=function(){
+  const admin = SESSION.role==='admin';
+  const filter = UI.frFilter;
+  const allTexts = Object.values(S.frtexts).sort((a,b)=>(b.stars||0)-(a.stars||0) || b.at-a.at);
+  const filtered = filter==='all' ? allTexts
+    : filter==='5' ? allTexts.filter(t=>t.level===5)
+    : filter==='6' ? allTexts.filter(t=>t.level===6)
+    : allTexts;
+  const count5 = allTexts.filter(t=>t.level===5).length;
+  const count6 = allTexts.filter(t=>t.level===6).length;
+
+  const cards = filtered.map(t=>{
+    const dc = diffClass(t.stars||3);
+    const isReading = UI.frReading===t.id;
+    const readClass = isReading? ' reading' : '';
+    const controls = admin ?
+      '<div class="fr-admin">'
+      +'<div class="rate-row"><span style="font-weight:800;color:var(--ink-soft);font-size:.88rem">⭐ الصعوبة:</span> '+starsHTML(t.stars||3, true, t.id)+'</div>'
+      +'<button class="btn btn-y btn-sm" data-act="edit-fr:'+t.id+'" type="button">✏️ تعديل</button>'
+      +'<button class="btn btn-r btn-sm" data-act="del-fr:'+t.id+'" type="button">🗑 حذف</button>'
+      +'</div>' : '';
+    return '<div class="fr-card rv">'
+      +'<div class="fr-head '+dc+'">'
+        +'<div class="fh-stars">'+starsHTML(t.stars||3)+'</div>'
+        +'<div class="fh-title">'+esc(t.title||'بدون عنوان')+'</div>'
+        +'<div class="fh-chips">'
+          +'<span class="chip chip-y">'+LEVELS[t.level||5].name+'</span>'
+          +'<span class="chip" style="background:rgba(0,0,0,.22);color:#fff">'+diffLabel(t.stars||3)+'</span>'
+        +'</div>'
+      +'</div>'
+      +'<div class="fr-body">'
+        +'<div class="fr-voice">'
+          +'<span class="vl">🎙️ اختر الصوت:</span>'
+          +'<button class="voice-btn '+(UI.frVoice==='m'?'on':'')+'" data-act="set-voice:m" type="button"><span class="va">👦</span> مجد</button>'
+          +'<button class="voice-btn '+(UI.frVoice==='f'?'on':'')+'" data-act="set-voice:f" type="button"><span class="va">👧</span> ندى</button>'
+        +'</div>'
+        +'<div class="fr-text'+readClass+'" id="frtext-'+t.id+'" dir="ltr">'+esc(t.text)+'</div>'
+        +'<div class="fr-controls">'
+          +'<button class="btn btn-o" data-act="speak-fr:'+t.id+'" type="button">'+(isReading?'⏸️ إيقاف':'🔊 استمع الآن')+'</button>'
+          +'<button class="btn btn-b btn-sm" data-act="speak-slow:'+t.id+'" type="button">🐢 ببطء</button>'
+          +'<button class="btn btn-b btn-sm" data-act="speak-fast:'+t.id+'" type="button">🐇 بسرعة</button>'
+          +'<div class="spc"><span>⚡ السرعة</span><input type="range" min="0.5" max="1.5" step="0.1" value="'+UI.frRate+'" data-act-set="fr-rate"></div>'
+        +'</div>'
+        +controls
+      +'</div>'
+    +'</div>';
+  }).join('') || '<div class="chalk empty-chalk rv"><img class="owl" src="'+OWL+'" style="width:90px;height:90px"><div>لا نصوص فرنسية بعد.</div>'+(admin?'<div style="margin-top:.8rem">أضف أول نص من النموذج أعلاه ✍️</div>':'<div style="margin-top:.8rem">سيضيف الأستاذ النصوص قريباً إن شاء الله.</div>')+'</div>';
+
+  const adminForm = admin ?
+    '<form data-form="addFr" class="paper tape rv fr-new-form">'
+      +'<h3>✍️ أضف نصاً فرنسياً جديداً</h3>'
+      +'<div class="lhint">اكتب النص باللغة الفرنسية (قصة، حوار، جملة…). سيكون متاحاً للتلاميذ ليقرؤوه ويستمتعوا بسماعه بصوت الطفل مجد أو الطفلة ندى.</div>'
+      +'<div class="grid g2" style="margin-top:.8rem">'
+        +'<div><label class="lab">العنوان (بالفرنسية أو العربية)</label><input class="inp" name="title" placeholder="مثال: Mon premier jour d\'école" required></div>'
+        +'<div><label class="lab">المستوى</label><select class="inp" name="level"><option value="5">الخامس ابتدائي</option><option value="6">السادس ابتدائي</option></select></div>'
+      +'</div>'
+      +'<div style="margin-top:.6rem"><label class="lab">النص الفرنسي</label>'
+        +'<textarea class="inp" name="text" placeholder="Écris ton texte en français ici... Ex: Bonjour! Je m\'appelle Karim. J\'ai dix ans." required style="min-height:130px"></textarea>'
+      +'</div>'
+      +'<div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">'
+        +'<span style="font-weight:800;color:var(--ink-soft)">⭐ الصعوبة:</span>'
+        +'<span class="rate-star on" data-new-star="1">⭐</span>'
+        +'<span class="rate-star" data-new-star="2">☆</span>'
+        +'<span class="rate-star" data-new-star="3">☆</span>'
+        +'<span class="rate-star" data-new-star="4">☆</span>'
+        +'<span class="rate-star" data-new-star="5">☆</span>'
+        +'<input type="hidden" name="stars" value="1">'
+      +'</div>'
+      +'<div style="margin-top:.9rem"><button class="btn btn-t" type="submit">➕ أضف النص 🇫🇷</button></div>'
+    +'</form>' : '';
+
+  $('#views').innerHTML =
+  '<div class="bilingual-hero rv">'
+    +'<div class="flags">🇲🇦 ❤️ 🇫🇷</div>'
+    +'<h2>bilingue: التدرب على الطلاقة la fluidité</h2>'
+    +'<p>'+(admin?'أضف نصوصاً فرنسية يدوياً، قيّم صعوبتها بالنجوم، واستمع إليها بصوت الطفل مجد أو الطفلة ندى 🎙️':'اقرأ النصوص الفرنسية واستمع إليها بصوت مجد 👦 أو ندى 👧 لتتقن الطلاقة!')+'</p>'
+  +'</div>'
+  +(!online?'<div class="chalk rv" style="padding:.7rem 1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">⚠️ وضع محلي — النصوص محفوظة في جهازك فقط.</div>':'')
+  +(!admin && !voicesReady ? '<div class="chalk rv" style="padding:.7rem 1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">⚠️ جارٍ تحميل الأصوات من المتصفح… إذا لم تعمل الميزة، جرب متصفح Chrome أو Edge.</div>' : '')
+  +adminForm
+  +'<div class="tabs fr-filter">'
+    +'<button class="tab '+(filter==='all'?'on':'')+'" data-tab="frfilter:all" type="button">📚 الكل <span class="badge">'+allTexts.length+'</span></button>'
+    +'<button class="tab '+(filter==='5'?'on':'')+'" data-tab="frfilter:5" type="button">'+LEVELS[5].name+' <span class="badge">'+count5+'</span></button>'
+    +'<button class="tab '+(filter==='6'?'on':'')+'" data-tab="frfilter:6" type="button">'+LEVELS[6].name+' <span class="badge">'+count6+'</span></button>'
+  +'</div>'
+  +'<div class="sec-h"><span class="em">📖</span><h2>النصوص الفرنسية</h2></div>'
+  +cards;
 };
 
 RENDER['v-my']=function(){
@@ -1129,21 +1358,22 @@ RENDER['v-my']=function(){
   const evList=visEvs.length? visEvs.map(e=>evRow(e,admin)).join('') : '<div class="empty-s">لا ملاحظات بعد — استمر 💪</div>';
   const back=admin?'<button class="btn btn-ghost btn-sm" data-act="back-students" type="button" style="margin-bottom:.8rem">← العودة للتلاميذ</button>':'';
   const initBreak=s.hasInitial? Object.entries(s.iSubAvg).map(([k,v])=>SUBJECTS[k].icon+' '+fn(v)).join(' ، ') : 'لم يجتز اختباراً أولياً بعد';
-  const natureNote=admin?'<div class="nature-note rv">🔒 <b>طبيعة التلميذ (سرية — لا يراها هو):</b><br>الرصيد الأولي = '+fn(s.initial)+' '+(s.hasInitial?'(مبني من الاختبار الأولي: '+initBreak+')':'(بلا اختبار أولي = بداية نظيفة)')+'. التراكمي = متوسط[ '+(s.comps.length?s.comps.join(' ، '):'— لا مكوّنات بعد —')+' ]'+(s.dc?' + ('+(s.dc>0?'+':'')+fn(s.dc)+') تحفيز/عقوبات':'')+' = '+fn(s.cum)+'.<br>🔑 قنّ الولوج: '+(st.pin?esc(st.pin):'— لم يُعيَّن بعد —')+'<br>💡 فلسفة: لا تبعات للماضي — الرصيد الأولي ثمرة اختبار تشخيصي يجتازه التلميذ بنفسه.</div>':'';
+  const natureNote=admin?'<div class="nature-note rv">🔒 <b>طبيعة التلميذ (سرية — لا يراها هو):</b><br>الرصيد الأولي = '+fn(s.initial)+' '+(s.hasInitial?'(مبني من الاختبار الأولي: '+initBreak+')':'(بلا اختبار أولي = بداية نظيفة)')+'. التراكمي = متوسط[ '+(s.comps.length?s.comps.join(' ، '):'— لا مكوّنات بعد —')+' ]'+(s.dc?' + ('+(s.dc>0?'+':'')+fn(s.dc)+') تحفيز/عقوبات':'')+' = '+fn(s.cum)+'.<br>🔑 قنّ الولوج: '+(st.pin?esc(st.pin):'— لم يُعيَّن بعد —')+'</div>':'';
   const rivalsGate=!admin?'<button class="btn rivals-banner rv" data-act="go-rivals" type="button">🎯 من يسبقك؟ من يلاحقك؟ افتح ركن «المنافسون» ←</button>':'';
   const un=admin?0:unreadStudent(sid);
   const msgGate=admin
     ? '<button class="btn btn-t" data-act="msg:'+sid+'" type="button">💬 مراسلة هذا التلميذ</button>'
     : '<button class="btn msg-banner" data-act="go-msgs" type="button">💬 '+(un?'عندك '+un+' رسالة جديدة من الأستاذ! ':'')+' راسل الأستاذ / اقرأ الردود ←</button>';
+  const bilingualGate='<button class="btn btn-o" data-act="go-bilingue" type="button" style="width:100%;justify-content:center;margin-top:.5rem;padding:.7rem 1rem;border-radius:12px;font-size:1.05rem">🗣️🇫🇷 تمرّن على الطلاقة الفرنسية — استمع لصوت مجد أو ندى!</button>';
   $('#views').innerHTML = back+crown
   +'<div class="paper my-hero rv"><div class="mh-ava">'+gIcon(st.gender)+'</div>'
   +'<div style="flex:1;min-width:230px"><div class="mh-name">'+(admin?'فضاء: '+esc(st.name):'أهلاً بك يا '+esc(st.name)+'! 🌟')+'</div>'
   +'<div class="mh-meta"><span class="chip chip-soft">'+LEVELS[st.level].name+'</span><span class="chip chip-soft">'+(st.gender==='M'?'ذكر':'أنثى')+'</span><span class="chip chip-y">'+(medal(s.rank)||'#'+s.rank)+' الرتبة من '+s.total+'</span></div>'
-  +'<div style="margin-top:.6rem">'+msgGate+'</div></div>'
+  +'<div style="margin-top:.6rem">'+msgGate+bilingualGate+'</div></div>'
   +'<div class="mh-rank"><div class="big-cum chalk" style="border-radius:14px;padding:.9rem 1.4rem"><div class="bc-l">المعدل التراكمي الإجمالي</div><div class="bc-n num-anim" data-to="'+s.cum+'">0.00</div><div class="bc-stars">'+starsRow(s.cum)+'</div></div></div></div>'
   +rivalsGate+natureNote
   +'<div class="grid g2" style="margin-top:1.1rem">'
-  +'<div class="paper sub-card rv"><h4>📝 معدل الاختبارات الأسبوعية <span class="chip chip-b" style="margin-inline-start:auto">'+fn(s.weeklyFinal)+'</span></h4>'+wSub+'<div class="lhint" style="margin-top:.4rem">القاعدة = '+fn(s.weeklyBase)+(s.dw?' ('+(s.dw>0?'+':'')+fn(s.dw)+' تحفيز/عقوبات)':'')+'</div></div>'
+  +'<div class="paper sub-card rv"><h4>📝 معدل الاختبارات الأسبوعية <span class="chip chip-b" style="margin-inline-start:auto">'+fn(s.weeklyFinal)+'</span></h4>'+wSub+'</div>'
   +'<div class="paper sub-card rv"><h4>📊 معدل المراقبة المستمرة <span class="chip chip-t" style="margin-inline-start:auto">'+fn(s.ccBase)+'</span></h4>'+cSub+'</div>'
   +'</div>'
   +'<div class="grid g2" style="margin-top:1.1rem">'
@@ -1180,18 +1410,17 @@ RENDER['v-messages']=function(){
       const un=arr.filter(m=>m.from==='student'&&!m.rt).length;
       const prev=(last.from==='teacher'?'أنت: ':'')+last.text.slice(0,46)+(last.text.length>46?'…':'');
       return '<div class="conv'+(UI.msgSid===sid?' on':'')+'" data-act="open-conv:'+sid+'"><span class="conv-ava">'+gIcon(st.gender)+'</span><div class="conv-tx"><b>'+esc(st.name)+'</b><small>'+esc(prev)+'</small></div><div class="conv-side"><span class="conv-time">'+timeAgo(last.at)+'</span>'+(un?'<span class="conv-unread">'+un+'</span>':'')+'</div></div>';
-    }).join('')||'<div class="empty-s">لا رسائل بعد — عندما يراسلك تلميذ أو وليّ أمر ستجد رسالته هنا 💬</div>';
+    }).join('')||'<div class="empty-s">لا رسائل بعد — عندما يراسلك تلميذ ستجد رسالته هنا 💬</div>';
     const chat=UI.msgSid? chatHTML(UI.msgSid,true) : '<div class="chalk empty-chalk" style="padding:2.4rem"><img class="owl" src="'+OWL+'" style="width:90px;height:90px"><div>اختر محادثة من القائمة لقرائتها والرد عليها ✉️</div></div>';
     const un=unreadTeacher();
     $('#views').innerHTML =
     '<div class="sec-h"><span class="em">💬</span><h2>صندوق رسائل القسم</h2>'+(un?'<span class="chip chip-r">'+un+' غير مقروءة</span>':'')+'</div>'
-    +'<div class="chalk rv" style="padding:.8rem 1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">هنا تصلك رسائل تلاميذك وأولياء أمورهم — ردّك يصلهم فوراً في فضائهم. '+(!online?'⚠️ أنت في وضع محلي: الرسائل تُحفظ في هذا الجهاز فقط.':'')+'</div>'
     +'<div class="msg-grid rv"><div class="paper conv-list"><div class="conv-tabs"><button class="btn btn-sm '+(UI.msgFilter!=='unread'?'btn-y':'btn-ghost')+'" data-act="msg-filter:all" type="button">الكل</button><button class="btn btn-sm '+(UI.msgFilter==='unread'?'btn-y':'btn-ghost')+'" data-act="msg-filter:unread" type="button">غير المقروءة'+(un?' ('+un+')':'')+'</button></div>'+list+'</div><div>'+chat+'</div></div>';
   } else {
     markThreadRead(SESSION.sid,'student');
     $('#views').innerHTML =
     '<div class="sec-h"><span class="em">💬</span><h2>مراسلة الأستاذ</h2></div>'
-    +'<div class="chalk rv" style="padding:.8rem 1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">اكتب رسالتك بأدب ووضوح، وسيصل ردّ الأستاذ هنا إن شاء الله 🕊️ '+(!online?'• ⚠️ وضع محلي: الرسالة تُحفظ في هذا الجهاز.':'')+'</div>'
+    +'<div class="chalk rv" style="padding:.8rem 1rem;margin-bottom:1rem;color:var(--chalk-dim);font-weight:600">اكتب رسالتك بأدب ووضوح، وسيصل ردّ الأستاذ هنا إن شاء الله 🕊️</div>'
     +'<div class="rv">'+chatHTML(SESSION.sid,false)+'</div>';
     refresh();
   }
@@ -1205,11 +1434,11 @@ function openEventsModal(sid){
   const evs=Object.values(S.events).filter(e=>e.sid===sid).sort((a,b)=>b.at-a.at);
   const rulesHtml=RULES.map((r,i)=>'<button class="rule" type="button" data-rule="'+i+'"><span class="r-ic">'+r.icon+'</span><span class="r-tx"><b>'+r.label+'</b><small>'+ruleFx(r)+(r.desc?' • '+r.desc:'')+'</small></span><span class="r-vis">'+(r.vis?'👪 يظهر':'🔒 سرّي')+'</span></button>').join('');
   openModal('<div class="m-head"><h3>⭐ سجل التحفيز والعقوبات — '+esc(st.name)+'</h3><button class="m-x" data-mclose type="button">✕</button></div>'
-  +'<div class="m-body"><div class="m-sub">اختر إجراءً ثم طبِّقه (تُحتسب التأثيرات تلقائياً):</div>'
+  +'<div class="m-body"><div class="m-sub">اختر إجراءً ثم طبِّقه:</div>'
   +'<div class="rules">'+rulesHtml+'</div>'
   +'<input class="inp" id="evNote" placeholder="ملاحظة اختيارية…">'
   +'<div class="m-actions"><button class="btn btn-y" id="evApply" type="button">طبِّق ✔</button></div>'
-  +'<div class="m-h4">السجل الكامل (يظهر السرّي لك فقط)</div>'
+  +'<div class="m-h4">السجل الكامل</div>'
   +(evs.map(e=>evRow(e,true)).join('')||'<div class="empty-s">لا شيء بعد</div>')+'</div>');
   $$('#modalRoot .rule').forEach(b=>b.onclick=()=>{ $$('#modalRoot .rule').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); });
   $('#evApply').onclick=()=>{
@@ -1219,6 +1448,22 @@ function openEventsModal(sid){
     addEvent(sid,r,($('#evNote').value||'').trim());
     closeModal(); refresh(); renderView(current);
     toast(r.icon+' طُبِّق: '+r.label,'ok');
+  };
+}
+
+function openEditFrModal(fid){
+  const t=S.frtexts[fid]; if(!t) return;
+  openModal('<div class="m-head"><h3>✏️ تعديل النص الفرنسي</h3><button class="m-x" data-mclose type="button">✕</button></div>'
+  +'<div class="m-body">'
+  +'<label class="lab">العنوان</label><input class="inp" id="editTitle" value="'+esc(t.title||'')+'">'
+  +'<label class="lab" style="margin-top:.7rem">المستوى</label><select class="inp" id="editLevel"><option value="5"'+(t.level===5?' selected':'')+'>الخامس ابتدائي</option><option value="6"'+(t.level===6?' selected':'')+'>السادس ابتدائي</option></select>'
+  +'<label class="lab" style="margin-top:.7rem">النص الفرنسي</label><textarea class="inp" id="editText" rows="5" style="direction:ltr;text-align:start">'+esc(t.text)+'</textarea>'
+  +'<div class="m-actions"><button class="btn btn-y" id="editSave" type="button">حفظ التعديلات ✔</button></div>'
+  +'</div>');
+  $('#editSave').onclick=()=>{
+    updateFrText(fid, $('#editTitle').value, $('#editText').value, $('#editLevel').value);
+    closeModal(); refresh(); renderView(current);
+    toast('✏️ تم حفظ التعديلات','ok');
   };
 }
 
@@ -1238,6 +1483,9 @@ views.addEventListener('input', e=>{
     const ps=document.getElementById('pstate-'+sid); if(ps){ ps.textContent='💾 حفظ…'; ps.classList.add('saving'); }
     deb('pin'+sid,()=>{ push('students',sid); const p2=document.getElementById('pstate-'+sid); if(p2){ p2.textContent='✔ محفوظ'; p2.classList.remove('saving'); } });
   }
+  else if(el.dataset.actSet==='fr-rate'){
+    UI.frRate = parseFloat(el.value)||1.0;
+  }
 });
 views.addEventListener('submit', e=>{
   e.preventDefault(); const f=e.target; const form=f.dataset.form; const fd=new FormData(f);
@@ -1250,6 +1498,16 @@ views.addEventListener('submit', e=>{
   else if(form==='addTest'){ addTest(UI.wLevel,fd.get('subject'),fd.get('date'),(fd.get('label')||'').trim()); toast('📌 بُرمج الاختبار','ok'); refresh(); renderView(current); }
   else if(form==='addInit'){ addInitTest(UI.initLevel,fd.get('subject'),fd.get('date'),(fd.get('label')||'').trim()); toast('🔬 بُرمج الاختبار الأولي','ok'); refresh(); renderView(current); }
   else if(form==='announce'){ metaSet('announce',(fd.get('text')||'').trim()); toast('تم حفظ الإعلان ✔','ok'); renderView(current); }
+  else if(form==='addFr'){
+    const title=(fd.get('title')||'').trim();
+    const text=(fd.get('text')||'').trim();
+    const level=fd.get('level');
+    const stars=fd.get('stars')||'1';
+    if(!title||!text){ toast('العنوان والنص مطلوبان','warn'); return; }
+    addFrText(title, text, level, stars);
+    toast('🇫🇷 أُضيف النص الفرنسي بنجاح!','ok');
+    renderView(current);
+  }
 });
 views.addEventListener('click', e=>{
   const tab=e.target.closest('[data-tab]');
@@ -1257,20 +1515,42 @@ views.addEventListener('click', e=>{
     const [g,v]=tab.dataset.tab.split(':');
     if(g==='level')UI.level=+v; else if(g==='wlevel')UI.wLevel=+v; else if(g==='initlevel')UI.initLevel=+v;
     else if(g==='cclevel')UI.ccLevel=+v; else if(g==='ccsub')UI.ccSub=v;
+    else if(g==='frfilter')UI.frFilter=v;
     renderView(current); return;
   }
   const j=e.target.closest('[data-justif]');
   if(j){ justifyAbsence(j.dataset.justif); renderView(current); return; }
   const q=e.target.closest('[data-q]');
   if(q){ const t=$('#msgText'); if(t){ t.value=q.dataset.q; t.focus(); } return; }
+  const rs=e.target.closest('[data-rate-star]');
+  if(rs){
+    const [fid,val]=rs.dataset.rateStar.split('|');
+    rateFrText(fid,+val);
+    renderView(current);
+    toast('⭐ تم تقييم الصعوبة','ok');
+    return;
+  }
+  const ns=e.target.closest('[data-new-star]');
+  if(ns){
+    const val=+ns.dataset.newStar;
+    const form=ns.closest('form');
+    const hidden=form&&form.querySelector('input[name="stars"]');
+    if(hidden) hidden.value=val;
+    form.querySelectorAll('[data-new-star]').forEach(s=>{
+      const v=+s.dataset.newStar;
+      if(v<=val){ s.textContent='⭐'; s.classList.add('on'); }
+      else { s.textContent='☆'; s.classList.remove('on'); }
+    });
+    return;
+  }
   const b=e.target.closest('[data-act]');
   if(!b) return;
   const [act,arg]=b.dataset.act.split(':');
   if(act==='open-space'){ UI.spaceSid=arg; switchView('v-my'); }
   else if(act==='events'){ openEventsModal(arg); }
-  else if(act==='del-student'){ confirmBox('حذف '+esc(S.students[arg].name)+' وكل نقطه وأحداثه ورسائله نهائياً؟','حذف 🗑').then(ok=>{ if(ok){ delStudent(arg); refresh(); toast('تم الحذف','warn'); renderView(current); } }); }
+  else if(act==='del-student'){ confirmBox('حذف '+esc(S.students[arg].name)+' وكل بياناته؟','حذف 🗑').then(ok=>{ if(ok){ delStudent(arg); refresh(); toast('تم الحذف','warn'); renderView(current); } }); }
   else if(act==='del-test'){ confirmBox('حذف هذا الاختبار وكل نقطه؟','حذف 🗑').then(ok=>{ if(ok){ delTest(arg); refresh(); renderView(current); } }); }
-  else if(act==='del-init'){ confirmBox('حذف هذا الاختبار الأولي وكل نقطه السرية؟','حذف 🗑').then(ok=>{ if(ok){ delInitTest(arg); refresh(); toast('تم الحذف','warn'); renderView(current); } }); }
+  else if(act==='del-init'){ confirmBox('حذف هذا الاختبار الأولي؟','حذف 🗑').then(ok=>{ if(ok){ delInitTest(arg); refresh(); renderView(current); } }); }
   else if(act==='grade'){ UI.grading=arg; renderView(current); }
   else if(act==='grade-close'){ UI.grading=null; renderView(current); }
   else if(act==='grade-init'){ UI.gradingInit=arg; renderView(current); }
@@ -1279,6 +1559,7 @@ views.addEventListener('click', e=>{
   else if(act==='back-students'){ UI.spaceSid=null; switchView('v-students'); }
   else if(act==='go-rivals'){ switchView('v-rivals'); }
   else if(act==='go-msgs'){ switchView('v-messages'); }
+  else if(act==='go-bilingue'){ switchView('v-bilingue'); }
   else if(act==='msg'){ UI.msgSid=arg; if(SESSION.role==='admin') markThreadRead(arg,'teacher'); switchView('v-messages'); }
   else if(act==='open-conv'){ UI.msgSid=arg; markThreadRead(arg,'teacher'); renderView(current); }
   else if(act==='msg-filter'){ UI.msgFilter=arg; renderView(current); }
@@ -1304,6 +1585,41 @@ views.addEventListener('click', e=>{
   else if(act==='gen-pin-new'){
     const f=b.closest('form'); const inp=f&&f.querySelector('input[name="pin"]');
     if(inp){ inp.value=randPin(); inp.focus(); }
+  }
+  /* ====== 💎 أزرار الطلاقة ====== */
+  else if(act==='set-voice'){
+    UI.frVoice=arg;
+    renderView(current);
+    toast('🎙️ تم اختيار صوت '+(arg==='m'?'الطفل مجد 👦':'الطفلة ندى 👧'),'ok');
+  }
+  else if(act==='speak-fr'){
+    const t=S.frtexts[arg]; if(!t) return;
+    if(UI.frReading===arg){ stopSpeaking(); renderView(current); return; }
+    if(!voicesReady) loadVoices();
+    UI.frReading=arg;
+    renderView(current);
+    const el=document.getElementById('frtext-'+arg);
+    if(el) el.classList.add('reading');
+    speakText(t.text, UI.frVoice, UI.frRate, ()=>{ UI.frReading=null; if(current==='v-bilingue') renderView(current); });
+  }
+  else if(act==='speak-slow'){
+    const t=S.frtexts[arg]; if(!t) return;
+    if(!voicesReady) loadVoices();
+    UI.frReading=arg;
+    renderView(current);
+    speakText(t.text, UI.frVoice, 0.7, ()=>{ UI.frReading=null; if(current==='v-bilingue') renderView(current); });
+  }
+  else if(act==='speak-fast'){
+    const t=S.frtexts[arg]; if(!t) return;
+    if(!voicesReady) loadVoices();
+    UI.frReading=arg;
+    renderView(current);
+    speakText(t.text, UI.frVoice, 1.3, ()=>{ UI.frReading=null; if(current==='v-bilingue') renderView(current); });
+  }
+  else if(act==='edit-fr'){ openEditFrModal(arg); }
+  else if(act==='del-fr'){
+    const t=S.frtexts[arg];
+    confirmBox('حذف النص "'+esc(t.title||'')+'" نهائياً؟','حذف 🗑').then(ok=>{ if(ok){ delFrText(arg); toast('تم حذف النص','warn'); renderView(current); } });
   }
 });
 $('#navList').addEventListener('click', e=>{ const b=e.target.closest('[data-nav]'); if(b) switchView(b.dataset.nav); });
@@ -1373,9 +1689,10 @@ function enterApp(sess){
   buildNav();
   if(sess.role==='admin'){ UI.spaceSid=null; switchView('v-dash'); }
   else switchView('v-my');
-  toast(sess.role==='admin'?'مرحباً أستاذ 👋':'مرحباً بك في فضائك ⭐','ok');
+  toast(sess.role==='admin'?'🚀 مرحباً أستاذ في النسخة الجبّارة!':'⭐ مرحباً بك في فضائك','ok');
 }
 function doLogout(){
+  stopSpeaking();
   sessionStorage.removeItem('qismi_sess'); SESSION=null;
   $('#app').classList.remove('show');
   const l=$('#login'); l.style.display='grid';
@@ -1405,13 +1722,20 @@ setInterval(pullMessages,20000);
   try{ await initFire(); C2=await readFirestoreAll(); cloudOk=true; online=true; }catch(e){ online=false; }
   let merged, winnersLocal=[], removeCloud=[];
   try{
-    const hasLocal=Object.keys(L.students||{}).length>0||Object.keys(L.tombstones||{}).length>0||Object.keys(L.messages||{}).length>0;
+    const hasLocal=Object.keys(L.students||{}).length>0||Object.keys(L.tombstones||{}).length>0||Object.keys(L.messages||{}).length>0||Object.keys(L.frtexts||{}).length>0;
     const hasCloud=cloudOk&&(Object.keys(C2.students||{}).length>0||Object.keys(C2.tombstones||{}).length>0);
     if(hasLocal&&hasCloud){ const m=mergeStores(L,C2); merged=m.out; winnersLocal=m.winnersLocal; removeCloud=m.removeCloud; }
     else if(hasLocal) merged=L;
     else merged=C2;
   }catch(e){ merged=Object.keys(L.students||{}).length? L : C2; }
-  S=merged; persistLocal(); updateConn();
+  S=merged;
+  /* 💎 حمّل النصوص الافتراضية إذا كانت المكتبة فارغة */
+  if(Object.keys(S.frtexts).length===0){
+    DEFAULT_FRTEXTS.forEach(t=>{ S.frtexts[t.id]={...t}; });
+    persistLocal();
+    if(online) DEFAULT_FRTEXTS.forEach(t=>fsWrite('frtexts',t.id,S.frtexts[t.id]));
+  }
+  persistLocal(); updateConn();
   if(online){
     for(const [col,id,obj] of winnersLocal) fsWrite(col,id,obj);
     for(const [col,id] of removeCloud) fsRemove(col,id);
